@@ -1,0 +1,13 @@
+body{
+    background-color: rgb(214, 40, 40);
+    
+}
+Class container{
+
+    flex-direction: column;
+    flex: auto;
+}
+col-md-5.col-lg-4{
+    background-color: aquamarine;
+}
+
