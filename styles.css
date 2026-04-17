@@ -1,14 +1,117 @@
-body{
-    color: aliceblue;
-    background-color: rgb(42, 216, 71);
-    
-}
-Class container{
-
-    flex-direction: column;
-    flex: auto;
-}
-col-md-5.col-lg-4{
-    background-color: aquamarine;
+/* VARIABLES DE COLOR */
+:root {
+  --verde-principal: #0B3B24;
+  --verde-lima: #B7FF00;
+  --verde-acento: #35C96B;
+  --gris-claro: #F6F8FB;
+  --blanco: #FFFFFF;
+  --rojo: #EF4444;
 }
 
+/* ESTILO GENERAL */
+body {
+  background-color: var(--gris-claro);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* NAVBAR */
+.navbar {
+  background-color: var(--verde-principal) !important;
+}
+
+.navbar-brand {
+  color: var(--verde-lima) !important;
+  font-weight: bold;
+}
+
+.nav-link {
+  color: var(--blanco) !important;
+  transition: 0.3s;
+}
+
+.nav-link:hover {
+  color: var(--verde-lima) !important;
+}
+
+/* TÍTULOS */
+h1, h2, h3 {
+  color: var(--verde-principal);
+}
+
+/* SECCIÓN MISIÓN Y VISIÓN */
+.bg-light {
+  background-color: var(--blanco) !important;
+  border-left: 5px solid var(--verde-acento);
+}
+
+/* CARDS */
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.card-title {
+  color: var(--verde-principal);
+}
+
+.text-primary {
+  color: var(--verde-acento) !important;
+}
+
+/* BOTONES */
+.btn-primary {
+  background-color: var(--verde-acento);
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: var(--verde-principal);
+}
+
+.btn-dark {
+  background-color: var(--verde-principal);
+  border: none;
+}
+
+.btn-dark:hover {
+  background-color: var(--verde-acento);
+}
+
+/* FOOTER */
+footer {
+  background-color: var(--verde-principal);
+}
+
+footer h5 {
+  color: var(--verde-lima);
+}
+
+footer a:hover {
+  color: var(--verde-lima) !important;
+}
+
+/* ICONOS */
+.bi {
+  font-size: 1rem;
+}
+
+/* EFECTO SUAVE EN LINKS */
+a {
+  transition: all 0.3s ease;
+}
+
+form input, form textarea {
+  border-radius: 10px;
+}
+
+form button {
+  font-weight: bold;
+}
+
+form input, form textarea {
+  border-radius: 10px;
+}
