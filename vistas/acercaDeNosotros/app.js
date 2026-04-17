@@ -1,0 +1,1 @@
+import { cardOnly } from "../../components/cards/cardOnly/cardOnly.js";
