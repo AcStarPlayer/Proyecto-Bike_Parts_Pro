@@ -1,19 +1,17 @@
-export function cardOnly(title, description, size = "md") {
+export default function tarjetaSoloTexto(title, description, size = "xs") {
   const sizes = {
-    xs: "12rem",
-    sm: "18rem",
-    md: "26rem",
-    lg: "36rem",
-    xl: "48rem",
-    xxl: "60rem",
+    xs: "h-100",
+    sm: "h-200",
+    md: "h-300",
+    lg: "h-400",
+    xl: "h-500",
+    xxl: "h-600",
   };
 
   return `
-    <div class="card card-custom shadow" style="width: ${sizes[size] || sizes.md};">
-        <div class="card-body">
-            <h5 class="card-title">${title}</h5>
-            <p class="card-text">${description}</p>
-        </div>
+    <div class="p-4 shadow-sm rounded-4 bg-light ${sizes}">
+        <h3 class="fw-bold text-primary">${title}</h3>
+        <p>${description}</p>
     </div>
   `;
 }
