@@ -14,24 +14,6 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* NAVBAR */
-.navbar {
-  background-color: var(--verde-principal) !important;
-}
-
-.navbar-brand {
-  color: var(--verde-lima) !important;
-  font-weight: bold;
-}
-
-.nav-link {
-  color: var(--blanco) !important;
-  transition: 0.3s;
-}
-
-.nav-link:hover {
-  color: var(--verde-lima) !important;
-}
 
 /* TÍTULOS */
 h1, h2, h3 {
@@ -116,11 +98,36 @@ form input, form textarea {
   border-radius: 10px;
 }
 
-.barraNav{
+.nav-content{
+  height: 70px;
+  background-color: rgb(33, 165, 33);
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
   width: 100%;
-  height: 300px;
-  background-color: #B7FF00;
-  color: black !important;
-
-  
+  box-sizing: border-box;
 }
+.nav-content:hover{
+  background-color: #41a434;
+  cursor: pointer;
+  transform: translateY(-2px);
+}
+.botones-nav {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 35px;
+  align-items: center;
+}
+.botones-nav a:hover {
+  color: var(--verde-acento);
+}
+.botones-nav a {
+  text-decoration: none;
+  color: var(--verde-principal);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
