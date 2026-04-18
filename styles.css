@@ -80,36 +80,40 @@ form input, form textarea {
   border-radius: 10px;
 }
 
-.nav-content{
+.nav-content {
   height: 70px;
-  background-color: rgb(33, 165, 33);
+  background-color: var(--verde-lima);
+  color: var(--verde-principal);
   padding: 0 2rem;
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   box-sizing: border-box;
+  transition: all 0.3s ease;
 }
-.nav-content:hover{
-  background-color: #41a434;
-  cursor: pointer;
+
+.nav-content:hover {
+  background-color: #a6e600;
   transform: translateY(-2px);
 }
+
 .botones-nav {
   display: flex;
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: 35px;
+  gap: 30px;
   align-items: center;
 }
-.botones-nav a:hover {
-  color: var(--verde-acento);
-}
+
 .botones-nav a {
   text-decoration: none;
   color: var(--verde-principal);
   font-weight: 600;
-  white-space: nowrap;
+  font-size: 0.95rem;
 }
 
+.botones-nav a:hover {
+  color: var(--verde-acento);
+}
