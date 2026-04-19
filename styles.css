@@ -14,24 +14,6 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* NAVBAR */
-.navbar {
-  background-color: var(--verde-principal) !important;
-}
-
-.navbar-brand {
-  color: var(--verde-lima) !important;
-  font-weight: bold;
-}
-
-.nav-link {
-  color: var(--blanco) !important;
-  transition: 0.3s;
-}
-
-.nav-link:hover {
-  color: var(--verde-lima) !important;
-}
 
 /* TÍTULOS */
 h1, h2, h3 {
@@ -114,4 +96,42 @@ form button {
 
 form input, form textarea {
   border-radius: 10px;
+}
+
+.nav-content {
+  height: 70px;
+  background-color: var(--verde-lima);
+  color: var(--verde-principal);
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.nav-content:hover {
+  background-color: #a6e600;
+  transform: translateY(-2px);
+}
+
+.botones-nav {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 30px;
+  align-items: center;
+}
+
+.botones-nav a {
+  text-decoration: none;
+  color: var(--verde-principal);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.botones-nav a:hover {
+  color: var(--verde-acento);
 }

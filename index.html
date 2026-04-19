@@ -13,69 +13,11 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
-
-<!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
-  <div class="container">
-    <a class="navbar-brand fw-bold" href="index.html">
-      🚴‍♂️ Bike Parts Pro
-    </a>
-
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="menu">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="index.html">Inicio</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="productos.html">Productos</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="#">Nosotros</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#contacto">Contacto</a>
-        </li>
-      </ul>
+  <body class="d-flex flex-column min-vh-100">
+    <nav>
+  <div class="nav-content">
     </div>
-  </div>
 </nav>
-
-<!-- CONTENIDO -->
-<div class="container mt-5">
-
-  <!-- TÍTULO -->
-  <div class="text-center mb-5">
-    <h1 class="fw-bold">¿Quiénes somos?</h1>
-    <p class="lead text-muted">
-      En Bike Parts Pro ofrecemos repuestos confiables para que cada recorrido sea seguro y sin límites.
-    </p>
-  </div>
-
-  <!-- MISIÓN Y VISIÓN -->
-  <div class="row text-center mb-5">
-    <div class="col-md-6">
-      <div class="p-4 shadow-sm rounded-4 h-100 bg-light">
-        <h3 class="fw-bold text-primary">Misión</h3>
-        <p>
-          Brindar repuestos de alta calidad que garanticen seguridad y rendimiento en cada trayecto.
-        </p>
-      </div>
-    </div>
-
-    <div class="col-md-6">
-      <div class="p-4 shadow-sm rounded-4 h-100 bg-light">
-        <h3 class="fw-bold text-primary">Visión</h3>
-        <p>
-          Ser una empresa líder en soluciones para bicicletas, reconocida por innovación y confianza.
-        </p>
-      </div>
-    </div>
-  </div>
 
   <!-- EQUIPO -->
   <h2 class="text-center fw-bold mb-4">Nuestro equipo</h2>
@@ -179,63 +121,6 @@
   </div>
 </div>
 
-<!-- CONTACTO -->
-<div id="contacto" class="container mt-5 mb-5">
-
-  <form action=
-  "https://formsubmit.co/bikepartsprocolombia@gmail.com"
-  method="POST">
-  </form>
-
-  <input type="hidden" name="_captcha" value="false">
-
-  <div class="text-center mb-4">
-    <h2 class="fw-bold">Contáctanos</h2>
-    <p class="text-muted">¿Tienes dudas o necesitas un repuesto? Escríbenos.</p>
-  </div>
-
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-
-      <div class="card shadow border-0 rounded-4 p-4">
-
-        <form action="https://formsubmit.co/bikepartspro@gmail.com" method="POST">
-
-          <!-- Configuración -->
-          <input type="hidden" name="_captcha" value="false">
-
-          <!-- Nombre -->
-          <div class="mb-3">
-            <label class="form-label">Nombre</label>
-            <input type="text" name="nombre" class="form-control" required>
-          </div>
-
-          <!-- Email -->
-          <div class="mb-3">
-            <label class="form-label">Correo electrónico</label>
-            <input type="email" name="email" class="form-control" required>
-          </div>
-
-          <!-- Mensaje -->
-          <div class="mb-3">
-            <label class="form-label">Mensaje</label>
-            <textarea name="mensaje" class="form-control" rows="4" required></textarea>
-          </div>
-
-          <!-- Botón -->
-          <button type="submit" class="btn btn-primary w-100">
-            Enviar mensaje
-          </button>
-
-        </form>
-
-      </div>
-
-    </div>
-  </div>
-
-</div>
-
 <!-- FOOTER -->
 <footer class="bg-dark text-white mt-5 pt-4 pb-2">
   <div class="container">
@@ -270,13 +155,12 @@
 
     <hr>
 
-    <div class="text-center">
-      <p class="mb-0">© 2026 Bike Parts Pro</p>
-    </div>
-  </div>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
+        <div class="text-center">
+          <p class="mb-0">© 2026 Bike Parts Pro</p>
+        </div>
+      </div>
+    </footer>
+    <script type="module" src="app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>
