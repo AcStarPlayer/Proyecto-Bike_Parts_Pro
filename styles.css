@@ -44,6 +44,24 @@ h1, h2, h3 {
   border-left: 5px solid var(--verde-acento);
 }
 
+/* CARDS */
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.card-title {
+  color: var(--verde-principal);
+}
+
+.text-primary {
+  color: var(--verde-acento) !important;
+}
+
 /* BOTONES */
 .btn-primary {
   background-color: var(--verde-acento);

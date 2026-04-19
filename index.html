@@ -1,112 +1,282 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <title>BikePartsPro - ¿Quiénes somos?</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+  <meta charset="UTF-8">
+  <title>BikePartsPro - ¿Quiénes somos?</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
-    />
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
-    <!-- Estilos -->
-    <link rel="stylesheet" href="styles.css" />
-  </head>
+  <!-- Estilos -->
+  <link rel="stylesheet" href="styles.css">
+</head>
 
-  <body class="d-flex flex-column min-vh-100">
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
-      <div class="container">
-        <a class="navbar-brand fw-bold" href="index.html">
-          🚴‍♂️ Bike Parts Pro
-        </a>
+<body>
 
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#menu"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="index.html">
+      🚴‍♂️ Bike Parts Pro
+    </a>
 
-        <div class="collapse navbar-collapse" id="menu">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="index.html">Inicio</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="productos.html">Productos</a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link active"
-                href="vistas/acercaDeNosotros/acercaDeNosotros.html"
-                >Nosotros</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#contacto">Contacto</a>
-            </li>
-          </ul>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="menu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="productos.html">Productos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Nosotros</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#contacto">Contacto</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- CONTENIDO -->
+<div class="container mt-5">
+
+  <!-- TÍTULO -->
+  <div class="text-center mb-5">
+    <h1 class="fw-bold">¿Quiénes somos?</h1>
+    <p class="lead text-muted">
+      En Bike Parts Pro ofrecemos repuestos confiables para que cada recorrido sea seguro y sin límites.
+    </p>
+  </div>
+
+  <!-- MISIÓN Y VISIÓN -->
+  <div class="row text-center mb-5">
+    <div class="col-md-6">
+      <div class="p-4 shadow-sm rounded-4 h-100 bg-light">
+        <h3 class="fw-bold text-primary">Misión</h3>
+        <p>
+          Brindar repuestos de alta calidad que garanticen seguridad y rendimiento en cada trayecto.
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="p-4 shadow-sm rounded-4 h-100 bg-light">
+        <h3 class="fw-bold text-primary">Visión</h3>
+        <p>
+          Ser una empresa líder en soluciones para bicicletas, reconocida por innovación y confianza.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EQUIPO -->
+  <h2 class="text-center fw-bold mb-4">Nuestro equipo</h2>
+
+  <div class="row justify-content-center g-4">
+
+    <!-- Alexandra -->
+    <div class="col-md-5 col-lg-4">
+      <div class="card shadow border-0 rounded-4 h-100">
+        <img src="img/foto1.jpeg" class="card-img-top" alt="Alexandra Díaz">
+        <div class="card-body text-center">
+          <h5 class="fw-bold">Alexandra Díaz</h5>
+          <p class="text-primary">Frontend Developer</p>
+          <p>Apasionada por interfaces modernas y funcionales.</p>
+
+          <a href="https://github.com/alexandragdiaz" class="btn btn-dark btn-sm rounded-pill m-1">
+            <i class="bi bi-github"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/alexandra-gutierrez-diaz-developer/" class="btn btn-primary btn-sm rounded-pill m-1">
+            <i class="bi bi-linkedin"></i>
+          </a>
         </div>
       </div>
-    </nav>
+    </div>
 
-    <!-- FOOTER -->
-    <footer class="bg-dark text-white mt-auto pt-4 pb-2">
-      <div class="container">
-        <div class="row text-center text-md-start">
-          <!-- Marca -->
-          <div class="col-md-4 mb-3">
-            <h5 class="fw-bold">🚴 Bike Parts Pro</h5>
-            <p>Impulsamos cada pedaleada con calidad y confianza.</p>
-          </div>
+    <!-- Brayan -->
+    <div class="col-md-5 col-lg-4">
+      <div class="card shadow border-0 rounded-4 h-100">
+        <img src="img/foto3.jpeg" class="card-img-top" alt="Brayan Castro">
+        <div class="card-body text-center">
+          <h5 class="fw-bold">Brayan Castro</h5>
+          <p class="text-primary">FullStack Developer</p>
+          <p>Experiencia en apps web y e-commerce.</p>
 
-          <!-- Enlaces -->
-          <div class="col-md-4 mb-3">
-            <h5>Enlaces rápidos</h5>
-            <ul class="list-unstyled">
-              <li>
-                <a href="index.html" class="text-white text-decoration-none"
-                  >Inicio</a
-                >
-              </li>
-              <li>
-                <a href="productos.html" class="text-white text-decoration-none"
-                  >Productos</a
-                >
-              </li>
-              <li>
-                <a href="contacto.html" class="text-white text-decoration-none"
-                  >Contacto</a
-                >
-              </li>
-            </ul>
-          </div>
-
-          <!-- Redes -->
-          <div class="col-md-4 mb-3">
-            <h5>Contáctanos</h5>
-            <p>Email: bikepartspro@gmail.com</p>
-            <p><i class="bi bi-instagram"></i> @bikepartspro</p>
-          </div>
-        </div>
-
-        <hr />
-
-        <div class="text-center">
-          <p class="mb-0">© 2026 Bike Parts Pro</p>
+          <a href="https://github.com/AcStarPlayer" class="btn btn-dark btn-sm rounded-pill m-1">
+            <i class="bi bi-github"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/bandresdev/" class="btn btn-primary btn-sm rounded-pill m-1">
+            <i class="bi bi-linkedin"></i>
+          </a>
         </div>
       </div>
-    </footer>
+    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+    <!-- Jordan -->
+    <div class="col-md-5 col-lg-4">
+      <div class="card shadow border-0 rounded-4 h-100">
+        <img src="img/foto2.jpg" class="card-img-top" alt="Jordan Barrera">
+        <div class="card-body text-center">
+          <h5 class="fw-bold">Jordan Barrera</h5>
+          <p class="text-primary">Frontend Developer</p>
+          <p>Interesado en desarrollo web y tecnología.</p>
+
+          <a href="https://github.com/AcStarPlayer" class="btn btn-dark btn-sm rounded-pill m-1">
+            <i class="bi bi-github"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/jordan-alexis-barrera-calderon-desarrollador-fullstack/" class="btn btn-primary btn-sm rounded-pill m-1">
+            <i class="bi bi-linkedin"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fernando -->
+    <div class="col-md-5 col-lg-4">
+      <div class="card shadow border-0 rounded-4 h-100">
+        <img src="img/foto4.png" class="card-img-top" alt="Fernando Alayon">
+        <div class="card-body text-center">
+          <h5 class="fw-bold">Fernando Alayon</h5>
+          <p class="text-primary">BackEnd Developer</p>
+          <p>Enfocado en bases de datos y aplicaciones web.</p>
+
+          <a href="https://github.com/feralayon" class="btn btn-dark btn-sm rounded-pill m-1">
+            <i class="bi bi-github"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/freddy-fernando-alayon-cubillos" class="btn btn-primary btn-sm rounded-pill m-1">
+            <i class="bi bi-linkedin"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Leisy Sanchez -->
+    <div class="col-md-5 col-lg-4">
+      <div class="card shadow border-0 rounded-4 h-100">
+        <img src="img/foto5.png" class="card-img-top" alt="Leisy Sanchez">
+        <div class="card-body text-center">
+          <h5 class="fw-bold">Leisy Sanchez</h5>
+          <p class="text-primary">BackEnd Developer</p>
+          <p>Enfocado en bases de datos y aplicaciones web.</p>
+
+          <a href="https://github.com/Leisy17" class="btn btn-dark btn-sm rounded-pill m-1">
+            <i class="bi bi-github"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/leisy-sanchez" class="btn btn-primary btn-sm rounded-pill m-1">
+            <i class="bi bi-linkedin"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACTO -->
+<div id="contacto" class="container mt-5 mb-5">
+
+  <form action=
+  "https://formsubmit.co/bikepartsprocolombia@gmail.com"
+  method="POST">
+  </form>
+
+  <input type="hidden" name="_captcha" value="false">
+
+  <div class="text-center mb-4">
+    <h2 class="fw-bold">Contáctanos</h2>
+    <p class="text-muted">¿Tienes dudas o necesitas un repuesto? Escríbenos.</p>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+
+      <div class="card shadow border-0 rounded-4 p-4">
+
+        <form action="https://formsubmit.co/bikepartspro@gmail.com" method="POST">
+
+          <!-- Configuración -->
+          <input type="hidden" name="_captcha" value="false">
+
+          <!-- Nombre -->
+          <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input type="text" name="nombre" class="form-control" required>
+          </div>
+
+          <!-- Email -->
+          <div class="mb-3">
+            <label class="form-label">Correo electrónico</label>
+            <input type="email" name="email" class="form-control" required>
+          </div>
+
+          <!-- Mensaje -->
+          <div class="mb-3">
+            <label class="form-label">Mensaje</label>
+            <textarea name="mensaje" class="form-control" rows="4" required></textarea>
+          </div>
+
+          <!-- Botón -->
+          <button type="submit" class="btn btn-primary w-100">
+            Enviar mensaje
+          </button>
+
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="bg-dark text-white mt-5 pt-4 pb-2">
+  <div class="container">
+    <div class="row text-center text-md-start">
+
+      <!-- Marca -->
+      <div class="col-md-4 mb-3">
+        <h5 class="fw-bold">🚴 Bike Parts Pro</h5>
+        <p>Impulsamos cada pedaleada con calidad y confianza.</p>
+      </div>
+
+      <!-- Enlaces -->
+      <div class="col-md-4 mb-3">
+        <h5>Enlaces rápidos</h5>
+        <ul class="list-unstyled">
+          <li><a href="index.html" class="text-white text-decoration-none">Inicio</a></li>
+          <li><a href="productos.html" class="text-white text-decoration-none">Productos</a></li>
+          <li><a href="contacto.html" class="text-white text-decoration-none">Contacto</a></li>
+        </ul>
+      </div>
+
+      <!-- Redes -->
+      <div class="col-md-4 mb-3">
+        <h5>Contáctanos</h5>
+        <p>Email: bikepartspro@gmail.com</p>
+        <p>
+          <i class="bi bi-instagram"></i> @bikepartspro
+        </p>
+      </div>
+
+    </div>
+
+    <hr>
+
+    <div class="text-center">
+      <p class="mb-0">© 2026 Bike Parts Pro</p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
 </html>
