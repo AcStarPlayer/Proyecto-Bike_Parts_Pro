@@ -7,9 +7,9 @@
 }
 
 :root {
-  --hue: 150;
+  --hue: 151;
   --bg: hsl(var(--hue), 70%, 95%);
-  --fg: hsl(var(--hue), 70%, 10%);
+  --fg: hsl(var(--hue), 70%, 14%);
   --primary: hsl(var(--hue), 40%, 20%);
   --trans-dur: 0.3s;
   font-size: calc(16px + (32 - 16) * (100vw - 320px) / (2560 - 320));
@@ -34,7 +34,6 @@ body {
 }
 
 .bike__body,
-.bike__mountain,
 .bike__front,
 .bike__handlebars,
 .bike__pedals,
@@ -76,7 +75,8 @@ body {
 }
 
 .bike__spokes,
-.bike__tire {
+.bike__tire,
+.bike__mountain {
   stroke: var(--primary);
 }
 
