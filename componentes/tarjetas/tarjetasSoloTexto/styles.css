@@ -10,7 +10,3 @@
 .card-title {
   color: var(--verde-principal);
 }
-
-.text-primary {
-  color: var(--verde-acento) !important;
-}
