@@ -12,6 +12,10 @@
 body {
   background-color: var(--gris-claro);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-image: url("img/back4.jpg");
+  background-repeat: repeat-x;
+  background-size:cover;
+  background-attachment: fixed;
 }
 
 
@@ -116,4 +120,30 @@ form input, form textarea {
 
 .botones-nav a:hover {
   color: var(--verde-acento);
+}
+.general-info{
+  color: #0B3B24;
+  display: flex;
+  width: 60%;
+  padding: 2rem;
+  align-items: center;
+  text-align:  justify;
+  justify-content: space-between;
+  flex-direction: column;
+  margin: auto;
+  margin-top: 15rem;
+  margin-bottom: 15rem;
+  line-height: 2;
+  border-radius: 15px;
+  border-left: 6px solid var(--verde-lima);
+  background-color: #ffffffc1;
+}
+
+.general-info h2{
+
+  font-size: 4.5rem;
+}
+.general-info h6{
+
+  font-size: 1.1rem;
 }

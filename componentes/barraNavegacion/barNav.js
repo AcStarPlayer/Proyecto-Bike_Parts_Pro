@@ -9,7 +9,7 @@ export function navBar(title, description) {
       <li><a href="#">Inicio</a></li>
       <li><a href="#">Catalogo</a></li>
       <li><a href="#">Quienes somos</a></li>
-      <li><a href="#">Contactanos</a></li>
+      <li><a href="contacto.html">Contactanos</a></li>
     </ul>
   `;
 }
