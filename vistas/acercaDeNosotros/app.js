@@ -82,14 +82,14 @@ integrantes.forEach((persona) => {
   `;
 
   cards += `
-    <div class="col-md-5 col-lg-4">
+    <div class="col-12 col-sm-6 col-md-4">
       ${tarjetasConImagen(
         persona.nombre,
         persona.rol,
         persona.descripcion,
         persona.imagen,
         links,
-        "xs"
+        "sm"
       )}
     </div>
   `;
