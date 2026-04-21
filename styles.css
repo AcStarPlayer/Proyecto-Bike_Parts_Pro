@@ -12,10 +12,7 @@
 body {
   background-color: var(--gris-claro);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-image: url("img/back4.jpg");
-  background-repeat: repeat-x;
-  background-size:cover;
-  background-attachment: fixed;
+
 }
 
 

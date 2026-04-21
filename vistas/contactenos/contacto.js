@@ -1,11 +1,12 @@
-  import { navBar } from "./componentes/barraNavegacion/barNav";
+import { navBar } from "../../componentes/barraNavegacion/barNav.js";
   const inputs = document.querySelectorAll(".fs-input, .fs-textarea");
 
   function marcarError(input) {
     input.style.border = "2px solid red";
   }
 
-  navBar("bikePartsPro","sube de nivel")
+ const barraNav = document.querySelector(".nav-content");
+barraNav.innerHTML = navBar("BikePartsPro","Sube de nivel","../../")
   function limpiarError(input) {
     input.style.border = "1px solid #cbd5e1";
   }
