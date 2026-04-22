@@ -1,0 +1,38 @@
+#titulo-contacto {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--verde-principal);
+}
+
+main.container {
+  max-width: 600px;
+  background-color: var(--blanco);
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+#formulario button[type="submit"] {
+  background-color: var(--verde-principal);
+  border: none;
+  font-size: 0.85rem;
+  padding: 8px 28px;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+#formulario button[type="submit"]:hover {
+  background-color: var(--verde-acento);
+}
+
+#footer h3,
+#footer h4 {
+  font-size: 0.85rem;
+  color: var(--verde-lima) !important;
+}
+
+#footer p,
+#footer a {
+  font-size: 0.78rem;
+  color: #cbd5e1 !important;
+}

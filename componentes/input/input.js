@@ -26,7 +26,7 @@ export default function crearInput(
   };
 
   const tag = types[tipo];
-  const id = titulo.toLowerCase();
+  const id = titulo.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : "";
   const requiredAttr = required ? "required" : "";
 
