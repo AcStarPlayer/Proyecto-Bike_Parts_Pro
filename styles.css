@@ -1,13 +1,18 @@
-/* ================= RESET ================= */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* VARIABLES DE COLOR */
+:root {
+  --verde-principal: #0B3B24;
+  --verde-lima: #B7FF00;
+  --verde-acento: #35C96B;
+  --gris-claro: #F6F8FB;
+  --blanco: #FFFFFF;
+  --rojo: #EF4444;
 }
 
+/* ESTILO GENERAL */
 body {
   background-color: var(--gris-claro);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }
 
 
@@ -24,14 +29,132 @@ h1, h2, h3 {
 .btn-primary {
   background-color: var(--verde-acento);
   border: none;
+  cursor: pointer;
+  font-weight: bold;
 }
 
-.icons span {
-  margin-left: 15px;
+.btn-secondary {
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
   cursor: pointer;
 }
 
-/* ================= HERO ================= */
+.btn-primary:hover {
+  background-color: var(--verde-principal);
+}
+
+.btn-dark {
+  background-color: var(--verde-principal);
+  border: none;
+}
+
+.btn-dark:hover {
+  background-color: var(--verde-acento);
+}
+
+/* FOOTER */
+footer {
+  background-color: var(--verde-principal);
+}
+
+footer h5 {
+  color: var(--verde-lima);
+}
+
+footer a:hover {
+  color: var(--verde-lima) !important;
+}
+
+/* ICONOS */
+.bi {
+  font-size: 1rem;
+}
+
+/* EFECTO SUAVE EN LINKS */
+a {
+  transition: all 0.3s ease;
+}
+
+form input, form textarea {
+  border-radius: 10px;
+}
+
+form button {
+  font-weight: bold;
+}
+
+form input, form textarea {
+  border-radius: 10px;
+}
+
+.nav-content {
+  height: 70px;
+  background-color: var(--verde-lima);
+  color: var(--verde-principal);
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.nav-content:hover {
+  background-color: #a6e600;
+  transform: translateY(-2px);
+}
+
+.botones-nav {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 30px;
+  align-items: center;
+}
+
+.botones-nav a {
+  text-decoration: none;
+  color: var(--verde-principal);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.botones-nav a:hover {
+  color: var(--verde-acento);
+}
+.general-info{
+  color: #0B3B24;
+  display: flex;
+  width: 60%;
+  padding: 2rem;
+  align-items: center;
+  text-align:  justify;
+  justify-content: space-between;
+  flex-direction: column;
+  margin: auto;
+  margin-top: 15rem;
+  margin-bottom: 15rem;
+  line-height: 2;
+  border-radius: 15px;
+  border-left: 6px solid var(--verde-lima);
+  background-color: #ffffffc1;
+}
+
+.general-info h2{
+
+  font-size: 4.5rem;
+}
+.general-info h6{
+
+  font-size: 1.1rem;
+}
+
+
 .hero {
   position: relative;
   height: 500px;
@@ -106,25 +229,6 @@ h1, h2, h3 {
   gap: 10px;
 }
 
-.btn-primary {
-  background: #7CFC00;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.btn-secondary {
-  background: transparent;
-  border: 1px solid white;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-/* ================= CARRUSEL ================= */
 .promo {
   padding: 40px;
   background: #f5f5f5;

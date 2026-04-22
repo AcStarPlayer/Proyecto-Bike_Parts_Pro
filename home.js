@@ -1,3 +1,9 @@
+import { navBar } from "./componentes/barraNavegacion/barNav.js";
+import { footer } from "./componentes/piecero/footer.js";
+
+const barraNav = document.querySelector(".nav-content");
+barraNav.innerHTML = navBar("BikePartsPro", "Sube de nivel", "./");
+document.getElementById("footer").innerHTML = footer("../../");
 document.addEventListener("DOMContentLoaded", () => {
 
   const track = document.getElementById("carouselTrack");
