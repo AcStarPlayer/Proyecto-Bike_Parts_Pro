@@ -1,0 +1,32 @@
+/* formulario.css - Versión limpia con Bootstrap */
+.fs-form {
+  margin: 0 auto;
+}
+
+.form-control {
+  border-radius: 8px;
+  padding: 12px 15px;
+  font-size: 0.75rem !important;
+}
+
+.form-control:focus {
+  border-color: #0B3B24;
+  box-shadow: 0 0 0 0.25rem rgba(11, 59, 36, 0.15);
+}
+
+.btn-success {
+  background-color: #0B3B24;
+  border-color: #0B3B24;
+}
+
+.btn-success:hover {
+  background-color: #35C96B;
+  border-color: #35C96B;
+}
+
+@media (max-width: 600px) {
+  .fs-form {
+    grid-template-columns: 1fr !important;
+    padding: 1.5rem;
+  }
+}

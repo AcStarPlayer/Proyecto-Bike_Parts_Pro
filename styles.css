@@ -1,0 +1,543 @@
+/* VARIABLES DE COLOR */
+:root {
+  --verde-principal: #0B3B24;
+  --verde-lima: #B7FF00;
+  --verde-acento: #35C96B;
+  --gris-claro: #F6F8FB;
+  --blanco: #FFFFFF;
+  --rojo: #EF4444;
+}
+
+/* ESTILO GENERAL */
+body {
+  background-color: var(--gris-claro);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+
+
+/* TÍTULOS */
+h1, h2, h3 {
+  color: var(--verde-principal);
+}
+
+.text-primary {
+  color: var(--verde-acento) !important;
+}
+
+/* BOTONES */
+.btn-primary {
+  background-color: var(--verde-acento);
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: var(--verde-principal);
+}
+
+.btn-dark {
+  background-color: var(--verde-principal);
+  border: none;
+}
+
+.btn-dark:hover {
+  background-color: var(--verde-acento);
+}
+
+/* FOOTER */
+footer {
+  background-color: var(--verde-principal);
+}
+
+footer h5 {
+  color: var(--verde-lima);
+}
+
+footer a:hover {
+  color: var(--verde-lima) !important;
+}
+
+/* ICONOS */
+.bi {
+  font-size: 1rem;
+}
+
+/* EFECTO SUAVE EN LINKS */
+a {
+  transition: all 0.3s ease;
+}
+
+form input, form textarea {
+  border-radius: 10px;
+}
+
+form button {
+  font-weight: bold;
+}
+
+form input, form textarea {
+  border-radius: 10px;
+}
+
+.nav-content {
+  height: 70px;
+  background-color: var(--verde-lima);
+  color: var(--verde-principal);
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.nav-content:hover {
+  background-color: #a6e600;
+  transform: translateY(-2px);
+}
+
+.botones-nav {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 30px;
+  align-items: center;
+}
+
+.botones-nav a {
+  text-decoration: none;
+  color: var(--verde-principal);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.botones-nav a:hover {
+  color: var(--verde-acento);
+}
+.general-info{
+  color: #0B3B24;
+  display: flex;
+  width: 60%;
+  padding: 2rem;
+  align-items: center;
+  text-align:  justify;
+  justify-content: space-between;
+  flex-direction: column;
+  margin: auto;
+  margin-top: 15rem;
+  margin-bottom: 15rem;
+  line-height: 2;
+  border-radius: 15px;
+  border-left: 6px solid var(--verde-lima);
+  background-color: #ffffffc1;
+}
+
+.general-info h2{
+
+  font-size: 4.5rem;
+}
+.general-info h6{
+
+  font-size: 1.1rem;
+}
+
+
+.hero {
+  position: relative;
+  height: 500px;
+
+  /* 🔥 IMAGEN BIEN CONFIGURADA (esto arregla el problema de la izquierda) */
+  background-image: url("https://images.unsplash.com/photo-1517649763962-0c623066013b");
+  background-size: cover;         /* ocupa todo */
+  background-position: center;    /* centra la imagen */
+  background-repeat: no-repeat;   /* evita que se repita */
+
+  display: flex;
+  align-items: center;
+  padding: 60px;
+  color: white;
+}
+
+/* 🔥 ESTE ES TU SOMBREADO (NO SE TOCA) */
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0; /* importante */
+  width: 100%;
+  height: 100%;
+
+  background: linear-gradient(
+    90deg,
+    rgba(11, 61, 46, 0.95) 0%,
+    rgba(11, 61, 46, 0.85) 40%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
+
+  z-index: 1;
+}
+
+/* CONTENIDO ENCIMA DEL SOMBREADO */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 500px;
+}
+
+/* ETIQUETA */
+.hero-tag {
+  background: #7CFC00;
+  color: black;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* TITULO */
+.hero-content h1 {
+  font-size: 48px;
+  margin: 15px 0;
+  line-height: 1.2;
+}
+
+.hero-content h1 span {
+  color: #7CFC00;
+}
+
+/* TEXTO */
+.hero-content p {
+  margin-bottom: 20px;
+  color: #ddd;
+}
+
+/* BOTONES */
+.hero-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.promo {
+  padding: 40px;
+  background: #f5f5f5;
+}
+
+.carousel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+/* CONTENEDOR */
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+/* SLIDE */
+.slide {
+  min-width: 100%;
+  position: relative;
+}
+
+/* IMAGEN */
+.slide img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  filter: brightness(0.6);
+}
+
+/* TEXTO ENCIMA */
+.slide-content {
+  position: absolute;
+  top: 50%;
+  left: 50px;
+  transform: translateY(-50%);
+  color: white;
+  max-width: 400px;
+}
+
+/* TITULO */
+.slide-content h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+/* TEXO */
+.slide-content p {
+  margin-bottom: 15px;
+}
+
+/* BOTÓN */
+.slide-content button {
+  background: #7CFC00;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* BOTONES LATERALES */
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }
+
+/* INDICADORES */
+.dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.dots span {
+  width: 10px;
+  height: 10px;
+  background: #ccc;
+  margin: 5px;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.dots .active {
+  background: #7CFC00;
+}
+
+/* ================= REPUESTOS ================= */
+.repuestos {
+  padding: 40px;
+  background: #fff;
+}
+
+.repuestos h2 {
+  margin-bottom: 20px;
+  color: #0b3d2e;
+}
+
+/* CONTENEDOR SCROLL HORIZONTAL */
+.repuestos-container {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+/* ocultar scrollbar */
+.repuestos-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* TARJETA */
+.repuesto-card {
+  min-width: 220px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 15px;
+  position: relative;
+  flex-shrink: 0;
+  transition: 0.3s;
+}
+
+/* IMAGEN */
+.repuesto-card img {
+  width: 100%;
+  height: 140px;
+  object-fit: contain;
+}
+
+/* TITULO */
+.repuesto-card h3 {
+  font-size: 14px;
+  margin: 10px 0;
+}
+
+/* PRECIO */
+.precio {
+  font-weight: bold;
+  color: #0b3d2e;
+}
+
+/* BADGE */
+.badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: red;
+  color: white;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 5px;
+}
+
+/* HOVER */
+.repuesto-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+/* ================= RESPONSIVE ================= */
+
+/* 📱 CELULARES */
+@media (max-width: 768px) {
+
+  /* HERO */
+  .hero {
+    height: auto;
+    padding: 30px 20px;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .hero-content {
+    max-width: 100%;
+  }
+
+  .hero-content h1 {
+    font-size: 28px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+  }
+
+  /* REPUESTOS */
+  .repuestos {
+    padding: 20px;
+  }
+
+  .repuesto-card {
+    min-width: 160px;
+  }
+
+  .repuesto-card img {
+    height: 100px;
+  }
+
+  /* CARRUSEL */
+  .slide img {
+    height: 200px;
+  }
+
+  .slide-content {
+    left: 20px;
+    right: 20px;
+    max-width: 100%;
+  }
+
+  .slide-content h2 {
+    font-size: 18px;
+  }
+
+  .slide-content p {
+    font-size: 14px;
+  }
+
+  .slide-content button {
+    width: 100%;
+  }
+
+}
+
+
+/* 📲 TABLETS */
+@media (max-width: 1024px) {
+
+  .hero-content h1 {
+    font-size: 36px;
+  }
+
+  .slide-content {
+    left: 30px;
+  }
+
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ================= BIKE INTERACTIVA ================= */
+.bike-interactiva {
+  padding: 50px;
+  text-align: center;
+  background: #fff;
+}
+
+.bike-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* IMAGEN */
+.bike-img {
+  width: 700px;
+  max-width: 100%;
+}
+
+/* PUNTOS */
+.hotspot {
+  width: 18px;
+  height: 18px;
+  background: #7CFC00;
+  border-radius: 50%;
+  position: absolute;
+  cursor: pointer;
+  box-shadow: 0 0 10px #7CFC00;
+  transition: 0.3s;
+}
+
+.hotspot:hover {
+  transform: scale(1.3);
+}
+
+/* TOOLTIP */
+.tooltip {
+  position: absolute;
+  background: black;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  display: none;
+  pointer-events: none;
+}
+
+.hotspot {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}

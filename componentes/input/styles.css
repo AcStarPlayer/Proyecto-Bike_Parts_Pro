@@ -1,0 +1,30 @@
+/* CAMPOS */
+.fs-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+/* LABELS */
+.fs-label {
+  font-weight: 400;
+  margin-bottom: 5px;
+  color: #1e293b;
+}
+
+/* INPUTS */
+.fs-input,
+.fs-textarea {
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  padding: 10px;
+  transition: all 0.3s ease;
+}
+
+/* EFECTO FOCUS */
+.fs-input:focus,
+.fs-textarea:focus {
+  border-color: #1e293b;
+  box-shadow: 0 0 0 2px rgba(30, 41, 59, 0.2);
+  outline: none;
+}

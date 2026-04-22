@@ -1,0 +1,9 @@
+body {
+  background-color: var(--gris-claro);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.bg-light {
+  background-color: var(--blanco) !important;
+  border-left: 5px solid var(--verde-acento);
+}
