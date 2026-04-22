@@ -2,6 +2,7 @@ export function validarInput(elemento, tipo) {
   const valor = elemento.value.trim();
   const validaciones = {
     text: () => valor.length >= 3 || "Mínimo 3 caracteres",
+    codigo: () => (valor.length >= 3 && valor.length <= 20) || "El codigo debe tener entre 3 y 20 caracteres",
     email: () => valor.includes("@") || "Correo inválido",
     number: () => (!isNaN(valor) && valor !== "") || "Solo números",
     "full-text": () => valor.length >= 10 || "Mínimo 10 caracteres",
@@ -42,6 +43,7 @@ export default function crearInput(
 
   const types = {
     text: "input",
+    codigo: "input",
     email: "input",
     number: "input",
     url: "input",
@@ -49,6 +51,7 @@ export default function crearInput(
   };
 
   const tag = types[tipo];
+  const htmlType = tipo === "codigo" ? "text" : tipo;
   const id = titulo.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : "";
   const requiredAttr = required ? "required" : "";
@@ -73,7 +76,7 @@ export default function crearInput(
           <label class="fs-label" for="${id}">${titulo}</label>
           <input
             class="fs-input"
-            type="${tipo}"
+            type="${htmlType}"
             id="${id}"
             name="${id}"
             ${placeholderAttr}
