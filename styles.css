@@ -6,24 +6,23 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
+  background-color: var(--gris-claro);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* ================= HEADER ================= */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #0b3d2e;
-  color: white;
-  padding: 15px 30px;
+
+/* TÍTULOS */
+h1, h2, h3 {
+  color: var(--verde-principal);
 }
 
-.search {
-  width: 40%;
-  padding: 10px;
-  border-radius: 20px;
+.text-primary {
+  color: var(--verde-acento) !important;
+}
+
+/* BOTONES */
+.btn-primary {
+  background-color: var(--verde-acento);
   border: none;
 }
 

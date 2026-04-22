@@ -1,0 +1,109 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.politicasEnvio {
+  height: 100vh;
+  background: url('../img/politicasEnvio.png') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  padding-left: 5%;
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.politicas_cambio {
+  height: 100vh;
+  background: url('../img/politicasCambio.png') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  padding-left: 5%;
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.politicas_tyc {
+  height: 100vh;
+  background: url('../img/terminosycondiciones.png') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  padding-left: 5%;
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.politica_garantias {
+  height: 100vh;
+  background: url('../img/politicaGarantias.png') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  padding-left: 5%;
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.politica_privacidad {
+  height: 100vh;
+  background: url('../img/politicasPrivacidad.png') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  padding-left: 5%;
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.encabezado_politicas {
+  text-align: center;
+  margin: 80px auto;
+  max-width: 800px;
+  padding: 0px;
+}
+
+.encabezado_politicas h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+  font-weight: 700;
+  color: #1e2937;
+}
+
+.encabezado_politicas p {
+  font-size: 2rem;
+  color: #555;
+  max-width: 700px;
+  margin: 0 auto 35px auto;
+  line-height: 1.6;
+}
+
+.envios-nacionales {
+  margin: 10px 0 15px 0;
+}
+
+.envios-nacionales h2 {
+  font-size: 1.8rem;        /* ← Tamaño de "Envíos Nacionales" */
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 8px;
+}
+
+.linea-roja {
+  width: 900px;             /* ← Ancho de la línea roja */
+  height: 3px;
+  background-color: #e63939; /* Rojo */
+  margin: 10px auto;
+  border-radius: 8px;
+}
+
+.fecha-actualizacion {
+  font-size: 0.95rem;
+  color: #64748b;
+  margin-top: 10px;
+}
+
+

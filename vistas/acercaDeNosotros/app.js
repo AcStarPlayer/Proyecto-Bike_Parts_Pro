@@ -1,5 +1,9 @@
 import tarjetaSoloTexto from "../../componentes/tarjetas/tarjetasSoloTexto/tarjetasSoloTexto.js";
 import tarjetasConImagen from "../../componentes/tarjetas/tarjetasConImagen/tarjetasConImagen.js";
+import { navBar } from "../../componentes/barraNavegacion/barNav.js";
+
+const barraNav = document.querySelector(".nav-content");
+barraNav.innerHTML = navBar("BikePartsPro","Sube de nivel","../../")
 
 const valoresEmpresariales = {
     "Misión": "Brindar repuestos de alta calidad que garanticen seguridad y rendimiento en cada trayecto.",
