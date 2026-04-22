@@ -10,12 +10,7 @@ document.querySelector(".nav-content").innerHTML = navBar(
 );
 
 const campos = [
-  {
-    titulo: "SKU",
-    tipo: "codigo",
-    placeholder: "Ej: BPP-001",
-    required: true,
-  },
+  { titulo: "SKU", tipo: "codigo", placeholder: "Ej: BPP-001", required: true },
   {
     titulo: "Nombre",
     tipo: "text",
@@ -49,15 +44,65 @@ document.getElementById("contenedor-form").innerHTML = crearFormulario(
   "Registrar producto",
 );
 
-document.querySelectorAll('input[name="imagen-tipo"]').forEach((radio) => {
-  radio.addEventListener("change", () => {
-    const esArchivo = radio.value === "archivo" && radio.checked;
-    document.getElementById("imagen").style.display = esArchivo ? "none" : "";
-    document.getElementById("imagen-archivo").style.display = esArchivo
-      ? ""
-      : "none";
+let imagenCount = 0;
+
+function agregarFilaImagen() {
+  const idx = imagenCount++;
+  const lista = document.getElementById("imagenes-lista");
+
+  const fila = document.createElement("div");
+  fila.className = "imagen-fila mb-2";
+  fila.dataset.idx = idx;
+  fila.innerHTML = `
+    <div class="d-flex align-items-center gap-2 mb-1">
+      <div class="form-check form-check-inline mb-0">
+        <input class="form-check-input" type="radio" name="imagen-tipo-${idx}" id="imagen-tipo-url-${idx}" value="url" checked>
+        <label class="form-check-label" for="imagen-tipo-url-${idx}">Enlace</label>
+      </div>
+      <div class="form-check form-check-inline mb-0">
+        <input class="form-check-input" type="radio" name="imagen-tipo-${idx}" id="imagen-tipo-archivo-${idx}" value="archivo">
+        <label class="form-check-label" for="imagen-tipo-archivo-${idx}">Archivo</label>
+      </div>
+      <button type="button" class="btn btn-outline-danger btn-sm btn-eliminar-imagen ms-auto">
+        <i class="bi bi-trash"></i>
+      </button>
+    </div>
+    <input class="fs-input imagen-url w-100" type="url" placeholder="https://ejemplo.com/imagen.jpg" />
+    <input class="fs-input imagen-archivo w-100" type="file" accept="image/*" style="display:none" />
+  `;
+
+  lista.appendChild(fila);
+
+  fila.querySelectorAll(`input[name="imagen-tipo-${idx}"]`).forEach((radio) => {
+    radio.addEventListener("change", () => {
+      const esArchivo = radio.value === "archivo" && radio.checked;
+      fila.querySelector(".imagen-url").style.display = esArchivo ? "none" : "";
+      fila.querySelector(".imagen-archivo").style.display = esArchivo
+        ? ""
+        : "none";
+    });
   });
-});
+
+  fila.querySelector(".btn-eliminar-imagen").addEventListener("click", () => {
+    fila.remove();
+    actualizarBotonesEliminar();
+  });
+
+  actualizarBotonesEliminar();
+}
+
+function actualizarBotonesEliminar() {
+  const filas = document.querySelectorAll(".imagen-fila");
+  filas.forEach((f) => {
+    f.querySelector(".btn-eliminar-imagen").style.display =
+      filas.length > 1 ? "" : "none";
+  });
+}
+
+agregarFilaImagen();
+document
+  .getElementById("btn-agregar-imagen")
+  .addEventListener("click", agregarFilaImagen);
 
 function marcarError(input) {
   input.style.border = "2px solid red";
@@ -99,36 +144,39 @@ document
       }
     }
 
-    const tipoImagen = document.querySelector(
-      'input[name="imagen-tipo"]:checked',
-    ).value;
-    let imagenFinal;
-
-    if (tipoImagen === "url") {
-      const urlInput = document.getElementById("imagen");
-      try {
-        new URL(urlInput.value.trim());
-        imagenFinal = urlInput.value.trim();
-      } catch {
-        marcarError(urlInput);
-        errorEl.textContent = "URL de imagen inválida";
-        return;
+    const imagenes = [];
+    for (const fila of document.querySelectorAll(".imagen-fila")) {
+      const idx = fila.dataset.idx;
+      const tipo = fila.querySelector(
+        `input[name="imagen-tipo-${idx}"]:checked`,
+      ).value;
+      if (tipo === "url") {
+        const urlInput = fila.querySelector(".imagen-url");
+        try {
+          new URL(urlInput.value.trim());
+          imagenes.push(urlInput.value.trim());
+        } catch {
+          marcarError(urlInput);
+          errorEl.textContent = "Una URL de imagen no es válida";
+          return;
+        }
+      } else {
+        const fileInput = fila.querySelector(".imagen-archivo");
+        if (!fileInput.files.length) {
+          marcarError(fileInput);
+          errorEl.textContent = "Selecciona una imagen en cada fila";
+          return;
+        }
+        imagenes.push(await leerArchivo(fileInput.files[0]));
       }
-    } else {
-      const fileInput = document.getElementById("imagen-archivo");
-      if (!fileInput.files.length) {
-        marcarError(fileInput);
-        errorEl.textContent = "Selecciona una imagen";
-        return;
-      }
-      imagenFinal = await leerArchivo(fileInput.files[0]);
     }
 
     const producto = {
       id: Date.now(),
+      sku: document.getElementById("sku").value.trim(),
       nombre: document.getElementById("nombre").value.trim(),
       precio: Number(document.getElementById("precio").value),
-      imagen: imagenFinal,
+      imagenes,
       colores: document
         .getElementById("colores")
         .value.split(",")
@@ -142,17 +190,16 @@ document
     localStorage.setItem("productos", JSON.stringify(productos));
 
     document.getElementById("formulario").reset();
-    document.getElementById("imagen").style.display = "";
-    document.getElementById("imagen-archivo").style.display = "none";
-    document.getElementById("imagen-tipo-url").checked = true;
+    document.getElementById("imagenes-lista").innerHTML = "";
+    agregarFilaImagen();
 
     document.getElementById("alerta").innerHTML = `
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-      <i class="bi bi-check-circle me-2"></i>
-      Producto <strong>${producto.nombre}</strong> registrado correctamente.
-      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-  `;
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle me-2"></i>
+        Producto <strong>${producto.nombre}</strong> registrado con ${imagenes.length} imagen(es).
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    `;
   });
 
 document.getElementById("footer").innerHTML = footer("../../../");
