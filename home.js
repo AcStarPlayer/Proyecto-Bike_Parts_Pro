@@ -51,3 +51,32 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 4000);
 
 });
+
+// ================= BIKE INTERACTIVA =================
+
+const hotspots = document.querySelectorAll(".hotspot");
+const tooltip = document.getElementById("tooltip");
+
+hotspots.forEach(hotspot => {
+
+  hotspot.addEventListener("mouseenter", () => {
+    tooltip.style.display = "block";
+    tooltip.textContent = hotspot.dataset.info;
+
+    tooltip.style.top = (hotspot.offsetTop - 30) + "px";
+    tooltip.style.left = (hotspot.offsetLeft + 20) + "px";
+  });
+
+  hotspot.addEventListener("mouseleave", () => {
+    tooltip.style.display = "none";
+  });
+
+  // CLICK (opcional)
+  hotspot.addEventListener("click", () => {
+    alert("Ir a categoría: " + hotspot.dataset.info);
+
+    // ejemplo real:
+    // window.location.href = "categoria.html?tipo=" + hotspot.dataset.info;
+  });
+
+});

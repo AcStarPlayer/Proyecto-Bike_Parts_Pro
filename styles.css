@@ -381,3 +381,59 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+/* ================= BIKE INTERACTIVA ================= */
+.bike-interactiva {
+  padding: 50px;
+  text-align: center;
+  background: #fff;
+}
+
+.bike-container {
+  position: relative;
+  display: inline-block;
+}
+
+/* IMAGEN */
+.bike-img {
+  width: 700px;
+  max-width: 100%;
+}
+
+/* PUNTOS */
+.hotspot {
+  width: 18px;
+  height: 18px;
+  background: #7CFC00;
+  border-radius: 50%;
+  position: absolute;
+  cursor: pointer;
+  box-shadow: 0 0 10px #7CFC00;
+  transition: 0.3s;
+}
+
+.hotspot:hover {
+  transform: scale(1.3);
+}
+
+/* TOOLTIP */
+.tooltip {
+  position: absolute;
+  background: black;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  display: none;
+  pointer-events: none;
+}
+
+.hotspot {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
