@@ -66,18 +66,18 @@ body {
 }
 
 .encabezado_politicas h1 {
-  font-size: 3rem;
-  margin-bottom: 10px;
-  letter-spacing: 1px;
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
   font-weight: 700;
   color: #1e2937;
 }
 
 .encabezado_politicas p {
-  font-size: 2rem;
+  font-size: 0.9rem;
   color: #555;
   max-width: 700px;
-  margin: 0 auto 35px auto;
+  margin: 0 auto 20px auto;
   line-height: 1.6;
 }
 
@@ -86,7 +86,7 @@ body {
 }
 
 .envios-nacionales h2 {
-  font-size: 1.8rem;        /* ← Tamaño de "Envíos Nacionales" */
+  font-size: 1rem;
   font-weight: 600;
   color: #0f172a;
   margin-bottom: 8px;
