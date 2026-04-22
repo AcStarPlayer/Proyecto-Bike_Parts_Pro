@@ -11,6 +11,12 @@ document.querySelector(".nav-content").innerHTML = navBar(
 
 const campos = [
   {
+    titulo: "SKU",
+    tipo: "codigo",
+    placeholder: "Ej: BPP-001",
+    required: true,
+  },
+  {
     titulo: "Nombre",
     tipo: "text",
     placeholder: "Ej: Llanta MTB 29",
