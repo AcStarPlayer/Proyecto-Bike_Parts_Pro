@@ -76,10 +76,10 @@ let cards = "";
 
 integrantes.forEach((persona) => {
   const links = `
-    <a href="${persona.github}" class="btn btn-dark btn-sm rounded-pill m-1">
+    <a href="${persona.github}" class="btn btn-dark btn-sm rounded-pill m-1 scale-hover">
       <i class="bi bi-github"></i>
     </a>
-    <a href="${persona.linkedin}" class="btn btn-primary btn-sm rounded-pill m-1">
+    <a href="${persona.linkedin}" class="btn btn-dark btn-sm rounded-pill m-1 scale-hover">
       <i class="bi bi-linkedin"></i>
     </a>
   `;
