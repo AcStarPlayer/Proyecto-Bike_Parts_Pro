@@ -8,6 +8,7 @@ export default function tarjetasConImagen(
 ) {
 
   const ratios = {
+    xxs: "ratio-4x3",
     xs: "ratio-1x1",
     sm: "ratio-4x3",
     md: "ratio-16x9",
@@ -15,6 +16,7 @@ export default function tarjetasConImagen(
   };
 
   const widths = {
+    xxs: "16rem",
     xs: "18rem",
     sm: "20rem",
     md: "22rem",
