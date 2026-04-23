@@ -14,7 +14,7 @@ const CLAVEALMACENAMIENTOPRODUCTOS = "bikePartsPro-productos-tecnicos";
 const campos = [
   {
     titulo: "SKU",
-    tipo: "codigo",
+    tipo: "text",
     placeholder: "Ej: BPP-001",
     required: false,
   },
@@ -308,5 +308,6 @@ document.getElementById("formulario").addEventListener("submit", async function 
     </div>
   `;
 });
+
 
 document.querySelector(".footer-content").innerHTML = footer();
