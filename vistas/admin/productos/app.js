@@ -152,7 +152,7 @@ function crearSelectorTipoImagen() {
   const inputImagenes = document.getElementById("imagenes");
   if (!inputImagenes || document.getElementById("selector-tipo-imagen")) return;
 
-  const grupoCampo = inputImagenes.closest(".form-group") || inputImagenes.parentElement;
+  const grupoCampo = inputImagenes.closest(".fs-field") || inputImagenes.parentElement;
 
   const selector = document.createElement("div");
   selector.id = "selector-tipo-imagen";
@@ -310,4 +310,7 @@ document.getElementById("formulario").addEventListener("submit", async function 
 });
 
 
-document.querySelector(".footer-content").innerHTML = footer();
+const contenedorFooter = document.getElementById("footer");
+if (contenedorFooter) {
+  contenedorFooter.innerHTML = footer();
+}
