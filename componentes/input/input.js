@@ -1,3 +1,5 @@
+import select from "../select/select.js";
+
 export function validarInput(elemento, tipo) {
   const valor = elemento.value.trim();
   const validaciones = {
@@ -16,6 +18,9 @@ export function validarInput(elemento, tipo) {
         return "URL inválida";
       }
     },
+    array: () =>
+      (Array.isArray(valor) && valor.length > 0) || "El listado no puede estar vacío",
+    select: () => valor !== "" || "Selecciona una opción",
   };
   const resultado = validaciones[tipo]?.();
   return resultado === true
@@ -28,8 +33,20 @@ export default function crearInput(
   tipo,
   placeholder = null,
   required = null,
+  options = null
 ) {
-  if (tipo === "imagen") {
+  if (tipo === "colores") {
+    return `
+      <div class="fs-field">
+        <label class="fs-label">${titulo}</label>
+        <div id="colores-lista"></div>
+        <button type="button" id="btn-agregar-color" class="btn btn-outline-secondary btn-sm mt-2">
+          <i class="bi bi-plus-circle me-1"></i>Agregar color
+        </button>
+      </div>
+    `;
+  }
+  if (tipo === "imagen" && titulo) {
     return `
       <div class="fs-field">
         <label class="fs-label">${titulo}</label>
@@ -39,6 +56,9 @@ export default function crearInput(
         </button>
       </div>
     `;
+  }
+  if (tipo === "select") {
+    return select(titulo, options);
   }
 
   const types = {
