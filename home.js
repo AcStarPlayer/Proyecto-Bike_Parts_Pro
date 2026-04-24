@@ -1,88 +1,127 @@
+// IMPORTACIONES
 import { navBar } from "./componentes/barraNavegacion/barNav.js";
 import { footer } from "./componentes/piecero/footer.js";
 
-const barraNav = document.querySelector(".nav-content");
-barraNav.innerHTML = navBar("BikePartsPro", "Sube de nivel", "./");
+// NAV Y FOOTER
+const barraNavegacion = document.querySelector(".nav-content");
+barraNavegacion.innerHTML = navBar("BikePartsPro", "Sube de nivel", "./");
+
 document.getElementById("footer").innerHTML = footer("../../");
+
+// ================= CARRUSEL =================
 document.addEventListener("DOMContentLoaded", () => {
 
-  const track = document.getElementById("carouselTrack");
-  const slides = document.querySelectorAll(".slide");
-  const nextBtn = document.getElementById("nextBtn");
-  const prevBtn = document.getElementById("prevBtn");
-  const dotsContainer = document.getElementById("dots");
+  const contenedorCarrusel = document.getElementById("carouselTrack");
+  const diapositivas = document.querySelectorAll(".slide");
+  const botonSiguiente = document.getElementById("nextBtn");
+  const botonAnterior = document.getElementById("prevBtn");
+  const contenedorPuntos = document.getElementById("dots");
 
-  let index = 0;
+  let indiceActual = 0;
 
-  // Crear dots
-  slides.forEach((_, i) => {
-    const dot = document.createElement("span");
+  // 🔹 CREAR PUNTOS (dots)
+  diapositivas.forEach((_, i) => {
+    const punto = document.createElement("span");
 
-    if (i === 0) dot.classList.add("active");
+    if (i === 0) punto.classList.add("active");
 
-    dot.addEventListener("click", () => {
-      index = i;
-      updateCarousel();
+    punto.addEventListener("click", () => {
+      indiceActual = i;
+      actualizarCarrusel();
     });
 
-    dotsContainer.appendChild(dot);
+    contenedorPuntos.appendChild(punto);
   });
 
-  const dots = dotsContainer.querySelectorAll("span");
+  const puntos = contenedorPuntos.querySelectorAll("span");
 
-  // Función para actualizar
-  function updateCarousel() {
-    track.style.transform = `translateX(-${index * 100}%)`;
+  // 🔹 FUNCIÓN PARA ACTUALIZAR EL CARRUSEL
+  function actualizarCarrusel() {
+    contenedorCarrusel.style.transform = `translateX(-${indiceActual * 100}%)`;
 
-    dots.forEach(dot => dot.classList.remove("active"));
-    dots[index].classList.add("active");
+    puntos.forEach(p => p.classList.remove("active"));
+    puntos[indiceActual].classList.add("active");
   }
 
-  // Botón siguiente
-  nextBtn.addEventListener("click", () => {
-    index = (index + 1) % slides.length;
-    updateCarousel();
+  // BOTÓN SIGUIENTE
+  botonSiguiente.addEventListener("click", () => {
+    indiceActual = (indiceActual + 1) % diapositivas.length;
+    actualizarCarrusel();
   });
 
-  // Botón anterior
-  prevBtn.addEventListener("click", () => {
-    index = (index - 1 + slides.length) % slides.length;
-    updateCarousel();
+  // BOTÓN ANTERIOR
+  botonAnterior.addEventListener("click", () => {
+    indiceActual = (indiceActual - 1 + diapositivas.length) % diapositivas.length;
+    actualizarCarrusel();
   });
 
-  // Autoplay
+  // AUTO PLAY
   setInterval(() => {
-    index = (index + 1) % slides.length;
-    updateCarousel();
+    indiceActual = (indiceActual + 1) % diapositivas.length;
+    actualizarCarrusel();
   }, 4000);
 
 });
 
+
 // ================= BIKE INTERACTIVA =================
 
-const hotspots = document.querySelectorAll(".hotspot");
+// Selecciona todos los puntos interactivos
+const puntosInteractivos = document.querySelectorAll(".hotspot");
+
+// Tooltip
 const tooltip = document.getElementById("tooltip");
 
-hotspots.forEach(hotspot => {
+puntosInteractivos.forEach(punto => {
 
-  hotspot.addEventListener("mouseenter", () => {
+  // Cuando el mouse entra
+  punto.addEventListener("mouseenter", () => {
     tooltip.style.display = "block";
-    tooltip.textContent = hotspot.dataset.info;
+    tooltip.textContent = punto.dataset.info;
 
-    tooltip.style.top = (hotspot.offsetTop - 30) + "px";
-    tooltip.style.left = (hotspot.offsetLeft + 20) + "px";
+    tooltip.style.top = (punto.offsetTop - 30) + "px";
+    tooltip.style.left = (punto.offsetLeft + 20) + "px";
   });
 
-  hotspot.addEventListener("mouseleave", () => {
+  // Cuando el mouse sale
+  punto.addEventListener("mouseleave", () => {
     tooltip.style.display = "none";
   });
 
   // CLICK (opcional)
-  hotspot.addEventListener("click", () => {
-    alert("Ir a categoría: " + hotspot.dataset.info);
+  punto.addEventListener("click", () => {
+    alert("Ir a categoría: " + punto.dataset.info);
 
-    // ejemplo real:
-    // window.location.href = "categoria.html?tipo=" + hotspot.dataset.info;
+    // 👉 Ejemplo real:
+    // window.location.href = "categoria.html?tipo=" + punto.dataset.info;
   });
 
+});
+
+//contador en el navbar
+const nav = document.querySelector(".nav-content");
+
+nav.innerHTML += `
+  <div class="cart-icon">
+    <i class="bi bi-cart3"></i>
+    <span id="cart-count">0</span>
+  </div>
+`;
+
+let contador = 0;
+
+const botonesAgregar = document.querySelectorAll(".btn-add");
+const contadorUI = document.getElementById("cart-count");
+
+botonesAgregar.forEach(boton => {
+  boton.addEventListener("click", () => {
+    contador++;
+    contadorUI.textContent = contador;
+
+    // pequeño feedback visual
+    contadorUI.style.transform = "scale(1.3)";
+    setTimeout(() => {
+      contadorUI.style.transform = "scale(1)";
+    }, 200);
+  });
 });
