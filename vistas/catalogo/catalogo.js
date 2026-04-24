@@ -388,7 +388,6 @@ class TarjetaProductoTecnicaDemo {
 
   renderizarTarjetas() {
     if (!this.elementoContenedorTarjetas) return;
-    console.log (this.productos)
     this.elementoContenedorTarjetas.innerHTML = this.productos.map((producto) => construirTarjetaProducto(producto)).join('');
     this.registrarEventosPorTarjeta();
   }
