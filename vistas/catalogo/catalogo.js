@@ -6,7 +6,7 @@ const barraNav = document.querySelector(".nav-content");
 barraNav.innerHTML = navBar("BikePartsPro", "Sube de nivel", "../../");
 
 
-const CLAVE_ALMACENAMIENTO_PRODUCTOS = "bikePartsPro-productos-tecnicos";
+const CLAVE_ALMACENAMIENTO_PRODUCTOS = "productos";
 const CLAVE_TEMA_VISUAL = "bikePartsPro_tema_visual";
 
 const PRODUCTOS_PREDETERMINADOS = [
@@ -480,10 +480,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.getElementById("footer").innerHTML = footer("../../");
 
-console.log (PRODUCTOS_PREDETERMINADOS.length);
-
 const productos = JSON.parse(localStorage.getItem("productos") || "[]");
-  productos.concat(PRODUCTOS_PREDETERMINADOS);
+productos.concat(PRODUCTOS_PREDETERMINADOS);
 
 
 
