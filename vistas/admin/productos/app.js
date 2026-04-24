@@ -180,7 +180,7 @@ document
       const id = campo.titulo
         .toLowerCase()
         .normalize("NFD")
-        .replace(/[̀-ͯ]/g, "");
+        .replace(/[\u0300-\u036f]/g, "");
       const elemento = document.getElementById(id);
       const resultado = validarInput(elemento, campo.tipo);
       if (!resultado.valido) {
