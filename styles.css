@@ -91,8 +91,8 @@ form input, form textarea {
 
 .nav-content {
   height: 70px;
-  background-color: var(--verde-lima);
-  color: var(--verde-principal);
+  background-color: #0B3B24;
+  color: wheat;
   padding: 0 2rem;
   display: flex;
   justify-content: space-between;
@@ -103,7 +103,7 @@ form input, form textarea {
 }
 
 .nav-content:hover {
-  background-color: #a6e600;
+  background-color: #0f5d37;
   transform: translateY(-2px);
 }
 
@@ -118,7 +118,7 @@ form input, form textarea {
 
 .botones-nav a {
   text-decoration: none;
-  color: var(--verde-principal);
+  color: wheat;
   font-weight: 600;
   font-size: 0.95rem;
 }
@@ -141,7 +141,7 @@ form input, form textarea {
   line-height: 2;
   border-radius: 15px;
   border-left: 6px solid var(--verde-lima);
-  background-color: #ffffffc1;
+  background-color: wheat;
 }
 
 .general-info h2{
@@ -655,3 +655,111 @@ img {
   transition: 0.2s;
 }
 
+
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+  z-index: 1100;
+}
+
+.bar {
+  width: 30px;
+  height: 4px;
+  background-color: wheat;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.logo-area{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  object-fit: contain;
+}
+.nav-logo{
+  height: 50px;
+  width: fit-content;
+  object-fit: contain;
+  
+}
+.prueba{
+  min-width: 140px;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: #0B3B24;
+  color: #F5DEB3;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: #0f5d37;
+  box-shadow: 0 4px 0 #072617;
+  cursor: pointer;
+  transition: all 0.2s ease;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: bold;
+  color: #ffffff;
+
+  
+  }
+  .prueba:active {
+    
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #072617;
+}
+
+.prueba2{
+  min-width: 140px;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: #1f6744;
+  color: #F5DEB3;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: #0f5d37;
+  box-shadow: 0 4px 0 #2e7653;
+  cursor: pointer;
+  transition: all 0.2s ease;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: bold;
+  color: #ffffff;
+
+  
+  }
+  .prueba2:active {
+    
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #072617;
+}
+  
+
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: flex;
+    color: #F6F8FB;
+  }
+
+  .botones-nav {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background-color: rgb(61, 104, 61);
+    z-index: 1000;
+    padding: 20px 0;
+  }
+
+  .botones-nav.active {
+    display: flex !important ;
+  }
+}

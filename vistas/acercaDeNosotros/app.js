@@ -12,6 +12,19 @@ const valoresEmpresariales = {
   Visión:
     "Ser una empresa líder en soluciones para bicicletas, reconocida por innovación y confianza.",
 };
+//insertando la navbar
+const contenedorNav = document.querySelector(".nav-content")
+contenedorNav.innerHTML = navBar("BikePartsPro","","../../");
+
+const botonMenu = document.querySelector("#hamburguesa")
+const listaLink = document.querySelector("#nav-list")
+
+botonMenu.addEventListener("click", () =>{
+  listaLink.classList.toggle("active")
+  console.log("cambiando clase")
+
+  
+});
 
 const misionVision = document.getElementById("mision-vision");
 
