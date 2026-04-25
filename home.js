@@ -3,8 +3,7 @@ import { navBar } from "./componentes/barraNavegacion/barNav.js";
 import { footer } from "./componentes/piecero/footer.js";
 
 // NAV Y FOOTER
-const barraNavegacion = document.querySelector(".nav-content");
-barraNavegacion.innerHTML = navBar("BikePartsPro", "Sube de nivel", "./");
+navBar(document.querySelector(".nav-content"), "BikePartsPro", "Sube de nivel", "./");
 
 document.getElementById("footer").innerHTML = footer("../../");
 
