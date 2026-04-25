@@ -1,0 +1,39 @@
+body {
+  background-color: #f5f7fa;
+}
+
+.catalogo-section {
+  background: linear-gradient(to bottom, #0B3B24, #ffffff);
+}
+
+.catalogo-section h2 {
+  color: #ffffff;
+}
+
+.card {
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+.card img {
+  transition: transform 0.3s ease;
+}
+
+.card:hover img {
+  transform: scale(1.05);
+}
+
+.text-primary {
+  color: #2d6a4f !important;
+  font-weight: bold;
+}
+
+.btn-success {
+  background-color: #2d6a4f;
+  border: none;
+}
