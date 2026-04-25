@@ -204,3 +204,30 @@ function inicializarCarritoCompras(listaProductosCatalogo) {
   activarBotonesAgregarAlCarrito(listaProductosCatalogo);
   renderizarCarritoCompras();
 }
+
+
+ registrarEventoAgregarCarrito(tarjeta) {
+    const botonAgregar = tarjeta.querySelector('.boton-agregar-carrito-producto');
+
+    botonAgregar?.addEventListener('click', () => {
+      const textoOriginal = 'Agregar al carrito';
+      botonAgregar.textContent = 'Agregado';
+      botonAgregar.classList.add('agregado');
+
+      window.setTimeout(() => {
+        botonAgregar.textContent = textoOriginal;
+        botonAgregar.classList.remove('agregado');
+      }, 1400);
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const demoTarjetas = new TarjetaProductoTecnicaDemo();
+  demoTarjetas.iniciar();
+});
+
+document.getElementById("footer").innerHTML = footer("../../");
+
+const productos = JSON.parse(localStorage.getItem("productos") || "[]");
+productos.concat(PRODUCTOS_PREDETERMINADOS);
