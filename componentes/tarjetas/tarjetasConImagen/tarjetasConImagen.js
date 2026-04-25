@@ -4,10 +4,14 @@ export default function tarjetasConImagen(
   descripcion,
   imagen,
   links = "",
-  tamano = "sm"
+  tamano = "sm",
+  align = "center"
 ) {
 
+  const alignClass = align === 'center' ? 'center' : align === 'end' ? 'end' : 'start';
+
   const ratios = {
+    xxs: "ratio-4x3",
     xs: "ratio-1x1",
     sm: "ratio-4x3",
     md: "ratio-16x9",
@@ -15,6 +19,7 @@ export default function tarjetasConImagen(
   };
 
   const widths = {
+    xxs: "16rem",
     xs: "18rem",
     sm: "20rem",
     md: "22rem",
@@ -32,7 +37,7 @@ export default function tarjetasConImagen(
              alt="${titulo}">
       </div>
 
-      <div class="card-body text-center d-flex flex-column">
+      <div class="card-body text-${alignClass} d-flex flex-column">
 
         <h5 class="fw-bold">${titulo}</h5>
         <p class="text-primary">${subtitulo}</p>

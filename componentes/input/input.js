@@ -1,12 +1,26 @@
+import select from "../select/select.js";
+
 export function validarInput(elemento, tipo) {
   const valor = elemento.value.trim();
   const validaciones = {
     text: () => valor.length >= 3 || "Mínimo 3 caracteres",
-    codigo: () => (valor.length >= 3 && valor.length <= 20) || "El codigo debe tener entre 3 y 20 caracteres",
+    codigo: () =>
+      (valor.length >= 3 && valor.length <= 20) ||
+      "El codigo debe tener entre 3 y 20 caracteres",
     email: () => valor.includes("@") || "Correo inválido",
     number: () => (!isNaN(valor) && valor !== "") || "Solo números",
     "full-text": () => valor.length >= 10 || "Mínimo 10 caracteres",
-    url: () => { try { new URL(valor); return true; } catch { return "URL inválida"; } },
+    url: () => {
+      try {
+        new URL(valor);
+        return true;
+      } catch {
+        return "URL inválida";
+      }
+    },
+    array: () =>
+      (Array.isArray(valor) && valor.length > 0) || "El listado no puede estar vacío",
+    select: () => valor !== "" || "Selecciona una opción",
   };
   const resultado = validaciones[tipo]?.();
   return resultado === true
@@ -19,26 +33,32 @@ export default function crearInput(
   tipo,
   placeholder = null,
   required = null,
+  options = null
 ) {
-  if (tipo === "imagen") {
-    const urlPlaceholder = placeholder || "https://ejemplo.com/imagen.jpg";
+  if (tipo === "colores") {
     return `
       <div class="fs-field">
         <label class="fs-label">${titulo}</label>
-        <div class="mb-2">
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="imagen-tipo" id="imagen-tipo-url" value="url" checked>
-            <label class="form-check-label" for="imagen-tipo-url">Enlace (URL)</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="imagen-tipo" id="imagen-tipo-archivo" value="archivo">
-            <label class="form-check-label" for="imagen-tipo-archivo">Archivo</label>
-          </div>
-        </div>
-        <input class="fs-input" type="url" id="imagen" name="imagen" placeholder="${urlPlaceholder}" />
-        <input class="fs-input" type="file" id="imagen-archivo" name="imagen-archivo" accept="image/*" style="display:none" />
+        <div id="colores-lista"></div>
+        <button type="button" id="btn-agregar-color" class="btn btn-outline-secondary btn-sm mt-2">
+          <i class="bi bi-plus-circle me-1"></i>Agregar color
+        </button>
       </div>
     `;
+  }
+  if (tipo === "imagen" && titulo) {
+    return `
+      <div class="fs-field">
+        <label class="fs-label">${titulo}</label>
+        <div id="imagenes-lista"></div>
+        <button type="button" id="btn-agregar-imagen" class="btn btn-outline-secondary btn-sm mt-2">
+          <i class="bi bi-plus-circle me-1"></i>Agregar imagen
+        </button>
+      </div>
+    `;
+  }
+  if (tipo === "select") {
+    return select(titulo, options);
   }
 
   const types = {
@@ -52,7 +72,10 @@ export default function crearInput(
 
   const tag = types[tipo];
   const htmlType = tipo === "codigo" ? "text" : tipo;
-  const id = titulo.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  const id = titulo
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
   const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : "";
   const requiredAttr = required ? "required" : "";
 

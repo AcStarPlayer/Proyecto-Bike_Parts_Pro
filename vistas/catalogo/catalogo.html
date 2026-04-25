@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewporSt" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Catalogo</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./catalogo.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="stylesheet" href="../../componentes/styles.css" />
+  <link rel="stylesheet" href="styles.css" />
+
+
+
+</head>
+
+
+
+<body class="d-flex flex-column min-vh-100">
+
+    <div class="nav-content"></div>
+
+    <main class="container my-5">
+      <h2 class="text-center mb-1">Catálogo de Productos</h2>
+      <p class="text-center text-muted mb-4">Productos que ve el cliente para sumarlos al carrito de compras</p>
+      <div id="contenedor-form"></div>
+      <div id="alerta" class="mt-3"></div>
+   
+
+    <section class="panel-demo">
+      <div class="contenedor-tarjetas" id="contenedor-tarjetas-producto"></div>
+    </section>
+
+    </main>
+  
+
+  <div id="footer" class="mt-auto"></div>
+  
+<!-- ---------  CARRITO DE COMPRAS--------- --> 
+
+<button
+  id="boton-flotante-carrito"
+  class="boton-flotante-carrito"
+  type="button"
+  data-bs-toggle="offcanvas"
+  data-bs-target="#panel-lateral-carrito-compras"
+  aria-controls="panel-lateral-carrito-compras"
+  aria-label="Abrir carrito de compras"
+>
+  <span class="icono-carrito-flotante">🛒</span>
+  <span id="globo-cantidad-carrito" class="globo-cantidad-carrito oculta">0</span>
+</button>
+
+<div
+  class="offcanvas offcanvas-end panel-lateral-carrito-compras"
+  tabindex="-1"
+  id="panel-lateral-carrito-compras"
+  aria-labelledby="titulo-panel-lateral-carrito-compras"
+>
+  <div class="offcanvas-header encabezado-panel-carrito-compras">
+    <div>
+      <p class="subtitulo-panel-carrito">Carrito activo</p>
+      <h2 id="titulo-panel-lateral-carrito-compras" class="titulo-panel-carrito">
+        Tu carrito
+      </h2>
+    </div>
+
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="offcanvas"
+      aria-label="Cerrar carrito"
+    ></button>
+  </div>
+
+  <div class="offcanvas-body cuerpo-panel-carrito-compras">
+    <div class="barra-superior-carrito">
+      <p id="mensaje-carrito-vacio" class="mensaje-carrito-vacio">
+        Tu carrito está vacío.
+      </p>
+
+      <button
+        id="boton-vaciar-carrito"
+        class="boton-vaciar-carrito"
+        type="button"
+      >
+        Vaciar carrito
+      </button>
+    </div>
+
+    <ul id="lista-productos-carrito" class="lista-productos-carrito"></ul>
+
+    <div class="pie-carrito-compras">
+      <p class="etiqueta-total-carrito">Total</p>
+      <p id="texto-total-carrito" class="texto-total-carrito">$0</p>
+    </div>
+  </div>
+</div>
+
+------- HASTA AQUI EL CARRITO DE COMPRAS ----
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="catalogo.js"></script>
+</body>
+</html>

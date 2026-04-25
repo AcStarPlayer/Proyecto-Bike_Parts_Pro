@@ -3,8 +3,8 @@ import crearInput from "../input/input.js";
 export default function crearFormulario(action, campos, boton = "Enviar") {
   const esUrl = typeof action === "string";
   const inputsHtml = campos
-    .map(({ titulo, tipo, placeholder, required }) =>
-      crearInput(titulo, tipo, placeholder, required)
+    .map(({ titulo, tipo, placeholder, required, options }) =>
+      crearInput(titulo, tipo, placeholder, required, options)
     )
     .join("");
 
