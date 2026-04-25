@@ -655,8 +655,3 @@ img {
   transition: 0.2s;
 }
 
-/* efecto suave */
-.repuesto-card:hover .stars i {
-  transform: scale(1.1);
-}
-
