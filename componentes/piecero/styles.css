@@ -1,0 +1,81 @@
+.footer {
+  background: #0f172a;
+  color: white;
+  padding: 40px 20px;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  text-align: center;
+}
+
+.footer-col h3 {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #B7FF00;
+  text-decoration: none;
+  margin: 10px;
+  text-align: center;
+}
+
+.footer-col h4 {
+  display: block;
+  font-size: 0.8rem;
+  color: #ccc;
+  text-decoration: none;
+  margin: 10px auto;
+}
+
+.footer-col a {
+  display: block;
+  font-size: 0.8rem;
+  color: #ccc;
+  text-decoration: none;
+  margin: 6px 25px;
+  text-align: center;
+}
+
+.social-icon {
+  width: 45px;
+  height: 45px;
+  background: #1e293b;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  text-decoration: none;
+  font-size: 20px;
+  transition: 0.3s;
+}
+
+.social-icons a {
+  display: inline-flex;
+  background: #1e293b;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.social-icon:hover {
+  background: #0f172a;
+  transform: scale(1.1);
+}
+
+.linea-blanca {
+  width: 1400px;             /* ← Ancho de la línea roja */
+  height: 3px;
+  background-color: #ccc; /* Rojo */
+  margin: 20px auto;
+  border-radius: 8px;
+}
+
+.text-center{
+  text-align: center;
+}
+
+.banner-final img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}

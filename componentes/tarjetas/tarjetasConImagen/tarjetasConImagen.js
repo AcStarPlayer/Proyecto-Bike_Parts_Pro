@@ -1,22 +1,57 @@
+export default function tarjetasConImagen(
+  titulo,
+  subtitulo,
+  descripcion,
+  imagen,
+  links = "",
+  tamano = "sm",
+  align = "center"
+) {
 
-export default function tarjetasConImagen(titulo, subtitulo, descripcion, imagen, links = null, tamano = "xs") {
-  const tamanos = {
-    xs: "h-100",
-    sm: "h-200",
-    md: "h-300",
-    lg: "h-400",
-    xl: "h-500",
-    xxl: "h-600",
+  const alignClass = align === 'center' ? 'center' : align === 'end' ? 'end' : 'start';
+
+  const ratios = {
+    xxs: "ratio-4x3",
+    xs: "ratio-1x1",
+    sm: "ratio-4x3",
+    md: "ratio-16x9",
+    lg: "ratio-16x9"
+  };
+
+  const widths = {
+    xxs: "16rem",
+    xs: "18rem",
+    sm: "20rem",
+    md: "22rem",
+    lg: "24rem"
   };
 
   return `
-    <div class="card shadow border-0 rounded-4 ${tamanos[tamano]}">
-        <img src="${imagen}" class="card-img-top" alt="${titulo}">
-        <div class="card-body text-center">
-          <h5 class="fw-bold">${titulo}</h5>
-          <p class="text-primary">${subtitulo}</p>
-          <p>${descripcion}</p>
-            ${links}
+    <div class="card shadow border-0 rounded-4 mx-auto d-flex flex-column"
+         style="width: ${widths[tamano]}; max-width: 100%; height: 100%;">
+
+      <div class="ratio ${ratios[tamano]}">
+        <img src="${imagen}" 
+             class="w-100 h-100 object-fit-cover rounded-top-4"
+             style="object-position: center;"
+             alt="${titulo}">
+      </div>
+
+      <div class="card-body text-${alignClass} d-flex flex-column">
+
+        <h5 class="fw-bold">${titulo}</h5>
+        <p class="text-primary">${subtitulo}</p>
+
+        <p class="mb-2">
+          ${descripcion}
+        </p>
+
+        <div class="mt-auto">
+          ${links}
         </div>
+
+      </div>
+
     </div>
-  `}
+  `;
+}
