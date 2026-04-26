@@ -12,11 +12,11 @@ export function footer(basePath = "") {
 
         <div class="footer-col">
           <h3>Nuestras políticas</h3>
-          <a href="${basePath}componentes/piecero/pagesFooter/politicasEnvio.html">Politica de envíos</a>
-          <a href="${basePath}componentes/piecero/pagesFooter/politicasDeCambios.html">Politica de cambios</a>
-          <a href="${basePath}componentes/piecero/pagesFooter/politicasDeGarantias.html">Politica de garantías</a>
-          <a href="${basePath}componentes/piecero/pagesFooter/politicasDePrivacidad.html">Politicas de privacidad</a>
-          <a href="${basePath}componentes/piecero/pagesFooter/terminosyCondiciones.html">Términos y condiciones</a>
+          <a href="${basePath}componentes/pieDePagina/pagesFooter/politicasEnvio.html">Politica de envíos</a>
+          <a href="${basePath}componentes/pieDePagina/pagesFooter/politicasDeCambios.html">Politica de cambios</a>
+          <a href="${basePath}componentes/pieDePagina/pagesFooter/politicasDeGarantias.html">Politica de garantías</a>
+          <a href="${basePath}componentes/pieDePagina/pagesFooter/politicasDePrivacidad.html">Politicas de privacidad</a>
+          <a href="${basePath}componentes/pieDePagina/pagesFooter/terminosyCondiciones.html">Términos y condiciones</a>
         </div>
 
         <div class="footer-col">
@@ -29,7 +29,7 @@ export function footer(basePath = "") {
           <p><i class="bi bi-whatsapp me-2 text-success"></i> WhatsApp: 300 0000000</p>
         </div>
 
-        <div class="footer-col">
+        <div class="footer-col footer-icons">
           <h3>Redes Sociales</h3>
           <div class="social-icons">
             <a href="#" target="_blank" class="social-icon"><i class="bi bi-instagram"></i></a>

@@ -28,7 +28,7 @@ main.container {
 #footer h3,
 #footer h4 {
   font-size: 0.85rem;
-  color: var(--verde-lima) !important;
+  color: var(--verde-principal) !important;
 }
 
 #footer p,

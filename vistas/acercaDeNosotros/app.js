@@ -1,7 +1,7 @@
 import tarjetaSoloTexto from "../../componentes/tarjetas/tarjetasSoloTexto/tarjetasSoloTexto.js";
 import tarjetasConImagen from "../../componentes/tarjetas/tarjetasConImagen/tarjetasConImagen.js";
 import { navBar } from "../../componentes/barraNavegacion/barNav.js";
-import { footer } from "../../componentes/piecero/footer.js";
+import { footer } from "../../componentes/pieDePagina/footer.js";
 
 navBar("BikePartsPro", "Sube de nivel", "../../");
 
