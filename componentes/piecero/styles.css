@@ -63,7 +63,7 @@
 }
 
 .linea-blanca {
-  width: 1400px;             /* ← Ancho de la línea roja */
+  width: 100%;             /* ← Ancho de la línea roja */
   height: 3px;
   background-color: #ccc; /* Rojo */
   margin: 20px auto;

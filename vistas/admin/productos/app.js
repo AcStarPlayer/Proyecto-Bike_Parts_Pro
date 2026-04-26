@@ -3,11 +3,7 @@ import crearFormulario from "../../../componentes/formulario/formulario.js";
 import { validarInput } from "../../../componentes/input/input.js";
 import { footer } from "../../../componentes/piecero/footer.js";
 
-document.querySelector(".nav-content").innerHTML = navBar(
-  "BikePartsPro",
-  "Panel Admin",
-  "../../../",
-);
+navBar("BikePartsPro", "Panel Admin", "../../../");
 
 const campos = [
   { titulo: "SKU", tipo: "codigo", placeholder: "Ej: BPP-001", required: true },
@@ -43,7 +39,6 @@ document.getElementById("contenedor-form").innerHTML = crearFormulario(
 
 document.getElementById("footer").innerHTML = footer("../../../");
 
-let colorCount = 0;
 let imagenCount = 0;
 
 function validarCamposTexto() {
