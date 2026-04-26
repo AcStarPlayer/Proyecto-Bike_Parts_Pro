@@ -8,7 +8,7 @@
   height: 62px;
   border: none;
   border-radius: 50%;
-  background: var(--verde-principal);
+  background: var(--verde-acento);
   color: var(--verde-lima);
   display: inline-flex;
   align-items: center;
@@ -23,8 +23,12 @@
 }
 
 .icono-carrito-flotante {
-  font-size: 1.4rem;
-  line-height: 1;
+  color: var(--blanco);
+  font-weight: bold;
+}
+
+.cart-grande {
+  font-size: 1.5rem !important;
 }
 
 .globo-cantidad-carrito {
@@ -35,7 +39,7 @@
   height: 22px;
   padding: 0 0.35rem;
   border-radius: 999px;
-  background: var(--verde-acento);
+  background: var(--verde-principal);
   color: var(--blanco);
   display: inline-flex;
   align-items: center;

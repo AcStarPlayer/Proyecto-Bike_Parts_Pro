@@ -181,7 +181,7 @@ function renderizarBotonFlotanteCarrito() {
   boton.setAttribute("aria-label", "Abrir carrito de compras");
 
   boton.innerHTML = `
-    <span class="icono-carrito-flotante">🛒</span>
+    <span class="icono-carrito-flotante justify-content-center align-content-center"><i class="bi bi-cart2 cart-grande"></i></span>
     <span id="globo-cantidad-carrito" class="globo-cantidad-carrito oculta">0</span>
   `;
 
