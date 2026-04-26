@@ -35,33 +35,6 @@ h1, h2, h3 {
   color: var(--verde-lima) !important;
 }
 
-/* ICONOS */
-.bi {
-  font-size: 1rem;
-}
-
-/* EFECTO SUAVE EN LINKS */
-a {
-  transition: all 0.3s ease;
-}
-
-form input, form textarea {
-  border-radius: 10px;
-}
-
-form button {
-  font-weight: bold;
-}
-
-form input, form textarea {
-  border-radius: 10px;
-}
-.general-info h6{
-
-  font-size: 1.1rem;
-}
-
-
 .hero {
   position: relative;
   height: 500px;
@@ -225,7 +198,6 @@ form input, form textarea {
   flex-wrap: wrap;
   justify-content: center;
 }
-
 
 /* TARJETA */
 .repuesto-card {
