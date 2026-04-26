@@ -9,14 +9,14 @@
 .fs-label {
   font-weight: 400;
   margin-bottom: 5px;
-  color: #1e293b;
+  color: var(--color-dark);
 }
 
 /* INPUTS */
 .fs-input,
 .fs-textarea {
   border-radius: 8px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--color-border);
   padding: 10px;
   transition: all 0.3s ease;
 }
@@ -24,7 +24,7 @@
 /* EFECTO FOCUS */
 .fs-input:focus,
 .fs-textarea:focus {
-  border-color: #1e293b;
-  box-shadow: 0 0 0 2px rgba(30, 41, 59, 0.2);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(45, 90, 61, 0.2);
   outline: none;
 }
