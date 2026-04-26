@@ -25,14 +25,3 @@ main.container {
   background-color: var(--verde-acento);
 }
 
-#footer h3,
-#footer h4 {
-  font-size: 0.85rem;
-  color: var(--verde-principal) !important;
-}
-
-#footer p,
-#footer a {
-  font-size: 0.78rem;
-  color: #cbd5e1 !important;
-}
