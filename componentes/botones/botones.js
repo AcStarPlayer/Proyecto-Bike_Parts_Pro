@@ -1,8 +1,7 @@
 
-export function botones(title, extraClass = ""){
+export function botones(title, extraClass = "primary"){
 return `
-<div class="button-container ${extraClass}"> <h5 class="tituloboton">${title}</h5>
-</div>
+<button type="button" class="btn btn-${extraClass} w-100 btn-action">${title}</button>
 `
 }
 //botones - lo mejor es modificar la clase o contenedor y asi les modificamos las propiedades.

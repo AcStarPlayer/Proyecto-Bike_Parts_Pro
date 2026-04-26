@@ -1,7 +1,4 @@
-  /* ------- LOGICA CARRITO DE COMPRAS-----*/
-
-
-  const CLAVE_CARRITO_COMPRAS = "catalogo-carrito-compras";
+const CLAVE_CARRITO_COMPRAS = "catalogo-carrito-compras";
 let carritoCompras = obtenerCarritoComprasGuardado();
 
 function obtenerCarritoComprasGuardado() {
@@ -40,7 +37,7 @@ function buscarProductoEnCarritoPorSku(sku) {
   return carritoCompras.find((item) => String(item.sku) === String(sku));
 }
 
-function agregarProductoAlCarritoCompras(producto) {
+export function agregarProductoAlCarritoCompras(producto) {
   const productoExistente = buscarProductoEnCarritoPorSku(producto.sku);
 
   if (productoExistente) {
@@ -49,7 +46,6 @@ function agregarProductoAlCarritoCompras(producto) {
     carritoCompras.push({
       sku: producto.sku,
       nombre: producto.nombre,
-      marca: producto.marca,
       precio: Number(producto.precio) || 0,
       cantidad: 1
     });
@@ -64,12 +60,6 @@ function eliminarProductoDelCarritoCompras(sku) {
     (item) => String(item.sku) !== String(sku)
   );
 
-  guardarCarritoCompras();
-  renderizarCarritoCompras();
-}
-
-function vaciarCarritoCompras() {
-  carritoCompras = [];
   guardarCarritoCompras();
   renderizarCarritoCompras();
 }
@@ -163,10 +153,53 @@ function renderizarTotalCarritoCompras() {
   );
 }
 
-function renderizarCarritoCompras() {
+function actualizarBotonFlotanteCarrito() {
+  const boton = document.getElementById("boton-flotante-carrito");
+  if (!boton) return;
+
+  const cantidad = obtenerCantidadTotalArticulosCarrito();
+
+  if (cantidad > 0) {
+    boton.style.display = "flex";
+  } else {
+    boton.style.display = "none";
+  }
+}
+
+function renderizarBotonFlotanteCarrito() {
+  if (document.getElementById("boton-flotante-carrito")) return;
+
+  const boton = document.createElement("button");
+
+  boton.id = "boton-flotante-carrito";
+  boton.className = "boton-flotante-carrito";
+  boton.type = "button";
+
+  boton.setAttribute("data-bs-toggle", "offcanvas");
+  boton.setAttribute("data-bs-target", "#panel-lateral-carrito-compras");
+  boton.setAttribute("aria-controls", "panel-lateral-carrito-compras");
+  boton.setAttribute("aria-label", "Abrir carrito de compras");
+
+  boton.innerHTML = `
+    <span class="icono-carrito-flotante">🛒</span>
+    <span id="globo-cantidad-carrito" class="globo-cantidad-carrito oculta">0</span>
+  `;
+
+  document.body.appendChild(boton);
+}
+
+export function vaciarCarritoCompras() {
+  carritoCompras = [];
+  guardarCarritoCompras();
+  renderizarCarritoCompras();
+}
+
+export function renderizarCarritoCompras() {
+  renderizarBotonFlotanteCarrito();
   actualizarGloboCantidadCarrito();
   renderizarListaCarritoCompras();
   renderizarTotalCarritoCompras();
+  actualizarBotonFlotanteCarrito();
 }
 
 function activarBotonesAgregarAlCarrito(listaProductosCatalogo) {
@@ -206,28 +239,19 @@ function inicializarCarritoCompras(listaProductosCatalogo) {
 }
 
 
- registrarEventoAgregarCarrito(tarjeta) {
-    const botonAgregar = tarjeta.querySelector('.boton-agregar-carrito-producto');
+function registrarEventoAgregarCarrito(tarjeta) {
+  const botonAgregar = tarjeta.querySelector('.boton-agregar-carrito-producto');
 
-    botonAgregar?.addEventListener('click', () => {
-      const textoOriginal = 'Agregar al carrito';
-      botonAgregar.textContent = 'Agregado';
-      botonAgregar.classList.add('agregado');
+  botonAgregar?.addEventListener('click', () => {
+    const textoOriginal = 'Agregar al carrito';
+    botonAgregar.textContent = 'Agregado';
+    botonAgregar.classList.add('agregado');
 
-      window.setTimeout(() => {
-        botonAgregar.textContent = textoOriginal;
-        botonAgregar.classList.remove('agregado');
-      }, 1400);
-    });
-  }
+    window.setTimeout(() => {
+      botonAgregar.textContent = textoOriginal;
+      botonAgregar.classList.remove('agregado');
+    }, 500);
+  });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const demoTarjetas = new TarjetaProductoTecnicaDemo();
-  demoTarjetas.iniciar();
-});
 
-document.getElementById("footer").innerHTML = footer("../../");
-
-const productos = JSON.parse(localStorage.getItem("productos") || "[]");
-productos.concat(PRODUCTOS_PREDETERMINADOS);

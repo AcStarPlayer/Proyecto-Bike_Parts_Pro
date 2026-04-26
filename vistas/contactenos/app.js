@@ -7,7 +7,7 @@ import {
 } from "../../componentes/whatsApp/whatsappBox.js";
 import { footer } from "../../componentes/piecero/footer.js";
 
-navBar(document.querySelector(".nav-content"), "BikePartsPro", "Sube de nivel", "../../");
+navBar("BikePartsPro", "Sube de nivel", "../../");
 
 const campos = [
   { titulo: "Nombre", tipo: "text", placeholder: "Tu nombre", required: true },

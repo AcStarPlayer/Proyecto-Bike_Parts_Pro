@@ -1,0 +1,28 @@
+.btn-primary {
+  background-color: var(--verde-acento);
+  border-color: var(--verde-acento);
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: var(--verde-principal);
+  border: none;
+}
+
+.btn-dark {
+  background-color: var(--verde-principal);
+  border: none;
+}
+
+.btn-dark:hover {
+  background-color: var(--verde-acento);
+}
