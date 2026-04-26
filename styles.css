@@ -35,19 +35,6 @@ h1, h2, h3 {
   color: var(--verde-lima) !important;
 }
 
-/* FOOTER */
-footer {
-  background-color: var(--verde-principal);
-}
-
-footer h5 {
-  color: var(--verde-lima);
-}
-
-footer a:hover {
-  color: var(--verde-lima) !important;
-}
-
 /* ICONOS */
 .bi {
   font-size: 1rem;
@@ -235,6 +222,8 @@ form input, form textarea {
   margin: 2rem;
   display: flex;
   gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 

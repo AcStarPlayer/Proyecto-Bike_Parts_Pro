@@ -1,7 +1,7 @@
 import { navBar } from "../../../componentes/barraNavegacion/barNav.js";
 import crearFormulario from "../../../componentes/formulario/formulario.js";
 import { validarInput } from "../../../componentes/input/input.js";
-import { footer } from "../../../componentes/piecero/footer.js";
+import { footer } from "../../../componentes/pieDePagina/footer.js";
 
 navBar("BikePartsPro", "Panel Admin", "../../../");
 

@@ -1,6 +1,6 @@
 import tarjetasConImagen from "../../componentes/tarjetas/tarjetasConImagen/tarjetasConImagen.js";
 import { navBar } from "../../componentes/barraNavegacion/barNav.js";
-import { footer } from "../../componentes/piecero/footer.js";
+import { footer } from "../../componentes/pieDePagina/footer.js";
 import { botones } from "../../componentes/botones/botones.js";
 import { productosPredeterminados } from "../../apis/productos.js";
 import { inicializarBotonesCarrito } from "../carrito/carrito-events.js";
