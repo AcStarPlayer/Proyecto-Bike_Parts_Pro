@@ -14,7 +14,7 @@
 
 .nav-content {
   height: 4.5rem;
-  background-color: #0B3B24;
+  background-color: var(--color-primary);
   padding: 0 2rem;
   display: flex;
   justify-content: space-between;
@@ -29,7 +29,7 @@
 
 .botones-nav li:hover {
   border-radius: 3px;
-  background-color: var(--verde-principal-claro);
+  background-color: var(--color-primary-dark);
   cursor: pointer;
 }
 
@@ -38,7 +38,7 @@
 }
 
 .nav-style-text {
-  color: var(--blanco);
+  color: var(--color-white);
   font-weight: 600;
   font-size: 0.95rem;
 }
@@ -50,8 +50,8 @@
   cursor: pointer;
   gap: 5px;
   z-index: 10;
-  background: var(--verde-principal);
-  border: var(--gris-oscuro) 0.5px solid;
+  background: var(--color-primary-dark);
+  border: var(--color-border) 0.5px solid;
 }
 
 .botones-nav {
@@ -65,7 +65,7 @@
 .bar {
   width: 30px;
   height: 4px;
-  background-color: var(--blanco);
+  background-color: var(--color-white);
   border-radius: 2px;
   transition: all 0.3s ease;
 }
@@ -82,7 +82,7 @@
     top: 4.5rem;
     left: 0;
     width: 100%;
-    background-color: var(--verde-principal-claro);
+    background-color: var(--color-primary-dark);
     z-index: 1000;
   }
 
@@ -97,7 +97,7 @@
   }
   .botones-nav li:hover {
     border-radius: 0px;
-    background-color: var(--verde-acento);
+    background-color: var(--color-primary);
   }
 }
 

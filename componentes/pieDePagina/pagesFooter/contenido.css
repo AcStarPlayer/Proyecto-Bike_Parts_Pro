@@ -1,5 +1,5 @@
 .contenido {
-  background: var(--blanco);
+  background: var(--color-white);
   margin-bottom: 1.5rem;
   border-radius: 20px 20px;
   padding: 20px 30px;
@@ -19,13 +19,13 @@
   font-size: 0.9rem;
   font-weight: 600;
   margin-top: 20px;
-  color: var(--verde-principal);
+  color: var(--color-primary-dark);
 }
 
 .contenido p,
 .contenido li {
   font-size: 0.85rem;
-  color: var(--verde-principal-claro);
+  color: var(--color-dark);
   line-height: 1.6;
 }
 

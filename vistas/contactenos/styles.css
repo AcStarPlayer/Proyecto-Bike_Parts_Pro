@@ -1,19 +1,19 @@
 #titulo-contacto {
   font-size: 1.3rem;
   font-weight: 700;
-  color: var(--verde-principal);
+  color: var(--color-primary-dark);
 }
 
 main.container {
   max-width: 600px;
-  background-color: var(--blanco);
+  background-color: var(--color-white);
   border-radius: 10px;
   padding: 1.5rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 #formulario button[type="submit"] {
-  background-color: var(--verde-principal);
+  background-color: var(--color-primary);
   border: none;
   font-size: 0.85rem;
   padding: 8px 28px;
@@ -22,6 +22,5 @@ main.container {
 }
 
 #formulario button[type="submit"]:hover {
-  background-color: var(--verde-acento);
+  background-color: var(--color-accent);
 }
-

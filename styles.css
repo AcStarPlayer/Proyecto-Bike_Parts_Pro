@@ -1,38 +1,42 @@
 @import url(vistas/carrito/styles.css);
 /* VARIABLES DE COLOR */
 :root {
-  --verde-principal: #0B3B24;
-  --verde-principal-claro: #105a36;
-  --verde-lima: #B7FF00;
-  --verde-acento: #35C96B;
-  --gris-oscuro: #bdbdbd;
-  --gris-claro: #F6F8FB;
-  --blanco: #FFFFFF;
-  --rojo: #EF4444;
+  --color-primary: #2D5A3D;
+  --color-primary-dark: #213A2C;
+  --color-primary-light: #4E8566;
+  --color-accent: #5AAD76;
+
+  --color-dark: #2A3B30;
+  --color-gray: #7A8E82;
+  --color-light: #F2F4F2;
+  --color-surface: #e4e7e4;
+  --color-white: #FFFFFF;
+
+  --color-border: #D4DDD6;
+  --color-error: #C0392B;
 }
 
 /* ESTILO GENERAL */
 body {
-  background-color: var(--gris-claro);
+  background-color: var(--color-light);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
 }
 
 /* TÍTULOS */
 h1, h2, h3 {
-  color: var(--verde-principal);
+  color: var(--color-primary-dark);
 }
 
 .text-dark {
-  color: var(--verde-principal) !important;
+  color: var(--color-primary-dark) !important;
 }
 
 .text-primary {
-  color: var(--verde-acento) !important;
+  color: var(--color-primary) !important;
 }
 
 .text-secondary {
-  color: var(--verde-lima) !important;
+  color: var(--color-gray) !important;
 }
 
 .hero {
@@ -61,9 +65,9 @@ h1, h2, h3 {
 
   background: linear-gradient(
     90deg,
-    rgba(11, 61, 46, 0.95) 0%,
-    rgba(11, 61, 46, 0.85) 40%,
-    rgba(0, 0, 0, 0.2) 100%
+    rgba(26, 52, 39, 0.95) 0%,
+    rgba(26, 52, 39, 0.80) 40%,
+    rgba(0, 0, 0, 0.15) 100%
   );
 
   z-index: 1;
@@ -78,8 +82,8 @@ h1, h2, h3 {
 
 /* ETIQUETA */
 .hero-tag {
-  background: #7CFC00;
-  color: black;
+  background: var(--color-accent);
+  color: var(--color-white);
   padding: 5px 12px;
   border-radius: 20px;
   font-size: 14px;
@@ -94,7 +98,7 @@ h1, h2, h3 {
 }
 
 .hero-content h1 span {
-  color: #7CFC00;
+  color: var(--color-accent);
 }
 
 /* TEXTO */
@@ -111,7 +115,7 @@ h1, h2, h3 {
 
 .promo {
   padding: 40px;
-  background: #f5f5f5;
+  background: var(--color-light);
 }
 
 .carousel {
@@ -168,7 +172,8 @@ h1, h2, h3 {
 
 /* BOTÓN */
 .slide-content button {
-  background: #7CFC00;
+  background: var(--color-accent);
+  color: var(--color-white);
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -183,11 +188,11 @@ h1, h2, h3 {
 /* ================= REPUESTOS ================= */
 .repuestos {
   padding: 40px;
-  background: #fff;
+  background: var(--color-white);
 }
 
 .repuestos h2 {
-  color: var(--verde-principal);
+  color: var(--color-primary-dark);
 }
 
 /* CONTENEDOR SCROLL HORIZONTAL */
@@ -202,7 +207,7 @@ h1, h2, h3 {
 /* TARJETA */
 .repuesto-card {
   min-width: 220px;
-  background: #f9f9f9;
+  background: var(--color-white);
   border-radius: 12px;
   padding: 15px;
   position: relative;
@@ -226,7 +231,7 @@ h1, h2, h3 {
 /* PRECIO */
 .precio {
   font-weight: bold;
-  color: #0b3d2e;
+  color: var(--color-primary);
 }
 
 /* BADGE */
@@ -234,8 +239,8 @@ h1, h2, h3 {
   position: absolute;
   top: 10px;
   left: 10px;
-  background: red;
-  color: white;
+  background: var(--color-error);
+  color: var(--color-white);
   font-size: 12px;
   padding: 4px 8px;
   border-radius: 5px;
@@ -376,12 +381,12 @@ img {
 
 .repuesto-card {
   min-width: 220px;
-  background: #fff;
+  background: var(--color-white);
   border-radius: 14px;
   padding: 15px;
   flex-shrink: 0;
   transition: all 0.25s ease;
-  border: 1px solid #eee;
+  border: 1px solid var(--color-border);
 }
 
 /* IMAGEN */
@@ -397,7 +402,7 @@ img {
 .repuesto-card h3 {
   font-size: 14px;
   margin: 5px 0;
-  color: #333;
+  color: var(--color-dark);
   font-weight: 500;
 }
 
@@ -405,7 +410,7 @@ img {
 .precio {
   font-size: 16px;
   font-weight: bold;
-  color: var(--verde-principal);
+  color: var(--color-primary);
 }
 
 
