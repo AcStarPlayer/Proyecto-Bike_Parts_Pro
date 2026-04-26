@@ -26,3 +26,12 @@
 .btn-dark:hover {
   background-color: var(--color-primary);
 }
+
+.btn-tertiary {
+  background-color: var(--color-accent);
+  border: none;
+}
+
+.btn-tertiary:hover {
+  background-color: var(--color-primary-light);
+}
