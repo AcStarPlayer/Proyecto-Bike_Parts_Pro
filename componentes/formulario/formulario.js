@@ -12,10 +12,12 @@ export default function crearFormulario(action, campos, tituloBoton = "Enviar") 
   const formAttrs = esUrl
     ? `action="${action}" method="POST" target="_top"`
     : `action=""`;
-
-  const boton = botones(tituloBoton);
+  const boton = botones(tituloBoton, "success", "submit"); 
+  /*const boton = botones(tituloBoton);*/
   return `
-    <form id="formulario" ${formAttrs}>
+    
+    <form id="formulario" class="fs-form" ${formAttrs}>
+      
       ${esUrl ? '<input type="hidden" name="_subject" value="Contacto - Solicitud Cliente" />' : ""}
       ${inputsHtml}
       <div class="text-center">
