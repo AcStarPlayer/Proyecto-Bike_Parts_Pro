@@ -50,14 +50,35 @@ function inyectarPanelCarrito() {
   `;
 
   document.body.appendChild(panel);
-  document.getElementById("boton-vaciar-carrito").addEventListener("click", vaciarCarritoCompras);
+
+  panel.addEventListener('show.bs.offcanvas', () => {
+    const botonFlotante = document.getElementById("boton-flotante-carrito");
+    if (botonFlotante) {
+      botonFlotante.style.opacity = "0";
+      botonFlotante.style.pointerEvents = "none";
+    }
+  });
+
+  panel.addEventListener('hide.bs.offcanvas', () => {
+    const botonFlotante = document.getElementById("boton-flotante-carrito");
+    if (botonFlotante) {
+      botonFlotante.style.opacity = "1";
+      botonFlotante.style.pointerEvents = "auto";
+    }
+  });
+
+  document
+    .getElementById("boton-vaciar-carrito")
+    .addEventListener("click", vaciarCarritoCompras);
 }
 
 export function inicializarBotonesCarrito() {
   inyectarPanelCarrito();
   renderizarCarritoCompras();
 
-  const productosGuardados = JSON.parse(localStorage.getItem("productos") || "null");
+  const productosGuardados = JSON.parse(
+    localStorage.getItem("productos") || "null",
+  );
   const listaProductosCatalogo =
     Array.isArray(productosGuardados) && productosGuardados.length
       ? productosGuardados
@@ -70,7 +91,7 @@ export function inicializarBotonesCarrito() {
         const skuProducto = btn.getAttribute("data-sku");
 
         const producto = listaProductosCatalogo.find(
-          (item) => String(item.sku) === String(skuProducto)
+          (item) => String(item.sku) === String(skuProducto),
         );
 
         if (!producto) return;
@@ -79,7 +100,7 @@ export function inicializarBotonesCarrito() {
           nombre: producto.nombre || producto.titulo || "Producto",
           sku: producto.sku,
           precio: Number(producto.precio) || 0,
-          marca: producto.marca || ""
+          marca: producto.marca || "",
         });
 
         btn.classList.add("agregado");
