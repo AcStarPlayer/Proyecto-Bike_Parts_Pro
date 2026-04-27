@@ -18,18 +18,21 @@ function formatearMonedaPesosColombianos(valor) {
   return new Intl.NumberFormat("es-CO", {
     style: "currency",
     currency: "COP",
-    maximumFractionDigits: 0
+    maximumFractionDigits: 0,
   }).format(valor);
 }
 
 function obtenerCantidadTotalArticulosCarrito() {
-  return carritoCompras.reduce((acumulado, item) => acumulado + item.cantidad, 0);
+  return carritoCompras.reduce(
+    (acumulado, item) => acumulado + item.cantidad,
+    0,
+  );
 }
 
 function obtenerValorTotalCarrito() {
   return carritoCompras.reduce(
-    (acumulado, item) => acumulado + (item.precio * item.cantidad),
-    0
+    (acumulado, item) => acumulado + item.precio * item.cantidad,
+    0,
   );
 }
 
@@ -45,10 +48,9 @@ export function agregarProductoAlCarritoCompras(producto) {
   } else {
     carritoCompras.push({
       sku: producto.sku,
-      nombre: producto.nombre || producto.titulo || "Producto",
-      marca: producto.marca || "",
+      nombre: producto.nombre,
       precio: Number(producto.precio) || 0,
-      cantidad: 1
+      cantidad: 1,
     });
   }
 
@@ -58,7 +60,7 @@ export function agregarProductoAlCarritoCompras(producto) {
 
 function eliminarProductoDelCarritoCompras(sku) {
   carritoCompras = carritoCompras.filter(
-    (item) => String(item.sku) !== String(sku)
+    (item) => String(item.sku) !== String(sku),
   );
 
   guardarCarritoCompras();
@@ -66,7 +68,9 @@ function eliminarProductoDelCarritoCompras(sku) {
 }
 
 function actualizarGloboCantidadCarrito() {
-  const globoCantidadCarrito = document.getElementById("globo-cantidad-carrito");
+  const globoCantidadCarrito = document.getElementById(
+    "globo-cantidad-carrito",
+  );
   if (!globoCantidadCarrito) return;
 
   const cantidadTotal = obtenerCantidadTotalArticulosCarrito();
@@ -79,49 +83,67 @@ function actualizarGloboCantidadCarrito() {
   }
 }
 
-function construirHtmlItemsCarrito() {
-  if (!carritoCompras.length) {
-    return "";
+function cambiarCantidadProducto(sku, operacion) {
+  const producto = buscarProductoEnCarritoPorSku(sku);
+  if (!producto) return;
+
+  if (operacion === "sumar") {
+    producto.cantidad += 1;
+  } else if (operacion === "restar") {
+    producto.cantidad -= 1;
+    if (producto.cantidad < 1) {
+      eliminarProductoDelCarritoCompras(sku);
+      return;
+    }
   }
 
-  return carritoCompras.map((item) => {
-    const valorTotalLinea = item.precio * item.cantidad;
+  guardarCarritoCompras();
+  renderizarCarritoCompras();
+}
 
-    return `
+function construirHtmlItemsCarrito() {
+  if (!carritoCompras.length) return "";
+
+  return carritoCompras
+    .map((item) => {
+      const valorTotalLinea = item.precio * item.cantidad;
+
+      return `
       <li class="item-producto-carrito">
-        <div class="informacion-item-carrito">
-          <div class="encabezado-item-carrito">
+        <div class="encabezado-item-carrito">
             <p class="nombre-item-carrito">${item.nombre}</p>
-            <span class="indicador-cantidad-item-carrito">x${item.cantidad}</span>
+            
+            <div class="controles-cantidad">
+              <button class="btn-cantidad-menos" data-sku-disminuir="${item.sku}">-</button>
+              <span class="indicador-cantidad-item-carrito">${item.cantidad}</span>
+              <button class="btn-cantidad-mas" data-sku-aumentar="${item.sku}">+</button>
+          </div>
           </div>
 
           <div class="detalles-item-carrito">
             <span>Marca: ${item.marca || "Sin marca"}</span>
             <span>SKU: ${item.sku}</span>
             <span>Unitario: ${formatearMonedaPesosColombianos(item.precio)}</span>
-          </div>
-
-          <p class="total-linea-item-carrito">
+          </div>          
+        <div class="informacion-total-item-carrito">
+        <p class="total-linea-item-carrito">
             ${formatearMonedaPesosColombianos(valorTotalLinea)}
           </p>
-        </div>
-
-        <div class="acciones-item-carrito">
-          <button
-            type="button"
-            class="boton-eliminar-item-carrito"
-            data-sku-eliminar="${item.sku}"
-          >
-            Eliminar
-          </button>
+          <div class="acciones-item-carrito">
+            <button type="button" class="boton-eliminar-item-carrito" data-sku-eliminar="${item.sku}">
+              Eliminar
+            </button>
+          </div>
         </div>
       </li>
     `;
-  }).join("");
+    }).join("");
 }
 
 function renderizarListaCarritoCompras() {
-  const listaProductosCarrito = document.getElementById("lista-productos-carrito");
+  const listaProductosCarrito = document.getElementById(
+    "lista-productos-carrito",
+  );
   const mensajeCarritoVacio = document.getElementById("mensaje-carrito-vacio");
   const botonVaciarCarrito = document.getElementById("boton-vaciar-carrito");
 
@@ -134,6 +156,18 @@ function renderizarListaCarritoCompras() {
   const carritoEstaVacio = carritoCompras.length === 0;
   mensajeCarritoVacio.style.display = carritoEstaVacio ? "block" : "none";
   botonVaciarCarrito.style.display = carritoEstaVacio ? "none" : "inline-flex";
+
+  listaProductosCarrito.querySelectorAll("[data-sku-aumentar]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      cambiarCantidadProducto(btn.getAttribute("data-sku-aumentar"), "sumar");
+    });
+  });
+
+  listaProductosCarrito.querySelectorAll("[data-sku-disminuir]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      cambiarCantidadProducto(btn.getAttribute("data-sku-disminuir"), "restar");
+    });
+  });
 
   listaProductosCarrito
     .querySelectorAll("[data-sku-eliminar]")
@@ -150,7 +184,7 @@ function renderizarTotalCarritoCompras() {
   if (!textoTotalCarrito) return;
 
   textoTotalCarrito.textContent = formatearMonedaPesosColombianos(
-    obtenerValorTotalCarrito()
+    obtenerValorTotalCarrito(),
   );
 }
 
@@ -202,57 +236,3 @@ export function renderizarCarritoCompras() {
   renderizarTotalCarritoCompras();
   actualizarBotonFlotanteCarrito();
 }
-
-function activarBotonesAgregarAlCarrito(listaProductosCatalogo) {
-  document
-    .querySelectorAll(".boton-agregar-carrito-producto")
-    .forEach((botonAgregar) => {
-      botonAgregar.addEventListener("click", () => {
-        const skuProducto = botonAgregar.getAttribute("data-sku");
-        const productoSeleccionado = listaProductosCatalogo.find(
-          (producto) => String(producto.sku) === String(skuProducto)
-        );
-
-        if (!productoSeleccionado) return;
-
-        agregarProductoAlCarritoCompras(productoSeleccionado);
-
-        botonAgregar.classList.add("agregado");
-        botonAgregar.textContent = "Agregado";
-
-        setTimeout(() => {
-          botonAgregar.classList.remove("agregado");
-          botonAgregar.textContent = "Agregar al carrito";
-        }, 900);
-      });
-    });
-}
-
-function inicializarCarritoCompras(listaProductosCatalogo) {
-  const botonVaciarCarrito = document.getElementById("boton-vaciar-carrito");
-
-  if (botonVaciarCarrito) {
-    botonVaciarCarrito.addEventListener("click", vaciarCarritoCompras);
-  }
-
-  activarBotonesAgregarAlCarrito(listaProductosCatalogo);
-  renderizarCarritoCompras();
-}
-
-
-function registrarEventoAgregarCarrito(tarjeta) {
-  const botonAgregar = tarjeta.querySelector('.boton-agregar-carrito-producto');
-
-  botonAgregar?.addEventListener('click', () => {
-    const textoOriginal = 'Agregar al carrito';
-    botonAgregar.textContent = 'Agregado';
-    botonAgregar.classList.add('agregado');
-
-    window.setTimeout(() => {
-      botonAgregar.textContent = textoOriginal;
-      botonAgregar.classList.remove('agregado');
-    }, 500);
-  });
-}
-
-

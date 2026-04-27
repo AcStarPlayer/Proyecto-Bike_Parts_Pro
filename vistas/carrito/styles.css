@@ -14,7 +14,9 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .boton-flotante-carrito:hover {
@@ -135,14 +137,10 @@
   overflow: hidden;
   border: 1px solid var(--color-border);
   background: var(--color-white);
-  max-height: 52vh;
   overflow-y: auto;
 }
 
 .item-producto-carrito {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 0.9rem;
   padding: 1rem;
   border-bottom: 1px solid var(--color-border);
   background: var(--color-white);
@@ -152,18 +150,21 @@
   border-bottom: none;
 }
 
-.informacion-item-carrito {
+.informacion-total-item-carrito {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 0.4rem;
-  min-width: 0;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .encabezado-item-carrito {
   display: flex;
-  align-items: start;
+  align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
+  width: 100%;
+  padding-bottom: 0.5rem;
 }
 
 .nombre-item-carrito {
@@ -189,9 +190,8 @@
 }
 
 .detalles-item-carrito {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
+  display: grid;
+  grid-template-columns: 1fr;
   color: var(--color-gray);
   font-size: 0.78rem;
   font-weight: 600;
@@ -202,6 +202,7 @@
   color: var(--color-primary);
   font-size: 1rem;
   font-weight: 900;
+  width: 100%;
 }
 
 .acciones-item-carrito {
@@ -264,7 +265,9 @@
   font-size: 0.9rem;
   font-weight: 700;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 
 .boton-agregar-carrito-producto:hover {
@@ -275,6 +278,32 @@
 .boton-agregar-carrito-producto.agregado {
   background: var(--color-accent);
   color: var(--color-white);
+}
+
+.controles-cantidad {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2px;
+}
+
+.btn-cantidad-mas,
+.btn-cantidad-menos {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background-color: var(--color-white);
+  border: 2px solid var(--color-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.btn-cantidad-mas:hover,
+.btn-cantidad-menos:hover {
+  background-color: var(--color-surface);
 }
 
 /* ── RESPONSIVE ── */
