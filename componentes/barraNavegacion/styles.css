@@ -97,7 +97,7 @@
   }
   .botones-nav li:hover {
     border-radius: 0px;
-    background-color: var(--color-primary);
+    background-color: var(--color-primary-opacity);
   }
 }
 

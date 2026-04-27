@@ -2,6 +2,7 @@
 /* VARIABLES DE COLOR */
 :root {
   --color-primary: #2D5A3D;
+  --color-primary-opacity: rgba(45, 90, 61, 0.3);
   --color-primary-dark: #213A2C;
   --color-primary-light: #4E8566;
   --color-accent: #5AAD76;
