@@ -25,20 +25,22 @@
   text-align: center;
 }
 
-.footer-col h4 {
-  display: block;
+.fz8Rem {
   font-size: 0.8rem;
   text-decoration: none;
+}
+
+.footer-col h4 {
+  display: block;
   margin: 10px auto;
 }
 
 .footer-col a {
   display: block;
-  font-size: 0.8rem;
-  text-decoration: none;
   margin: 6px 25px;
   text-align: center;
 }
+
 
 .social-icon {
   width: 40px;

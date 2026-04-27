@@ -3,7 +3,7 @@ import tarjetasConImagen from "../../componentes/tarjetas/tarjetasConImagen/tarj
 import { navBar } from "../../componentes/barraNavegacion/barNav.js";
 import { footer } from "../../componentes/pieDePagina/footer.js";
 
-navBar("BikePartsPro", "Sube de nivel", "../../");
+navBar("Sube de nivel", "../../");
 
 const valoresEmpresariales = {
   Misión:

@@ -5,7 +5,7 @@ import { botones } from "../../componentes/botones/botones.js";
 import { productosPredeterminados } from "../../apis/productos.js";
 import { inicializarBotonesCarrito } from "../carrito/carrito-events.js";
 
-navBar("BikePartsPro", "Sube de nivel", "../../");
+navBar("Sube de nivel", "../../");
 
 const productos = JSON.parse(localStorage.getItem("productos") || "[]");
 localStorage.setItem("productos", JSON.stringify(productosPredeterminados));

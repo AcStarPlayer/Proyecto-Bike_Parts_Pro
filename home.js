@@ -3,7 +3,7 @@ import { navBar } from "./componentes/barraNavegacion/barNav.js";
 import { footer } from "./componentes/pieDePagina/footer.js";
 
 // NAV Y FOOTER
-navBar("BikePartsPro", "Sube de nivel", "./");
+navBar("Sube de nivel", "./");
 
 document.getElementById("footer").innerHTML = footer("../../");
 
