@@ -45,7 +45,7 @@ h1, h2, h3 {
   height: 500px;
 
   /* 🔥 IMAGEN BIEN CONFIGURADA (esto arregla el problema de la izquierda) */
-  background-image: url("img2/banner.jpg");
+  background-image: url("img/index/banner.jpg");
   background-size: cover;         /* ocupa todo */
   background-position: center;    /* centra la imagen */
   background-repeat: no-repeat;   /* evita que se repita */
@@ -278,11 +278,6 @@ h1, h2, h3 {
     align-items: center;
   }
 
-  .btn-primary,
-  .btn-secondary {
-    width: 100%;
-  }
-
   /* REPUESTOS */
   .repuestos {
     padding: 20px;
@@ -354,6 +349,10 @@ img {
 
   .bike-container {
     order: 1;
+  }
+
+  .hero-buttons button {
+    width: 70%;
   }
 }
 

@@ -5,28 +5,26 @@ export function footer(basePath = "") {
 
         <div class="footer-col">
           <h3>Bike Parts Pro</h3>
-          <h4>Somos una tienda Online especializada en la venta de repuestos,
+          <h4 class="fz8Rem">Somos una tienda Online especializada en la venta de repuestos,
             accesorios para la practica de tu deporte favorito.
           </h4>
         </div>
 
         <div class="footer-col">
           <h3>Nuestras políticas</h3>
-          <a href="${basePath}componentes/pieDePagina/pagesFooter/politicasEnvio.html">Politica de envíos</a>
-          <a href="${basePath}componentes/pieDePagina/pagesFooter/politicasDeCambios.html">Politica de cambios</a>
-          <a href="${basePath}componentes/pieDePagina/pagesFooter/politicasDeGarantias.html">Politica de garantías</a>
-          <a href="${basePath}componentes/pieDePagina/pagesFooter/politicasDePrivacidad.html">Politicas de privacidad</a>
-          <a href="${basePath}componentes/pieDePagina/pagesFooter/terminosyCondiciones.html">Términos y condiciones</a>
+          <a class="fz8Rem" href="${basePath}componentes/pieDePagina/pagesFooter/politicasEnvio.html">Politica de envíos</a>
+          <a class="fz8Rem" href="${basePath}componentes/pieDePagina/pagesFooter/politicasDeCambios.html">Politica de cambios</a>
+          <a class="fz8Rem" href="${basePath}componentes/pieDePagina/pagesFooter/politicasDeGarantias.html">Politica de garantías</a>
+          <a class="fz8Rem" href="${basePath}componentes/pieDePagina/pagesFooter/politicasDePrivacidad.html">Politicas de privacidad</a>
+          <a class="fz8Rem" href="${basePath}componentes/pieDePagina/pagesFooter/terminosyCondiciones.html">Términos y condiciones</a>
         </div>
 
         <div class="footer-col">
           <h3>Información de contacto</h3>
-          <p><i class="bi bi-journals"></i> Contacto</p>
-          <p>100% Online</p>
-          <p><i class="bi bi-geo-alt me-2"></i> Bogotá DC, Colombia</p>
-          <p><i class="bi bi-envelope me-2"></i> bikepartsprocolombia@gmail.com</p>
-          <p><i class="bi bi-telephone me-2"></i> +57 300 0000000</p>
-          <p><i class="bi bi-whatsapp me-2 text-success"></i> WhatsApp: 300 0000000</p>
+          <p class="fz8Rem mb-0"><i class="bi bi-geo-alt me-2"></i> Bogotá DC, Colombia</p>
+          <p class="fz8Rem mb-0"><i class="bi bi-envelope me-2"></i> bikepartsprocolombia@gmail.com</p>
+          <p class="fz8Rem mb-0"><i class="bi bi-telephone me-2"></i> +57 300 0000000</p>
+          <p class="fz8Rem mb-0"><i class="bi bi-whatsapp me-2 text-success"></i> WhatsApp: 300 0000000</p>
         </div>
 
         <div class="footer-col footer-icons">

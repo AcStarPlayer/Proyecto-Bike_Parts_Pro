@@ -3,7 +3,7 @@ import crearFormulario from "../../../componentes/formulario/formulario.js";
 import { validarInput } from "../../../componentes/input/input.js";
 import { footer } from "../../../componentes/pieDePagina/footer.js";
 
-navBar("BikePartsPro", "Panel Admin", "../../../");
+navBar("Panel Admin", "../../../");
 
 const campos = [
   { titulo: "SKU", tipo: "codigo", placeholder: "Ej: BPP-001", required: true },

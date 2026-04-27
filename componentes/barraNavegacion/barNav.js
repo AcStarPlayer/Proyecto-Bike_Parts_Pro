@@ -1,4 +1,4 @@
-export function navBar(title, description, basePath = "") {
+export function navBar(description, basePath = "") {
   const container = document.createElement("nav");
   container.className = "nav-content sticky-top";
   document.body.prepend(container);
@@ -16,9 +16,14 @@ export function navBar(title, description, basePath = "") {
 
   container.innerHTML = `
     <div class="logo-area">
-      <img src="/../img/logo2.png" alt="logo" class="nav-logo">
-      <h5 class="nav-title nav-style-text m-0">${title}</h5>
-      <p class="nav-text fw-normal nav-style-text m-0">${description}</p>
+      <img src="/../img/logo.svg" alt="logo" class="nav-logo">
+      <span class="separator"></span>
+      <div class="text-container">
+        <h5 class="nav-title nav-style-text m-0">
+          BikeParts<span class="badge-pro">PRO</span>
+        </h5>
+        <p class="nav-text m-0 f" style="color: var(--color-light);">${description}</p>
+      </div>
     </div>
 
     <button class="menu-toggle p-2 rounded-1" id="hamburguesa">
