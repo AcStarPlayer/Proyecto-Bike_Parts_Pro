@@ -48,7 +48,8 @@ export function agregarProductoAlCarritoCompras(producto) {
   } else {
     carritoCompras.push({
       sku: producto.sku,
-      nombre: producto.nombre,
+      nombre: producto.nombre || producto.titulo || "Producto",
+      marca: producto.marca || "",
       precio: Number(producto.precio) || 0,
       cantidad: 1,
     });
