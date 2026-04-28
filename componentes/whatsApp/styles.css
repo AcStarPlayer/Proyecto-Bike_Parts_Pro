@@ -1,8 +1,8 @@
 /* Botón flotante verde */
 .whatsapp-btn {
   position: fixed;
-  bottom: 50px;
-  right: 50px;
+  bottom: 0.9rem;
+  left: 0.9rem;
   width: 60px;
   height: 60px;
   background-color: #25D366; /* Verde oficial de WhatsApp */
@@ -26,8 +26,8 @@
 /* Caja del chat (inicialmente oculta) */
 .whatsapp-box {
   position: fixed;
-  bottom: 110px;           /* aparece arriba del botón */
-  right: 110px;
+  bottom: 4.5rem;           /* aparece arriba del botón */
+  left: 4.5rem;
   width: 280px;
   background-color: white;
   border-radius: 12px;

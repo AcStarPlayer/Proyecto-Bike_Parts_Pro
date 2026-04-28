@@ -6,6 +6,7 @@ import {
   whatsappButton,
 } from "../../componentes/whatsApp/whatsappBox.js";
 import { footer } from "../../componentes/pieDePagina/footer.js";
+import { inicializarBotonesCarrito } from "../carrito/carrito-events.js";
 
 navBar("Sube de nivel", "../../");
 
@@ -68,3 +69,5 @@ document.getElementById("formulario").addEventListener("submit", function (e) {
 document.querySelector(".whatsapp-components").innerHTML =
   chatbox() + whatsappButton();
 document.getElementById("footer").innerHTML = footer("../../");
+
+inicializarBotonesCarrito();

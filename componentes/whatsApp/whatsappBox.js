@@ -1,6 +1,9 @@
 function toggleWhatsApp() {
   const box = document.getElementById("whatsappBox");
   box.classList.toggle("active");
+
+  const isActive = box.classList.contains("active");
+  localStorage.setItem("whatsappOpen", isActive);
 }
 
 window.toggleWhatsApp = toggleWhatsApp;
@@ -11,6 +14,13 @@ document.addEventListener("click", function (e) {
   if (!box || !btn) return;
   if (!box.contains(e.target) && !btn.contains(e.target)) {
     box.classList.remove("active");
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const box = document.getElementById("whatsappBox");
+  if (box) {
+    box.classList.add("active");
   }
 });
 

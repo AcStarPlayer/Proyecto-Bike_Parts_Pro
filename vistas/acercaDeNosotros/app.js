@@ -2,6 +2,7 @@ import tarjetaSoloTexto from "../../componentes/tarjetas/tarjetasSoloTexto/tarje
 import tarjetasConImagen from "../../componentes/tarjetas/tarjetasConImagen/tarjetasConImagen.js";
 import { navBar } from "../../componentes/barraNavegacion/barNav.js";
 import { footer } from "../../componentes/pieDePagina/footer.js";
+import { inicializarBotonesCarrito } from "../carrito/carrito-events.js";
 
 navBar("Sube de nivel", "../../");
 
@@ -99,3 +100,4 @@ integrantes.forEach((persona) => {
 
 integrantesDiv.innerHTML = cards;
 document.getElementById("footer").innerHTML = footer("../../");
+inicializarBotonesCarrito();
