@@ -1,39 +1,60 @@
 import { navBar } from "../../../componentes/barraNavegacion/barNav.js";
 import crearFormulario from "../../../componentes/formulario/formulario.js";
-import { validarInput } from "../../../componentes/input/input.js";
 import { footer } from "../../../componentes/pieDePagina/footer.js";
+import alertas from "../../../componentes/alertas/alertas.js";
 
 navBar("Panel Admin", "../../../");
 
 const campos = [
-  { titulo: "SKU", tipo: "codigo", placeholder: "Ej: BPP-001", required: true },
+  {
+    titulo: "SKU",
+    tipo: "codigo",
+    placeholder: "Ej: BPP-001",
+    required: true,
+    mensajePersonalizado: "El SKU es obligatorio para el inventario",
+  },
   {
     titulo: "Nombre",
     tipo: "text",
     placeholder: "Ej: Llanta MTB 29",
     required: true,
+    mensajePersonalizado: "Escribe un nombre válido para el producto",
   },
-  { titulo: "Marca", tipo: "text", placeholder: "Ej: Shimano", required: true },
+  {
+    titulo: "Marca",
+    tipo: "text",
+    placeholder: "Ej: Shimano",
+    required: true,
+  },
   {
     titulo: "Precio",
     tipo: "number",
     placeholder: "Ej: 150000",
     required: true,
+    mensajePersonalizado: "El precio debe ser un valor numérico",
   },
   {
     titulo: "Descripción",
     tipo: "full-text",
     placeholder: "Ej: Cadena Shimano de alta resistencia para MTB y ruta",
     required: true,
+    mensajePersonalizado: "La descripción debe ser más detallada (mínimo 10 caracteres)",
   },
   { titulo: "Imagen", tipo: "imagen", required: true },
   { titulo: "Colores", tipo: "colores", required: true },
-  { titulo: "Stock", tipo: "number", placeholder: "Ej: 20", required: true },
+  {
+    titulo: "Stock",
+    tipo: "number",
+    placeholder: "Ej: 20",
+    required: true,
+    mensajePersonalizado: "Ingresa la cantidad disponible en stock",
+  },
   {
     titulo: "Categoría",
     tipo: "select",
     required: true,
     options: ["Transmisión", "Dirección y Control", "Frenos"],
+    mensajePersonalizado: "Debes seleccionar una categoría",
   },
 ];
 
@@ -47,42 +68,13 @@ document.getElementById("footer").innerHTML = footer("../../../");
 
 let imagenCount = 0;
 
-function validarCamposTexto() {
-  for (const campo of campos.filter(
-    (c) => c.tipo !== "imagen" && c.tipo !== "colores",
-  )) {
-    const id = campo.titulo
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
-
-    const elemento = document.getElementById(id);
-
-    if (!elemento) {
-      alert(`No se encontró el campo ${campo.titulo} en el formulario.`);
-      return false;
-    }
-    const resultado = validarInput(elemento, campo.tipo);
-
-    if (!resultado.valido) {
-      marcarError(elemento);
-      alert(resultado.mensaje || `El campo ${campo.titulo} no es válido.`);
-      elemento.focus();
-      return false;
-    }
-
-
-
-  }
-  return true;
-}
-
 function obtenerColores() {
-  return [...document.querySelectorAll(".color-fila")].map((f) => ({
-    codigo: f.querySelector(".color-picker").value,
-    nombre: f.querySelector(".color-nombre").value.trim(),
-  }))
-  .filter((color) => color.codigo);
+  return [...document.querySelectorAll(".color-fila")]
+    .map((f) => ({
+      codigo: f.querySelector(".color-picker").value,
+      nombre: f.querySelector(".color-nombre").value.trim(),
+    }))
+    .filter((color) => color.codigo);
 }
 
 async function obtenerImagenes() {
@@ -91,37 +83,19 @@ async function obtenerImagenes() {
   for (const fila of document.querySelectorAll(".imagen-fila")) {
     const tipo = fila.querySelector("input[type=radio]:checked").value;
 
-     /*
-    if (tipo === "url") {
-      imagenes.push(fila.querySelector(".imagen-url").value.trim());
-    } else {
-      const file = fila.querySelector(".imagen-archivo").files[0];
-      imagenes.push(await leerArchivo(file));
-     */
-
     if (tipo === "url") {
       const url = fila.querySelector(".imagen-url").value.trim();
-
-      if (!url) {
-        throw new Error("Debes ingresar la URL de la imagen.");
-      }
-
+      if (!url) throw new Error("Debes ingresar la URL de la imagen.");
       imagenes.push(url);
     } else {
       const file = fila.querySelector(".imagen-archivo").files[0];
-
-      if (!file) {
-        throw new Error("Debes seleccionar un archivo de imagen.");
-      }
-
+      if (!file) throw new Error("Debes seleccionar un archivo de imagen.");
       imagenes.push(await leerArchivo(file));
     }
   }
 
   return imagenes;
-}  
-    
-   
+}
 
 function agregarFilaImagen() {
   const idx = imagenCount++;
@@ -138,23 +112,17 @@ function agregarFilaImagen() {
       </div>
       <button type="button" class="btn btn-outline-danger btn-sm ms-auto btn-eliminar-imagen">🗑</button>
     </div>
-
     <input class="fs-input imagen-url w-100" type="url" placeholder="URL imagen" />
     <input class="fs-input imagen-archivo w-100" type="file" accept="image/*" style="display:none" />
   `;
 
   lista.appendChild(fila);
 
-  const radios = fila.querySelectorAll(`input[name="imagen-tipo-${idx}"]`);
-
-  radios.forEach((radio) => {
+  fila.querySelectorAll(`input[name="imagen-tipo-${idx}"]`).forEach((radio) => {
     radio.addEventListener("change", () => {
       const esArchivo = fila.querySelector(`input[value="archivo"]`).checked;
-
       fila.querySelector(".imagen-url").style.display = esArchivo ? "none" : "";
-      fila.querySelector(".imagen-archivo").style.display = esArchivo
-        ? ""
-        : "none";
+      fila.querySelector(".imagen-archivo").style.display = esArchivo ? "" : "none";
     });
   });
 
@@ -198,36 +166,23 @@ function construirProducto(colores, imagenes) {
     fechaCreacion: new Date().toISOString(),
     origen: "formulario-admin",
     activo: true,
-
     sku,
     nombre,
     titulo: nombre,
-
     marca,
     precio,
     stock,
-
     categoria,
     sistema: categoria,
-
     descripcion,
     descripcionCorta: descripcion,
-
     imagen: imagenes[0] || "",
     imagenPrincipal: imagenes[0] || "",
     imagenes,
-
     colores,
   };
 }
-/*
-function guardarProducto(producto) {
-  const productos = JSON.parse(localStorage.getItem("productos") || "[]");
-  productos.push(producto);
-  localStorage.setItem("productos", JSON.stringify(productos));
-}
 
-*/
 function guardarProducto(producto) {
   const productos = JSON.parse(localStorage.getItem("productos") || "[]");
 
@@ -239,24 +194,29 @@ function guardarProducto(producto) {
   localStorage.setItem("productos", JSON.stringify(productos));
 }
 
-
-
 function resetFormulario() {
   document.getElementById("formulario").reset();
   document.getElementById("colores-lista").innerHTML = "";
   document.getElementById("imagenes-lista").innerHTML = "";
-  /*colorCount = 0;*/
   imagenCount = 0;
-  agregarFilaColor();
   agregarFilaImagen();
 }
 
-function marcarError(input) {
-  input.style.border = "2px solid red";
-}
+function validarCampos() {
+  for (const campo of campos) {
+    if (!campo.required || campo.tipo === "colores" || campo.tipo === "imagen") continue;
 
-function limpiarError(input) {
-  input.style.border = "1px solid #cbd5e1";
+    const id = campo.titulo
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[̀-ͯ]/g, "");
+
+    const el = document.getElementById(id);
+    if (!el || !el.value.trim()) {
+      return campo.mensajePersonalizado || `El campo "${campo.titulo}" es obligatorio`;
+    }
+  }
+  return null;
 }
 
 function leerArchivo(file) {
@@ -268,108 +228,46 @@ function leerArchivo(file) {
   });
 }
 
-agregarFilaColor();
-document
-  .getElementById("btn-agregar-color")
-  .addEventListener("click", agregarFilaColor);
+document.getElementById("btn-agregar-color").addEventListener("click", agregarFilaColor);
+document.getElementById("btn-agregar-imagen").addEventListener("click", agregarFilaImagen);
 
 agregarFilaImagen();
-document
-  .getElementById("btn-agregar-imagen")
-  .addEventListener("click", agregarFilaImagen);
-
-
-/*  
-document.getElementById("formulario").addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  document.querySelectorAll(".fs-input").forEach(limpiarError);
-
-  const errorEl = document.getElementById("error");
-  errorEl.textContent = "";
-
-  if (!validarCamposTexto()) {
-    errorEl.textContent = "Revisa los campos obligatorios";
-    return;
-  }
-
-  const colores = obtenerColores();
-
-  if (!colores.length) {
-    errorEl.textContent = "Agrega al menos un color";
-    return;
-  }
-
-  const imagenes = await obtenerImagenes();
-
-  const producto = construirProducto(colores, imagenes);
-
-  guardarProducto(producto);
-
-  resetFormulario();
-
-  errorEl.textContent = "";
-  errorEl.innerHTML = `
-    <div class="alert alert-success mt-2" role="alert">
-      Producto registrado correctamente
-    </div>
-`;
-  setTimeout(() => {
-    errorEl.textContent = "";
-  }, 3000);
-});
-*/
 
 document.getElementById("formulario").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  document.querySelectorAll(".fs-input").forEach(limpiarError);
-
-  const errorEl = document.getElementById("error");
-  errorEl.textContent = "";
-  errorEl.innerHTML = "";
+  const alertaEl = document.getElementById("alerta-contenedor");
+  alertaEl.innerHTML = "";
 
   try {
-    if (!validarCamposTexto()) {
-      errorEl.textContent = "Revisa los campos obligatorios.";
+    const errorCampo = validarCampos();
+    if (errorCampo) {
+      alertaEl.innerHTML = alertas(errorCampo, "danger");
       return;
     }
 
     const colores = obtenerColores();
-
     if (!colores.length) {
-      errorEl.textContent = "Agrega al menos un color.";
+      alertaEl.innerHTML = alertas("Agrega al menos un color.", "danger");
       return;
     }
 
     const imagenes = await obtenerImagenes();
-
     if (!imagenes.length) {
-      errorEl.textContent = "Agrega al menos una imagen.";
+      alertaEl.innerHTML = alertas("Agrega al menos una imagen.", "danger");
       return;
     }
 
     const producto = construirProducto(colores, imagenes);
-
     guardarProducto(producto);
-
     resetFormulario();
 
-    errorEl.innerHTML = `
-      <div class="alert alert-success mt-2" role="alert">
-        Producto registrado correctamente
-      </div>
-    `;
+    alertaEl.innerHTML = alertas("Producto registrado correctamente.", "success");
 
     setTimeout(() => {
-      errorEl.textContent = "";
-      errorEl.innerHTML = "";
+      alertaEl.innerHTML = "";
     }, 3000);
   } catch (error) {
-    errorEl.innerHTML = `
-      <div class="alert alert-danger mt-2" role="alert">
-        ${error.message || "No fue posible registrar el producto."}
-      </div>
-    `;
+    alertaEl.innerHTML = alertas(error.message || "No fue posible registrar el producto.", "danger");
   }
 });
