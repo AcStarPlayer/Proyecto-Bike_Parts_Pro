@@ -42,28 +42,6 @@ export default function crearInput(
   required = null,
   options = null
 ) {
-  if (tipo === "colores") {
-    return `
-      <div class="fs-field">
-        <label class="fs-label">${titulo}</label>
-        <div id="colores-lista"></div>
-        <button type="button" id="btn-agregar-color" class="btn btn-outline-secondary btn-sm mt-2">
-          <i class="bi bi-plus-circle me-1"></i>Agregar color
-        </button>
-      </div>
-    `;
-  }
-  if (tipo === "imagen" && titulo) {
-    return `
-      <div class="fs-field">
-        <label class="fs-label">${titulo}</label>
-        <div id="imagenes-lista"></div>
-        <button type="button" id="btn-agregar-imagen" class="btn btn-outline-secondary btn-sm mt-2">
-          <i class="bi bi-plus-circle me-1"></i>Agregar imagen
-        </button>
-      </div>
-    `;
-  }
   if (tipo === "select") {
     return select(titulo, options);
   }
