@@ -1,5 +1,6 @@
 @import url(vistas/carrito/styles.css);
-/* VARIABLES DE COLOR */
+
+/* ================= VARIABLES ================= */
 :root {
   --color-primary: #2D5A3D;
   --color-primary-opacity: rgba(45, 90, 61, 0.3);
@@ -17,13 +18,19 @@
   --color-error: #C0392B;
 }
 
-/* ESTILO GENERAL */
+/* ================= GLOBAL ================= */
 body {
   background-color: var(--color-light);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* TÍTULOS */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ================= TEXTOS ================= */
 h1, h2, h3 {
   color: var(--color-primary-dark);
 }
@@ -40,48 +47,41 @@ h1, h2, h3 {
   color: var(--color-gray) !important;
 }
 
+/* ================= HERO ================= */
 .hero {
   position: relative;
   height: 500px;
-
-  /* 🔥 IMAGEN BIEN CONFIGURADA (esto arregla el problema de la izquierda) */
   background-image: url("img2/banner.jpg");
-  background-size: cover;         /* ocupa todo */
-  background-position: center;    /* centra la imagen */
-  background-repeat: no-repeat;   /* evita que se repita */
-
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   display: flex;
   align-items: center;
   padding: 60px;
   color: white;
 }
 
-/* 🔥 ESTE ES TU SOMBREADO (NO SE TOCA) */
 .hero-overlay {
   position: absolute;
   top: 0;
-  left: 0; /* importante */
+  left: 0;
   width: 100%;
   height: 100%;
-
   background: linear-gradient(
     90deg,
     rgba(26, 52, 39, 0.95) 0%,
     rgba(26, 52, 39, 0.80) 40%,
     rgba(0, 0, 0, 0.15) 100%
   );
-
   z-index: 1;
 }
 
-/* CONTENIDO ENCIMA DEL SOMBREADO */
 .hero-content {
   position: relative;
   z-index: 2;
   max-width: 500px;
 }
 
-/* ETIQUETA */
 .hero-tag {
   background: var(--color-accent);
   color: var(--color-white);
@@ -91,7 +91,6 @@ h1, h2, h3 {
   font-weight: bold;
 }
 
-/* TITULO */
 .hero-content h1 {
   font-size: 48px;
   margin: 15px 0;
@@ -102,162 +101,114 @@ h1, h2, h3 {
   color: var(--color-accent);
 }
 
-/* TEXTO */
 .hero-content p {
   margin-bottom: 20px;
   color: #ddd;
 }
 
-/* BOTONES */
 .hero-buttons {
   display: flex;
   gap: 10px;
 }
 
+/* ================= CARRUSEL (BOOTSTRAP) ================= */
 .promo {
-  padding: 40px;
-  background: var(--color-light);
+  padding: 20px 0;
 }
 
-.carousel {
-  position: relative;
-  overflow: hidden;
-  border-radius: 15px;
-}
-
-#prevBtn, #nextBtn {
-  position: absolute;
-  top: 50%;
-}
-
-/* CONTENEDOR */
-.carousel-track {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
-}
-
-/* SLIDE */
-.slide {
-  min-width: 100%;
-  position: relative;
-}
-
-/* IMAGEN */
-.slide img {
-  width: 100%;
-  height: 300px;
+.carousel-item img {
+  height: 450px;
   object-fit: cover;
-  filter: brightness(0.6);
+  border-radius: 12px;
 }
 
-/* TEXTO ENCIMA */
-.slide-content {
-  position: absolute;
-  top: 50%;
-  left: 50px;
-  transform: translateY(-50%);
-  color: white;
-  max-width: 400px;
+.carousel-caption {
+  background: rgba(243, 241, 241, 0.5);
+  padding: 20px;
+  border-radius: 10px;
 }
 
-/* TITULO */
-.slide-content h2 {
-  font-size: 28px;
-  margin-bottom: 10px;
+.carousel-caption .btn {
+  margin-top: 10px;
 }
-
-/* TEXO */
-.slide-content p {
-  margin-bottom: 15px;
-}
-
-/* BOTÓN */
-.slide-content button {
-  background: var(--color-accent);
-  color: var(--color-white);
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-/* BOTONES LATERALES */
-
-.prev { left: 10px; }
-.next { right: 10px; }
 
 /* ================= REPUESTOS ================= */
-.repuestos {
-  padding: 40px;
-  background: var(--color-white);
-}
-
-.repuestos h2 {
-  color: var(--color-primary-dark);
-}
-
-/* CONTENEDOR SCROLL HORIZONTAL */
 .repuestos-container {
-  margin: 2rem;
   display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-  justify-content: center;
+  gap: 1.5rem;
+  overflow-x: auto; /* 👈 scroll horizontal */
+  padding: 20px;
+  scroll-snap-type: x mandatory;
 }
 
-/* TARJETA */
-.repuesto-card {
-  min-width: 220px;
-  background: var(--color-white);
-  border-radius: 12px;
-  padding: 15px;
-  position: relative;
-  flex-shrink: 0;
-  transition: 0.3s;
+.repuestos-container::-webkit-scrollbar {
+  height: 8px;
 }
 
-/* IMAGEN */
-.repuesto-card img {
-  width: 100%;
-  height: 140px;
-  object-fit: contain;
+.repuestos-container::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
 }
 
-/* TITULO */
-.repuesto-card h3 {
-  font-size: 14px;
-  margin: 10px 0;
+/* cada card */
+.repuestos-container .card {
+  flex: 0 0 auto; /* 👈 NO se encogen */
+  scroll-snap-align: start;
 }
 
-/* PRECIO */
-.precio {
-  font-weight: bold;
-  color: var(--color-primary);
-}
 
-/* BADGE */
-.badge {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background: var(--color-error);
-  color: var(--color-white);
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 5px;
-}
 
 /* HOVER */
 .repuesto-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
 }
-/* ================= RESPONSIVE ================= */
 
-/* 📱 CELULARES */
+.repuesto-card:hover img {
+  transform: scale(1.04);
+}
+
+/* ESTRELLAS */
+.stars {
+  display: flex;
+  gap: 2px;
+  color: #FFC107;
+  font-size: 14px;
+}
+
+.stars i {
+  transition: 0.2s;
+}
+
+.repuesto-card:hover .stars i {
+  transform: scale(1.1);
+}
+
+/* ================= TOOLTIP ================= */
+.tooltip {
+  position: absolute;
+  background: black;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  display: none;
+  pointer-events: none;
+}
+
+.hotspot {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+/* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
 
-  /* HERO */
   .hero {
     height: auto;
     padding: 30px 20px;
@@ -283,7 +234,6 @@ h1, h2, h3 {
     width: 100%;
   }
 
-  /* REPUESTOS */
   .repuestos {
     padding: 20px;
   }
@@ -296,52 +246,19 @@ h1, h2, h3 {
     height: 100px;
   }
 
-  /* CARRUSEL */
-  .slide img {
-    height: 200px;
+  .carousel-item img {
+    height: 250px;
   }
-
-  .slide-content {
-    left: 20px;
-    right: 20px;
-    max-width: 100%;
-  }
-
-  .slide-content h2 {
-    font-size: 18px;
-  }
-
-  .slide-content p {
-    font-size: 14px;
-  }
-
-  .slide-content button {
-    width: 100%;
-  }
-
 }
 
-
-/* 📲 TABLETS */
+/* TABLETS */
 @media (max-width: 1024px) {
-
   .hero-content h1 {
     font-size: 36px;
   }
-
-  .slide-content {
-    left: 30px;
-  }
-
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-
-/* RESPONSIVE */
+/* OTROS COMPONENTES */
 @media (max-width: 768px) {
   .bike-layout {
     grid-template-columns: 1fr;
@@ -356,99 +273,3 @@ img {
     order: 1;
   }
 }
-
-
-/* TOOLTIP */
-.tooltip {
-  position: absolute;
-  background: black;
-  color: white;
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-size: 13px;
-  display: none;
-  pointer-events: none;
-}
-
-.hotspot {
-  animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.3); }
-  100% { transform: scale(1); }
-}
-
-.repuesto-card {
-  min-width: 220px;
-  background: var(--color-white);
-  border-radius: 14px;
-  padding: 15px;
-  flex-shrink: 0;
-  transition: all 0.25s ease;
-  border: 1px solid var(--color-border);
-}
-
-/* IMAGEN */
-.repuesto-card img {
-  width: 100%;
-  height: 140px;
-  object-fit: contain;
-  margin-bottom: 10px;
-  transition: 0.3s;
-}
-
-/* TITULO */
-.repuesto-card h3 {
-  font-size: 14px;
-  margin: 5px 0;
-  color: var(--color-dark);
-  font-weight: 500;
-}
-
-/* PRECIO */
-.precio {
-  font-size: 16px;
-  font-weight: bold;
-  color: var(--color-primary);
-}
-
-
-/* HOVER SUAVE (sin exagerar) */
-.repuesto-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
-}
-
-.repuesto-card:hover img {
-  transform: scale(1.04);
-}
-
-.stars {
-  display: flex;
-  gap: 2px;
-  color: #FFC107; /* amarillo tipo tienda */
-  font-size: 14px;
-}
-
-.stars i {
-  transition: 0.2s;
-}
-
-/* efecto suave */
-.repuesto-card:hover .stars i {
-  transform: scale(1.1);
-}
-.stars {
-  display: flex;
-  gap: 2px;
-  color: #FFC107; /* amarillo tipo tienda */
-  font-size: 14px;
-}
-
-.stars i {
-  transition: 0.2s;
-}
-
-
