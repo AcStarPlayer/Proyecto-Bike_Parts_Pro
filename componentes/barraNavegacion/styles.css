@@ -4,6 +4,29 @@
   object-fit: contain;
 }
 
+.separator {
+  width: 1px;
+  height: 30px;
+  background-color: var(--color-primary-light);
+}
+
+.badge-pro {
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.90rem;
+  margin-left: 4px;
+  display: inline-block;
+  line-height: 1;
+}
+
+.text-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .logo-area{
   display: flex;
   align-items: center;
@@ -39,7 +62,7 @@
 
 .nav-style-text {
   color: var(--color-white);
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.95rem;
 }
 
@@ -70,6 +93,10 @@
   transition: all 0.3s ease;
 }
 
+.nav-text {
+    font-size: 0.75rem !important;
+  }
+
 @media (max-width: 900px) {
   .menu-toggle {
     display: flex;
@@ -89,9 +116,7 @@
   .botones-nav.active {
     display: flex;
   }
-  .nav-text {
-    display: none;
-  }
+  
   .botones-nav li {
     width: 100%;
   }

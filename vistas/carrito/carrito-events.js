@@ -50,23 +50,66 @@ function inyectarPanelCarrito() {
   `;
 
   document.body.appendChild(panel);
-  document.getElementById("boton-vaciar-carrito").addEventListener("click", vaciarCarritoCompras);
+
+  panel.addEventListener('show.bs.offcanvas', () => {
+    const botonFlotante = document.getElementById("boton-flotante-carrito");
+    if (botonFlotante) {
+      botonFlotante.style.opacity = "0";
+      botonFlotante.style.pointerEvents = "none";
+    }
+  });
+
+  panel.addEventListener('hide.bs.offcanvas', () => {
+    const botonFlotante = document.getElementById("boton-flotante-carrito");
+    if (botonFlotante) {
+      botonFlotante.style.opacity = "1";
+      botonFlotante.style.pointerEvents = "auto";
+    }
+  });
+
+  document
+    .getElementById("boton-vaciar-carrito")
+    .addEventListener("click", vaciarCarritoCompras);
 }
 
 export function inicializarBotonesCarrito() {
   inyectarPanelCarrito();
   renderizarCarritoCompras();
 
-  document.querySelectorAll(".btn-action").forEach((btn, index) => {
-    btn.addEventListener("click", () => {
-      const producto = productosPredeterminados[index];
-      if (!producto) return;
+  const productosGuardados = JSON.parse(
+    localStorage.getItem("productos") || "null",
+  );
+  const listaProductosCatalogo =
+    Array.isArray(productosGuardados) && productosGuardados.length
+      ? productosGuardados
+      : productosPredeterminados;
 
-      agregarProductoAlCarritoCompras({
-        nombre: producto.titulo,
-        sku: producto.sku,
-        precio: Number(producto.precio),
+  document
+    .querySelectorAll(".boton-agregar-carrito-producto")
+    .forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const skuProducto = btn.getAttribute("data-sku");
+
+        const producto = listaProductosCatalogo.find(
+          (item) => String(item.sku) === String(skuProducto),
+        );
+
+        if (!producto) return;
+
+        agregarProductoAlCarritoCompras({
+          nombre: producto.nombre || producto.titulo || "Producto",
+          sku: producto.sku,
+          precio: Number(producto.precio) || 0,
+          marca: producto.marca || "",
+        });
+
+        btn.classList.add("agregado");
+        btn.textContent = "Agregado";
+
+        setTimeout(() => {
+          btn.classList.remove("agregado");
+          btn.textContent = "Agregar al carrito";
+        }, 900);
       });
     });
-  });
 }

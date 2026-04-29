@@ -1,10 +1,26 @@
-.card,
-.card img {
-  transition: transform 0.4s ease;
+.catalogo-section {
+  min-height: 60vh;
 }
 
-.card:hover {
-  transform: scale(1.1);
-  z-index: 10;
-  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+#catalogo .card {
+  width: 16rem;
+  max-width: 100%;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  #catalogo .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  #catalogo .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    z-index: 10;
+  }
+}
+
+@media (max-width: 575.98px) {
+  #catalogo .card {
+    width: 80% !important;
+  }
 }

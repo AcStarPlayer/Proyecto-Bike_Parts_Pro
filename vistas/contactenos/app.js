@@ -1,33 +1,43 @@
 import { navBar } from "../../componentes/barraNavegacion/barNav.js";
-import crearFormulario from "../../componentes/formulario/formulario.js";
-import { validarInput } from "../../componentes/input/input.js";
+import crearFormulario, { validarFormulario } from "../../componentes/formulario/formulario.js";
 import {
   chatbox,
   whatsappButton,
 } from "../../componentes/whatsApp/whatsappBox.js";
 import { footer } from "../../componentes/pieDePagina/footer.js";
+import { inicializarBotonesCarrito } from "../carrito/carrito-events.js";
+import alertas from "../../componentes/alertas/alertas.js";
 
-navBar("BikePartsPro", "Sube de nivel", "../../");
+navBar("Sube de nivel", "../../");
 
 const campos = [
-  { titulo: "Nombre", tipo: "text", placeholder: "Tu nombre", required: true },
+  {
+    titulo: "Nombre",
+    tipo: "text",
+    placeholder: "Tu nombre",
+    required: true,
+    mensajePersonalizado: "Ingresa el campo nombre",
+  },
   {
     titulo: "Correo",
     tipo: "email",
     placeholder: "tu@email.com",
     required: true,
+    mensajePersonalizado: "Ingresa un correo válido",
   },
   {
     titulo: "Teléfono",
     tipo: "number",
     placeholder: "300 123 4567",
     required: true,
+    mensajePersonalizado: "Ingresa un número telefónico válido",
   },
   {
     titulo: "Mensaje",
     tipo: "full-text",
     placeholder: "Escribe tu mensaje",
     required: true,
+    mensajePersonalizado: "Escribe tu mensaje",
   },
 ];
 
@@ -37,34 +47,23 @@ document.getElementById("contenedor-form").innerHTML = crearFormulario(
   "Enviar mensaje",
 );
 
-function marcarError(input) {
-  input.style.border = "2px solid red";
-}
-function limpiarError(input) {
-  input.style.border = "1px solid #cbd5e1";
-}
-
 document.getElementById("formulario").addEventListener("submit", function (e) {
-  document.querySelectorAll(".fs-input, .fs-textarea").forEach(limpiarError);
-  const error = document.getElementById("error");
-  error.textContent = "";
+  const alertaContenedor = document.getElementById("alerta-contenedor");
+  alertaContenedor.innerHTML = "";
 
-  for (const campo of campos) {
-    const id = campo.titulo
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
-    const elemento = document.getElementById(id);
-    const resultado = validarInput(elemento, campo.tipo);
-    if (!resultado.valido) {
-      e.preventDefault();
-      marcarError(elemento);
-      error.textContent = resultado.mensaje;
-      return;
-    }
+  const errores = validarFormulario(campos);
+
+  if (errores.length > 0) {
+    e.preventDefault();
+    const mensaje = errores.length === 1
+      ? errores[0]
+      : `<ul class="mb-0 ps-3">${errores.map((err) => `<li>${err}</li>`).join("")}</ul>`;
+    alertaContenedor.innerHTML = alertas(mensaje, "danger", "Atención");
   }
 });
 
 document.querySelector(".whatsapp-components").innerHTML =
   chatbox() + whatsappButton();
 document.getElementById("footer").innerHTML = footer("../../");
+
+inicializarBotonesCarrito();

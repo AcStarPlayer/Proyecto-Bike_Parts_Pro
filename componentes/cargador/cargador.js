@@ -43,3 +43,5 @@ export default function cargador() {
     </svg>
     `;
 }
+
+document.querySelector("body").innerHTML = cargador();
