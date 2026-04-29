@@ -3,6 +3,22 @@ import crearFormulario from "../../../componentes/formulario/formulario.js";
 import { validarInput } from "../../../componentes/input/input.js";
 import { footer } from "../../../componentes/pieDePagina/footer.js";
 
+const datosSesionGuardada =
+  JSON.parse(localStorage.getItem("sesionBikePartsPro")) || null;
+
+const tienePermisoAdminAuxiliar =
+  datosSesionGuardada &&
+  datosSesionGuardada.autenticado &&
+  (
+    datosSesionGuardada.rol === "adminAuxiliar" ||
+    datosSesionGuardada.adminAuxiliar === true
+  );
+
+if (!tienePermisoAdminAuxiliar) {
+  window.location.href = "../../login/login.html";
+}
+
+
 navBar("Panel Admin", "../../../");
 
 const campos = [
