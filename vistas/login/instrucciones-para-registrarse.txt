@@ -1,0 +1,13 @@
+Instrucciones para el SignIn
+
+El codigo aleatorio de 6 digitos simulado se puede ver por consola. usarlo si lo que quieres es
+registrarse como cliente
+
+siquiere registrarse como cliente premium use cualquiera de los siguinetes 3 codigos de 6 digitos
+
+const CODIGOS_CLIENTE_PREMIUM = ["123456", "789012", "345678"];
+
+si quiere registrarse como admin auxiliar para ver todas las vistas incluido el formulario 
+de producto use cualquiere de los siguientes 3 codigos
+
+const CODIGOS_ADMIN_AUXILIAR = ["999888", "777666", "555444"];
