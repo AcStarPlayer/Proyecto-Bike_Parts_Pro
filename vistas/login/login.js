@@ -170,8 +170,9 @@ formularioLogin.addEventListener("submit", (e) => {
 formularioDatosRegistro.addEventListener("submit", async (e) => {
   e.preventDefault();
   
-  const nombre = document.getElementById("nombre-registro").value.trim();
-  const email = document.getElementById("email-registro").value.trim().toLowerCase();
+  const nombre = document.getElementById("nombre-registro").value.trim(); // Captura el nombre
+  const email = document.getElementById("email-registro").value.trim().toLowerCase(); // Captura el email
+  const telefono = document.getElementById("telefono-registro").value.trim(); // Captura el teléfono
   
   if (usuarioExiste(email)) {
     mostrarMensaje(mensajeRegistroPaso1, "warning", "Este correo ya está registrado");
@@ -240,6 +241,7 @@ formularioCodigoVerificacion.addEventListener("submit", (e) => {
   }
 
   const nombre = document.getElementById("nombre-registro").value.trim();
+  const telefono = document.getElementById("telefono-registro").value.trim();
 
   // Determinar jerarquía por código quemado
   let rol = "cliente";
@@ -259,6 +261,7 @@ formularioCodigoVerificacion.addEventListener("submit", (e) => {
   const nuevoUsuario = {
     nombre,
     email,
+    telefono,
     password,
     rol,
     clientePremium,
