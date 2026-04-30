@@ -1,5 +1,5 @@
 import { navBar } from "../../../componentes/barraNavegacion/barNav.js";
-import crearFormulario from "../../../componentes/formulario/formulario.js";
+import crearFormulario, { validarFormulario } from "../../../componentes/formulario/formulario.js";
 import { footer } from "../../../componentes/pieDePagina/footer.js";
 import alertas from "../../../componentes/alertas/alertas.js";
 
@@ -25,6 +25,7 @@ const campos = [
     tipo: "text",
     placeholder: "Ej: Shimano",
     required: true,
+    mensajePersonalizado: "Ingresa una marca válida",
   },
   {
     titulo: "Precio",
@@ -40,8 +41,6 @@ const campos = [
     required: true,
     mensajePersonalizado: "La descripción debe ser más detallada (mínimo 10 caracteres)",
   },
-  { titulo: "Imagen", tipo: "imagen", required: true },
-  { titulo: "Colores", tipo: "colores", required: true },
   {
     titulo: "Stock",
     tipo: "number",
@@ -58,10 +57,35 @@ const campos = [
   },
 ];
 
+function htmlWidgetImagenes() {
+  return `
+    <div class="fs-field">
+      <label class="fs-label">Imagen</label>
+      <div id="imagenes-lista"></div>
+      <button type="button" id="btn-agregar-imagen" class="btn btn-outline-secondary btn-sm mt-2">
+        <i class="bi bi-plus-circle me-1"></i>Agregar imagen
+      </button>
+    </div>
+  `;
+}
+
+function htmlWidgetColores() {
+  return `
+    <div class="fs-field">
+      <label class="fs-label">Colores</label>
+      <div id="colores-lista"></div>
+      <button type="button" id="btn-agregar-color" class="btn btn-outline-secondary btn-sm mt-2">
+        <i class="bi bi-plus-circle me-1"></i>Agregar color
+      </button>
+    </div>
+  `;
+}
+
 document.getElementById("contenedor-form").innerHTML = crearFormulario(
   null,
   campos,
   "Registrar producto",
+  htmlWidgetImagenes() + htmlWidgetColores(),
 );
 
 document.getElementById("footer").innerHTML = footer("../../../");
@@ -85,7 +109,7 @@ async function obtenerImagenes() {
 
     if (tipo === "url") {
       const url = fila.querySelector(".imagen-url").value.trim();
-      if (!url) throw new Error("Debes ingresar la URL de la imagen.");
+      if (!url) throw new Error("Debes ingresar al menos una URL como imagen.");
       imagenes.push(url);
     } else {
       const file = fila.querySelector(".imagen-archivo").files[0];
@@ -95,6 +119,31 @@ async function obtenerImagenes() {
   }
 
   return imagenes;
+}
+
+function validarWidgets() {
+  const errores = [];
+
+  const listaImagenes = document.getElementById("imagenes-lista");
+  let imagenValida = false;
+  listaImagenes.querySelectorAll(".imagen-fila").forEach((fila) => {
+    const radio = fila.querySelector("input[type=radio]:checked");
+    if (!radio) return;
+    if (radio.value === "url") {
+      if (fila.querySelector(".imagen-url")?.value.trim()) imagenValida = true;
+    } else {
+      if (fila.querySelector(".imagen-archivo")?.files.length > 0) imagenValida = true;
+    }
+  });
+  listaImagenes.style.outline = imagenValida ? "" : "1px solid red";
+  if (!imagenValida) errores.push("Agrega al menos una imagen válida");
+
+  const listaColores = document.getElementById("colores-lista");
+  const tieneColores = listaColores.querySelectorAll(".color-fila").length > 0;
+  listaColores.style.outline = tieneColores ? "" : "1px solid red";
+  if (!tieneColores) errores.push("Agrega al menos un color");
+
+  return errores;
 }
 
 function agregarFilaImagen() {
@@ -202,23 +251,6 @@ function resetFormulario() {
   agregarFilaImagen();
 }
 
-function validarCampos() {
-  for (const campo of campos) {
-    if (!campo.required || campo.tipo === "colores" || campo.tipo === "imagen") continue;
-
-    const id = campo.titulo
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[̀-ͯ]/g, "");
-
-    const el = document.getElementById(id);
-    if (!el || !el.value.trim()) {
-      return campo.mensajePersonalizado || `El campo "${campo.titulo}" es obligatorio`;
-    }
-  }
-  return null;
-}
-
 function leerArchivo(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -240,24 +272,18 @@ document.getElementById("formulario").addEventListener("submit", async (e) => {
   alertaEl.innerHTML = "";
 
   try {
-    const errorCampo = validarCampos();
-    if (errorCampo) {
-      alertaEl.innerHTML = alertas(errorCampo, "danger");
+    const errores = [...validarFormulario(campos), ...validarWidgets()];
+
+    if (errores.length > 0) {
+      const mensaje = errores.length === 1
+        ? errores[0]
+        : `<ul class="mb-0 ps-4" style="list-style-type:disc">${errores.map((err) => `<li class="mt-1">${err}</li>`).join("")}</ul>`;
+      alertaEl.innerHTML = alertas(mensaje, "danger");
       return;
     }
 
     const colores = obtenerColores();
-    if (!colores.length) {
-      alertaEl.innerHTML = alertas("Agrega al menos un color.", "danger");
-      return;
-    }
-
     const imagenes = await obtenerImagenes();
-    if (!imagenes.length) {
-      alertaEl.innerHTML = alertas("Agrega al menos una imagen.", "danger");
-      return;
-    }
-
     const producto = construirProducto(colores, imagenes);
     guardarProducto(producto);
     resetFormulario();
