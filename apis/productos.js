@@ -4,7 +4,7 @@ export const productosPredeterminados = [
     titulo: "Cadena 12 vel 1/2x11/128",
     precio: 167000,
     descripcion: "Cadena super ligera perforada",
-    imagen: "../../img/index/1.webp"
+    imagen: "../img2/1.webp"
   },
   {
     sku: "BPP-011",
