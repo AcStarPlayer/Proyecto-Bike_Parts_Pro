@@ -7,17 +7,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem 1.5rem;
+  padding: 1rem;
 }
 
 .login-card-bikeparts {
   width: 100%;
-  max-width: 680px;
+  /*max-width: 680px;*/
   border: 1px solid var(--color-border);
   border-radius: 18px;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
   background-color: var(--color-white);
   backdrop-filter: blur(10px);
+  max-width: 500px; 
+  margin: 0 auto;
 }
 
 .login-card-bikeparts .form-control:focus {
