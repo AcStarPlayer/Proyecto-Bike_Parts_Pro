@@ -52,7 +52,7 @@ h1, h2, h3 {
   padding: 60px;
   color: white;
 
-  background-image: url("img/index/banner.jpg");
+  background-image: url("img2/banner.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -110,7 +110,7 @@ h1, h2, h3 {
 }
 
 
-/* ================= CARRUSEL (ELIMINAR SI USAS BOOTSTRAP) ================= */
+/* ================= BOOTSTRAP CAROUSEL CUSTOM ================= */
 
 .carousel-item img {
   height: 400px;
@@ -124,18 +124,11 @@ h1, h2, h3 {
 
 .carousel-caption h3 {
   font-weight: bold;
+  font-size: 28px;
 }
 
 .carousel-caption p {
   color: #ddd;
-}
-
-/* ================= REPUESTOS ================= */
-
-
-
-.repuesto-card:hover img {
-  transform: scale(1.04);
 }
 
 
