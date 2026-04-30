@@ -1,4 +1,6 @@
+/* ================= IMPORTS ================= */
 @import url(vistas/carrito/styles.css);
+
 
 /* ================= VARIABLES ================= */
 :root {
@@ -18,7 +20,8 @@
   --color-error: #C0392B;
 }
 
-/* ================= GLOBAL ================= */
+
+/* ================= BASE ================= */
 body {
   background-color: var(--color-light);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -27,41 +30,32 @@ body {
 img {
   max-width: 100%;
   height: auto;
-  display: block;
 }
 
-/* ================= TEXTOS ================= */
+
+/* ================= TIPOGRAFÍA ================= */
 h1, h2, h3 {
   color: var(--color-primary-dark);
 }
 
-.text-dark {
-  color: var(--color-primary-dark) !important;
-}
+.text-dark { color: var(--color-primary-dark) !important; }
+.text-primary { color: var(--color-primary) !important; }
+.text-secondary { color: var(--color-gray) !important; }
 
-.text-primary {
-  color: var(--color-primary) !important;
-}
-
-.text-secondary {
-  color: var(--color-gray) !important;
-}
 
 /* ================= HERO ================= */
 .hero {
   position: relative;
   height: 500px;
-
-  /* 🔥 IMAGEN BIEN CONFIGURADA (esto arregla el problema de la izquierda) */
-  background-image: url("img/index/banner.jpg");
-  background-size: cover;         /* ocupa todo */
-  background-position: center;    /* centra la imagen */
-  background-repeat: no-repeat;   /* evita que se repita */
-
   display: flex;
   align-items: center;
   padding: 60px;
   color: white;
+
+  background-image: url("img/index/banner.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .hero-overlay {
@@ -70,13 +64,14 @@ h1, h2, h3 {
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 1;
+
   background: linear-gradient(
     90deg,
     rgba(26, 52, 39, 0.95) 0%,
     rgba(26, 52, 39, 0.80) 40%,
     rgba(0, 0, 0, 0.15) 100%
   );
-  z-index: 1;
 }
 
 .hero-content {
@@ -114,64 +109,37 @@ h1, h2, h3 {
   gap: 10px;
 }
 
-/* ================= CARRUSEL (BOOTSTRAP) ================= */
-.promo {
-  padding: 20px 0;
-}
+
+/* ================= CARRUSEL (ELIMINAR SI USAS BOOTSTRAP) ================= */
 
 .carousel-item img {
-  height: 450px;
+  height: 400px;
   object-fit: cover;
-  border-radius: 12px;
+  filter: brightness(0.7);
 }
 
 .carousel-caption {
-  background: rgba(243, 241, 241, 0.5);
-  padding: 20px;
-  border-radius: 10px;
+  bottom: 20%;
 }
 
-.carousel-caption .btn {
-  margin-top: 10px;
+.carousel-caption h3 {
+  font-weight: bold;
+}
+
+.carousel-caption p {
+  color: #ddd;
 }
 
 /* ================= REPUESTOS ================= */
-.repuestos-container {
-  display: flex;
-  gap: 1.5rem;
-  overflow-x: auto; /* 👈 scroll horizontal */
-  padding: 20px;
-  scroll-snap-type: x mandatory;
-}
-
-.repuestos-container::-webkit-scrollbar {
-  height: 8px;
-}
-
-.repuestos-container::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 10px;
-}
-
-/* cada card */
-.repuestos-container .card {
-  flex: 0 0 auto; /* 👈 NO se encogen */
-  scroll-snap-align: start;
-}
 
 
-
-/* HOVER */
-.repuesto-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
-}
 
 .repuesto-card:hover img {
   transform: scale(1.04);
 }
 
-/* ESTRELLAS */
+
+/* ================= RATING ================= */
 .stars {
   display: flex;
   gap: 2px;
@@ -186,6 +154,7 @@ h1, h2, h3 {
 .repuesto-card:hover .stars i {
   transform: scale(1.1);
 }
+
 
 /* ================= TOOLTIP ================= */
 .tooltip {
@@ -209,7 +178,10 @@ h1, h2, h3 {
   100% { transform: scale(1); }
 }
 
+
 /* ================= RESPONSIVE ================= */
+
+/* 📱 CELULARES */
 @media (max-width: 768px) {
 
   .hero {
@@ -232,9 +204,8 @@ h1, h2, h3 {
     align-items: center;
   }
 
-  /* REPUESTOS */
-  .repuestos {
-    padding: 20px;
+  .hero-buttons button {
+    width: 70%;
   }
 
   .repuesto-card {
@@ -245,130 +216,46 @@ h1, h2, h3 {
     height: 100px;
   }
 
-  .carousel-item img {
-    height: 250px;
+  .slide img {
+    height: 200px;
   }
-}
 
-/* TABLETS */
-@media (max-width: 1024px) {
-  .hero-content h1 {
-    font-size: 36px;
+  .slide-content {
+    left: 20px;
+    right: 20px;
+    max-width: 100%;
   }
-}
 
-/* OTROS COMPONENTES */
-@media (max-width: 768px) {
+  .slide-content h2 {
+    font-size: 18px;
+  }
+
+  .slide-content p {
+    font-size: 14px;
+  }
+
+  .slide-content button {
+    width: 100%;
+  }
+
   .bike-layout {
     grid-template-columns: 1fr;
     text-align: center;
   }
 
-  .bike-info {
-    order: 2;
+  .bike-info { order: 2; }
+  .bike-container { order: 1; }
+}
+
+
+/* 📲 TABLETS */
+@media (max-width: 1024px) {
+  .hero-content h1 {
+    font-size: 36px;
   }
 
-  .bike-container {
-    order: 1;
-  }
-
-  .hero-buttons button {
-    width: 70%;
+  .slide-content {
+    left: 30px;
   }
 }
-
-
-/* TOOLTIP */
-.tooltip {
-  position: absolute;
-  background: black;
-  color: white;
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-size: 13px;
-  display: none;
-  pointer-events: none;
-}
-
-.hotspot {
-  animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.3); }
-  100% { transform: scale(1); }
-}
-
-.repuesto-card {
-  min-width: 220px;
-  background: var(--color-white);
-  border-radius: 14px;
-  padding: 15px;
-  flex-shrink: 0;
-  transition: all 0.25s ease;
-  border: 1px solid var(--color-border);
-}
-
-/* IMAGEN */
-.repuesto-card img {
-  width: 100%;
-  height: 140px;
-  object-fit: contain;
-  margin-bottom: 10px;
-  transition: 0.3s;
-}
-
-/* TITULO */
-.repuesto-card h3 {
-  font-size: 14px;
-  margin: 5px 0;
-  color: var(--color-dark);
-  font-weight: 500;
-}
-
-/* PRECIO */
-.precio {
-  font-size: 16px;
-  font-weight: bold;
-  color: var(--color-primary);
-}
-
-
-/* HOVER SUAVE (sin exagerar) */
-.repuesto-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
-}
-
-.repuesto-card:hover img {
-  transform: scale(1.04);
-}
-
-.stars {
-  display: flex;
-  gap: 2px;
-  color: #FFC107; /* amarillo tipo tienda */
-  font-size: 14px;
-}
-
-.stars i {
-  transition: 0.2s;
-}
-
-/* efecto suave */
-.repuesto-card:hover .stars i {
-  transform: scale(1.1);
-}
-.stars {
-  display: flex;
-  gap: 2px;
-  color: #FFC107; /* amarillo tipo tienda */
-  font-size: 14px;
-}
-
-.stars i {
-  transition: 0.2s;
-}
-
 
