@@ -25,7 +25,8 @@ export function navBar(description, basePath = "") {
         <p class="nav-text m-0 f" style="color: var(--color-light);">${description}</p>
       </div>
     </div>
-
+      <div><input type="text" placeholder="busca tu respuesto aqui"></div>
+      <button>Buscar</button>
     <button class="menu-toggle p-2 rounded-1" id="hamburguesa">
       <span class="bar"></span>
       <span class="bar"></span>
