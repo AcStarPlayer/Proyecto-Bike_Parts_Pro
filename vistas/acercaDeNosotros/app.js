@@ -4,7 +4,7 @@ import { navBar } from "../../componentes/barraNavegacion/barNav.js";
 import { footer } from "../../componentes/pieDePagina/footer.js";
 import { inicializarBotonesCarrito } from "../carrito/carrito-events.js";
 
-navBar("Sube de nivel", "../../");
+navBar("", "../../");
 
 const valoresEmpresariales = {
   Misión:

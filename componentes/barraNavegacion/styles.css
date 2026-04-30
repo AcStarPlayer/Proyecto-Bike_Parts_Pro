@@ -134,7 +134,7 @@
   transform: scale(1.02);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 800px) {
   .menu-toggle {
     display: flex;
   }
@@ -161,5 +161,16 @@
     border-radius: 0px;
     background-color: var(--color-primary-opacity);
   }
+  .search-container button {
+    font-size: 0;
+    padding: 10px;
+    border-radius: 50%; 
+  }
+
+  .search-container button::before {
+    content: "🔍"; 
+    font-size: 1.2rem;
+  }
 }
+
 
