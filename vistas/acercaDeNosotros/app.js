@@ -33,7 +33,7 @@ const integrantes = [
     descripcion: "Apasionada por interfaces modernas y funcionales.",
     github: "https://github.com/alexandragdiaz",
     linkedin: "https://www.linkedin.com/in/alexandra-gutierrez-diaz-developer/",
-    imagen: "../../img/foto1.jpeg",
+    imagen: "../../img/integrantes/foto1.jpeg",
   },
   {
     nombre: "Brayan Castro",
@@ -41,7 +41,7 @@ const integrantes = [
     descripcion: "Experiencia en apps web y e-commerce.",
     github: "https://github.com/AcStarPlayer",
     linkedin: "https://www.linkedin.com/in/bandresdev/",
-    imagen: "../../img/foto3.jpeg",
+    imagen: "../../img/integrantes/foto3.jpeg",
   },
   {
     nombre: "Jordan Barrera",
@@ -50,7 +50,7 @@ const integrantes = [
     github: "https://github.com/AcStarPlayer",
     linkedin:
       "https://www.linkedin.com/in/jordan-alexis-barrera-calderon-desarrollador-fullstack/",
-    imagen: "../../img/foto2.jpg",
+    imagen: "../../img/integrantes/foto2.jpg",
   },
   {
     nombre: "Fernando Alayon",
@@ -58,7 +58,7 @@ const integrantes = [
     descripcion: "Enfocado en bases de datos y aplicaciones web.",
     github: "https://github.com/feralayon",
     linkedin: "https://www.linkedin.com/in/freddy-fernando-alayon-cubillos",
-    imagen: "../../img/foto4.png",
+    imagen: "../../img/integrantes/foto4.png",
   },
   {
     nombre: "Leisy Sanchez",
@@ -66,7 +66,7 @@ const integrantes = [
     descripcion: "Enfocado en bases de datos y aplicaciones web.",
     github: "https://github.com/Leisy17",
     linkedin: "https://www.linkedin.com/in/leisy-sanchez",
-    imagen: "../../img/foto5.png",
+    imagen: "../../img/integrantes/foto5.png",
   },
 ];
 
