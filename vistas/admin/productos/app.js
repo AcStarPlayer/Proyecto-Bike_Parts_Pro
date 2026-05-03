@@ -1,13 +1,9 @@
 import { navBar } from "../../../componentes/barraNavegacion/barNav.js";
 import crearFormulario from "../../../componentes/formulario/formulario.js";
 import { validarInput } from "../../../componentes/input/input.js";
-import { footer } from "../../../componentes/piecero/footer.js";
+import { footer } from "../../../componentes/pieDePagina/footer.js";
 
-document.querySelector(".nav-content").innerHTML = navBar(
-  "BikePartsPro",
-  "Panel Admin",
-  "../../../",
-);
+navBar("Panel Admin", "../../../");
 
 const campos = [
   { titulo: "SKU", tipo: "codigo", placeholder: "Ej: BPP-001", required: true },
@@ -22,6 +18,12 @@ const campos = [
     titulo: "Precio",
     tipo: "number",
     placeholder: "Ej: 150000",
+    required: true,
+  },
+  {
+    titulo: "Descripción",
+    tipo: "full-text",
+    placeholder: "Ej: Cadena Shimano de alta resistencia para MTB y ruta",
     required: true,
   },
   { titulo: "Imagen", tipo: "imagen", required: true },
@@ -43,7 +45,6 @@ document.getElementById("contenedor-form").innerHTML = crearFormulario(
 
 document.getElementById("footer").innerHTML = footer("../../../");
 
-let colorCount = 0;
 let imagenCount = 0;
 
 function validarCamposTexto() {
@@ -56,12 +57,22 @@ function validarCamposTexto() {
       .replace(/[\u0300-\u036f]/g, "");
 
     const elemento = document.getElementById(id);
+
+    if (!elemento) {
+      alert(`No se encontró el campo ${campo.titulo} en el formulario.`);
+      return false;
+    }
     const resultado = validarInput(elemento, campo.tipo);
 
     if (!resultado.valido) {
       marcarError(elemento);
+      alert(resultado.mensaje || `El campo ${campo.titulo} no es válido.`);
+      elemento.focus();
       return false;
     }
+
+
+
   }
   return true;
 }
@@ -70,7 +81,8 @@ function obtenerColores() {
   return [...document.querySelectorAll(".color-fila")].map((f) => ({
     codigo: f.querySelector(".color-picker").value,
     nombre: f.querySelector(".color-nombre").value.trim(),
-  }));
+  }))
+  .filter((color) => color.codigo);
 }
 
 async function obtenerImagenes() {
@@ -79,16 +91,37 @@ async function obtenerImagenes() {
   for (const fila of document.querySelectorAll(".imagen-fila")) {
     const tipo = fila.querySelector("input[type=radio]:checked").value;
 
+     /*
     if (tipo === "url") {
       imagenes.push(fila.querySelector(".imagen-url").value.trim());
     } else {
       const file = fila.querySelector(".imagen-archivo").files[0];
       imagenes.push(await leerArchivo(file));
+     */
+
+    if (tipo === "url") {
+      const url = fila.querySelector(".imagen-url").value.trim();
+
+      if (!url) {
+        throw new Error("Debes ingresar la URL de la imagen.");
+      }
+
+      imagenes.push(url);
+    } else {
+      const file = fila.querySelector(".imagen-archivo").files[0];
+
+      if (!file) {
+        throw new Error("Debes seleccionar un archivo de imagen.");
+      }
+
+      imagenes.push(await leerArchivo(file));
     }
   }
 
   return imagenes;
-}
+}  
+    
+   
 
 function agregarFilaImagen() {
   const idx = imagenCount++;
@@ -152,30 +185,67 @@ function agregarFilaColor() {
 }
 
 function construirProducto(colores, imagenes) {
+  const sku = document.getElementById("sku").value.trim();
+  const nombre = document.getElementById("nombre").value.trim();
+  const marca = document.getElementById("marca").value.trim();
+  const precio = Number(document.getElementById("precio").value);
+  const descripcion = document.getElementById("descripcion").value.trim();
+  const stock = Number(document.getElementById("stock").value);
+  const categoria = document.getElementById("categoria").value;
+
   return {
     id: Date.now(),
-    sku: document.getElementById("sku").value.trim(),
-    nombre: document.getElementById("nombre").value.trim(),
-    marca: document.getElementById("marca").value.trim(),
-    precio: Number(document.getElementById("precio").value),
-    stock: Number(document.getElementById("stock").value),
-    sistema: document.getElementById("categoria").value,
-    colores,
+    fechaCreacion: new Date().toISOString(),
+    origen: "formulario-admin",
+    activo: true,
+
+    sku,
+    nombre,
+    titulo: nombre,
+
+    marca,
+    precio,
+    stock,
+
+    categoria,
+    sistema: categoria,
+
+    descripcion,
+    descripcionCorta: descripcion,
+
+    imagen: imagenes[0] || "",
+    imagenPrincipal: imagenes[0] || "",
     imagenes,
+
+    colores,
   };
 }
-
+/*
 function guardarProducto(producto) {
   const productos = JSON.parse(localStorage.getItem("productos") || "[]");
   productos.push(producto);
   localStorage.setItem("productos", JSON.stringify(productos));
 }
 
+*/
+function guardarProducto(producto) {
+  const productos = JSON.parse(localStorage.getItem("productos") || "[]");
+
+  if (!Array.isArray(productos)) {
+    throw new Error("El almacenamiento local de productos está corrupto.");
+  }
+
+  productos.push(producto);
+  localStorage.setItem("productos", JSON.stringify(productos));
+}
+
+
+
 function resetFormulario() {
   document.getElementById("formulario").reset();
   document.getElementById("colores-lista").innerHTML = "";
   document.getElementById("imagenes-lista").innerHTML = "";
-  colorCount = 0;
+  /*colorCount = 0;*/
   imagenCount = 0;
   agregarFilaColor();
   agregarFilaImagen();
@@ -208,6 +278,8 @@ document
   .getElementById("btn-agregar-imagen")
   .addEventListener("click", agregarFilaImagen);
 
+
+/*  
 document.getElementById("formulario").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -245,4 +317,59 @@ document.getElementById("formulario").addEventListener("submit", async (e) => {
   setTimeout(() => {
     errorEl.textContent = "";
   }, 3000);
+});
+*/
+
+document.getElementById("formulario").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  document.querySelectorAll(".fs-input").forEach(limpiarError);
+
+  const errorEl = document.getElementById("error");
+  errorEl.textContent = "";
+  errorEl.innerHTML = "";
+
+  try {
+    if (!validarCamposTexto()) {
+      errorEl.textContent = "Revisa los campos obligatorios.";
+      return;
+    }
+
+    const colores = obtenerColores();
+
+    if (!colores.length) {
+      errorEl.textContent = "Agrega al menos un color.";
+      return;
+    }
+
+    const imagenes = await obtenerImagenes();
+
+    if (!imagenes.length) {
+      errorEl.textContent = "Agrega al menos una imagen.";
+      return;
+    }
+
+    const producto = construirProducto(colores, imagenes);
+
+    guardarProducto(producto);
+
+    resetFormulario();
+
+    errorEl.innerHTML = `
+      <div class="alert alert-success mt-2" role="alert">
+        Producto registrado correctamente
+      </div>
+    `;
+
+    setTimeout(() => {
+      errorEl.textContent = "";
+      errorEl.innerHTML = "";
+    }, 3000);
+  } catch (error) {
+    errorEl.innerHTML = `
+      <div class="alert alert-danger mt-2" role="alert">
+        ${error.message || "No fue posible registrar el producto."}
+      </div>
+    `;
+  }
 });

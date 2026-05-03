@@ -5,13 +5,10 @@ import {
   chatbox,
   whatsappButton,
 } from "../../componentes/whatsApp/whatsappBox.js";
-import { footer } from "../../componentes/piecero/footer.js";
+import { footer } from "../../componentes/pieDePagina/footer.js";
+import { inicializarBotonesCarrito } from "../carrito/carrito-events.js";
 
-document.querySelector(".nav-content").innerHTML = navBar(
-  "BikePartsPro",
-  "Sube de nivel",
-  "../../../",
-);
+navBar("Sube de nivel", "../../");
 
 const campos = [
   { titulo: "Nombre", tipo: "text", placeholder: "Tu nombre", required: true },
@@ -72,3 +69,5 @@ document.getElementById("formulario").addEventListener("submit", function (e) {
 document.querySelector(".whatsapp-components").innerHTML =
   chatbox() + whatsappButton();
 document.getElementById("footer").innerHTML = footer("../../");
+
+inicializarBotonesCarrito();

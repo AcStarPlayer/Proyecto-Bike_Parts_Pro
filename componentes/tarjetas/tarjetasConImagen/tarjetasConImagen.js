@@ -15,7 +15,7 @@ export default function tarjetasConImagen(
     xs: "ratio-1x1",
     sm: "ratio-4x3",
     md: "ratio-16x9",
-    lg: "ratio-16x9"
+    lg: "ratio-1x1"
   };
 
   const widths = {
@@ -39,14 +39,14 @@ export default function tarjetasConImagen(
 
       <div class="card-body text-${alignClass} d-flex flex-column">
 
-        <h5 class="fw-bold">${titulo}</h5>
-        <p class="text-primary">${subtitulo}</p>
+        <p class="fw-bold mb-0">${titulo}</h5>
+        <p class="text-primary mb-0">${subtitulo}</p>
 
         <p class="mb-2">
           ${descripcion}
         </p>
 
-        <div class="mt-auto">
+        <div class="mt-auto d-flex justify-content-center">
           ${links}
         </div>
 

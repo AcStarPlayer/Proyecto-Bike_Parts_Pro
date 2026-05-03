@@ -1,10 +1,10 @@
 // IMPORTACIONES
 import { navBar } from "./componentes/barraNavegacion/barNav.js";
-import { footer } from "./componentes/piecero/footer.js";
+import { footer } from "./componentes/pieDePagina/footer.js";
+import { inicializarBotonesCarrito } from "./vistas/carrito/carrito-events.js";
 
 // NAV Y FOOTER
-const barraNavegacion = document.querySelector(".nav-content");
-barraNavegacion.innerHTML = navBar("BikePartsPro", "Sube de nivel", "./");
+navBar("Sube de nivel", "./");
 
 document.getElementById("footer").innerHTML = footer("../../");
 
@@ -98,30 +98,4 @@ puntosInteractivos.forEach(punto => {
 
 });
 
-//contador en el navbar
-const nav = document.querySelector(".nav-content");
-
-nav.innerHTML += `
-  <div class="cart-icon">
-    <i class="bi bi-cart3"></i>
-    <span id="cart-count">0</span>
-  </div>
-`;
-
-let contador = 0;
-
-const botonesAgregar = document.querySelectorAll(".btn-add");
-const contadorUI = document.getElementById("cart-count");
-
-botonesAgregar.forEach(boton => {
-  boton.addEventListener("click", () => {
-    contador++;
-    contadorUI.textContent = contador;
-
-    // pequeño feedback visual
-    contadorUI.style.transform = "scale(1.3)";
-    setTimeout(() => {
-      contadorUI.style.transform = "scale(1)";
-    }, 200);
-  });
-});
+inicializarBotonesCarrito();

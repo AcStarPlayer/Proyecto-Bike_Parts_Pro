@@ -1,10 +1,10 @@
 import tarjetaSoloTexto from "../../componentes/tarjetas/tarjetasSoloTexto/tarjetasSoloTexto.js";
 import tarjetasConImagen from "../../componentes/tarjetas/tarjetasConImagen/tarjetasConImagen.js";
 import { navBar } from "../../componentes/barraNavegacion/barNav.js";
-import { footer } from "../../componentes/piecero/footer.js";
+import { footer } from "../../componentes/pieDePagina/footer.js";
+import { inicializarBotonesCarrito } from "../carrito/carrito-events.js";
 
-const barraNav = document.querySelector(".nav-content");
-barraNav.innerHTML = navBar("BikePartsPro", "Sube de nivel", "../../");
+navBar("", "../../");
 
 const valoresEmpresariales = {
   Misión:
@@ -12,19 +12,6 @@ const valoresEmpresariales = {
   Visión:
     "Ser una empresa líder en soluciones para bicicletas, reconocida por innovación y confianza.",
 };
-//insertando la navbar
-const contenedorNav = document.querySelector(".nav-content")
-contenedorNav.innerHTML = navBar("BikePartsPro","","../../");
-
-const botonMenu = document.querySelector("#hamburguesa")
-const listaLink = document.querySelector("#nav-list")
-
-botonMenu.addEventListener("click", () =>{
-  listaLink.classList.toggle("active")
-  console.log("cambiando clase")
-
-  
-});
 
 const misionVision = document.getElementById("mision-vision");
 
@@ -113,3 +100,4 @@ integrantes.forEach((persona) => {
 
 integrantesDiv.innerHTML = cards;
 document.getElementById("footer").innerHTML = footer("../../");
+inicializarBotonesCarrito();

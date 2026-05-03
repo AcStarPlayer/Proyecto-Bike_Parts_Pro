@@ -1,0 +1,44 @@
+.contenido {
+  background: var(--color-white);
+  margin-bottom: 1.5rem;
+  border-radius: 20px 20px;
+  padding: 20px 30px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  animation: fadeUp 1s ease;
+}
+
+.contenido h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.contenido h3 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 20px;
+  color: var(--color-primary-dark);
+}
+
+.contenido p,
+.contenido li {
+  font-size: 0.85rem;
+  color: var(--color-dark);
+  line-height: 1.6;
+}
+
+/* ANIMACIÓN */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
