@@ -133,6 +133,23 @@
   filter: brightness(1.1);
   transform: scale(1.02);
 }
+.ingreso{
+  height: 3rem;
+  width: 3rem;
+  object-fit: cover;
+  display: flex;
+  background-color: transparent;
+  align-items: center;
+  justify-content: center;
+}
+.ingreso svg{
+  height: 90%;
+  width: 90%;
+  position: relative;
+  top: 0.7rem;
+  color: wheat;
+}
+
 
 @media (max-width: 800px) {
   .menu-toggle {
@@ -167,9 +184,10 @@
     border-radius: 50%; 
   }
 
-  .search-container button::before {
+  .search-container button:before {
     content: "🔍"; 
     font-size: 1.2rem;
+    background-color: transparent;
   }
 }
 
