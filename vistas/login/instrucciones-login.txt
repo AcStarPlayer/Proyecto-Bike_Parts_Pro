@@ -1,7 +1,7 @@
 Instrucciones para el SignIn
 
-1. Cuando alguien ingrese al sitio debe probar el icono de persona en el BarNav
-2. Esto lo debe llevar a la vista de Ingresar o Login
+1. TODAVIA NO EXISTE EL ICONO //Cuando alguien ingrese al sitio debe probar el icono de persona en el BarNav
+2. EJECUTAR login.html desde el navegador //Esto lo debe llevar a la vista de Ingresar o Login
 3. Si el usuario ya tiene correo y contraseñas registrados, los ingresa e inicia sesión
 4. Si el usuario no tiene ni correo y contraseña resgistrados, debe ir al boton No tienes cuenta? Registrate
 5. Se realizará el flujo de registro y se almacenará el Json en local storage
