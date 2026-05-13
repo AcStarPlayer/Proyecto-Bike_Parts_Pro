@@ -1,87 +1,87 @@
 export const productosPredeterminados = [
   {
     sku: "BPP-012",
-    titulo: "Cadena Shimano",
-    precio: 45000,
-    descripcion: "Alta resistencia MTB",
-    imagen: "../../img/index/tensor1.webp"
+    titulo: "Cadena 12 vel 1/2x11/128",
+    precio: 167000,
+    descripcion: "Cadena super ligera perforada",
+    imagen: "../../img/catalogo/1.webp"
   },
   {
     sku: "BPP-011",
-    titulo: "Frenos de disco",
+    titulo: "Pacha Cassette Ruta 11Vel 11-32T",
     precio: 120000,
     descripcion: "Precisión total",
-    imagen: "../../img/index/tensor2.webp"
+    imagen: "../../img/catalogo/2.webp"
   },
   {
     sku: "BPP-010",
-    titulo: "Casco Pro",
+    titulo: "",
     precio: 80000,
     descripcion: "Ligero y seguro",
-    imagen: "../../img/index/silla1.webp"
+    imagen: "../../img/catalogo/3.webp"
   },
   {
     sku: "BPP-001",
     titulo: "Pedales aluminio",
     precio: 60000,
     descripcion: "Alta durabilidad",
-    imagen: "../../img/index/pacha2.webp"
+    imagen: "../../img/catalogo/4.webp"
   },
   {
     sku: "BPP-002",
-    titulo: "Rin 29",
+    titulo: "Pedales",
     precio: 200000,
     descripcion: "Resistencia extrema",
-    imagen: "../../img/index/pedales1.webp"
+    imagen: "../../img/catalogo/4.webp"
   },
   {
     sku: "BPP-003",
-    titulo: "Sillín confort",
+    titulo: "Ruedas Ruta 700C 24H",
     precio: 55000,
     descripcion: "Mayor comodidad",
-    imagen: "../../img/index/pedales2.webp"
+    imagen: "../../img/catalogo/5.webp"
   },
   {
     sku: "BPP-004",
-    titulo: "Manubrio MTB",
+    titulo: "Rueda De Disco Textreme Pro",
     precio: 70000,
     descripcion: "Control total",
-    imagen: "../../img/index/casco2.webp"
+    imagen: "../../img/catalogo/6.webp"
   },
   {
     sku: "BPP-005",
-    titulo: "Guantes ciclismo",
+    titulo: "Sillin",
     precio: 25000,
     descripcion: "Mejor agarre",
-    imagen: "../../img/index/llanta2.webp"
+    imagen: "../../img/catalogo/7.webp"
   },
   {
     sku: "BPP-006",
-    titulo: "Bomba aire",
+    titulo: "Sillín De Bicicleta AS1",
     precio: 35000,
     descripcion: "Compacta y eficiente",
-    imagen: "../../img/index/llanta1.webp"
+    imagen: "/../img/catalogo/7.webp"
   },
   {
     sku: "BPP-007",
-    titulo: "Kit herramientas",
+    titulo: "Suspención",
     precio: 90000,
     descripcion: "Todo en uno",
-    imagen: "../../img/index/lampara1.webp"
+    imagen: "../../img/catalogo/lampara1.webp"
   },
   {
     sku: "BPP-008",
-  titulo: "Cadena Shimano",
+  titulo: "Suspensión Delantera D/B",
   precio: 45000,
   descripcion: "Alta resistencia MTB",
-  imagen: "../../img/index/casco.webp"
+  imagen: "../../img/catalogo/casco.webp"
   },  
 
   {
   sku: "BPP-009",
-  titulo: "Cadena Shimano",
+  titulo: "Sillín De Bicicleta AS1",
   precio: 45000,
   descripcion: "Alta resistencia MTB",
-  imagen: "../../img/index/gafas1.webp"
+  imagen: "../../img/catalogo/gafas1.webp"
 }
 ];
