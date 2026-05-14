@@ -1,13 +1,27 @@
 /* Login específico - extiende estilos globales */
 .login-page-bikeparts {
   min-height: 100vh;
-  background: linear-gradient(135deg, 
-    rgba(8, 83, 71, 0.08) 0%, 
-    rgba(0, 0, 0, 0.02) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(8, 83, 71, 0.08) 0%,
+    rgba(0, 0, 0, 0.02) 100%
+  );
+  padding: 0;
+}
+
+/* El centrado se mueve al área del login, no al body */
+.login-section {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: 2rem 1.5rem;
+}
+
+/* Blindaje extra para el navbar */
+.nav-content {
+  width: 100%;
+  align-self: stretch;
 }
 
 .login-card-bikeparts {
