@@ -1,0 +1,402 @@
+CREATE TABLE rol (
+	id_rol SERIAL PRIMARY KEY,
+	nombre_rol VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE  usuario (
+	id_usuario SERIAL PRIMARY KEY,
+
+	id_rol INT,
+
+	nombre	 VARCHAR(50) NOT NULL,
+	apellido VARCHAR(50) NOT NULL,
+	correo 	 VARCHAR(150) UNIQUE NOT NULL,
+	contrasena VARCHAR(255) NOT NULL,
+	telefono VARCHAR(20) NOT NULL,
+	direccion VARCHAR(255),
+
+	fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+	estado BOOLEAN DEFAULT TRUE,
+
+	CONSTRAINT kf_usuario_rol
+		FOREIGN KEY(id_rol)
+		REFERENCES rol(id_rol)
+);
+
+
+CREATE TABLE categoria (
+	id_categoria SERIAL PRIMARY KEY,
+
+	nombre VARCHAR(100) NOT  NULL,
+	descripcion TEXT
+);
+
+
+
+CREATE TABLE marca (
+	id_marca SERIAL PRIMARY KEY,
+	
+	nombre VARCHAR(100) NOT NULL,
+	pais_origen VARCHAR(100)
+);
+
+
+CREATE TABLE producto (
+	id_producto SERIAL PRIMARY KEY,
+
+	id_categoria INT,
+	id_marca INT,
+
+	nombre VARCHAR(150) NOT NULL,
+	descripcion TEXT,
+
+	precio NUMERIC(10,2) NOT NULL,
+
+	stock INT NOT NULL,
+
+	especicaciones_tecnicas TEXT,
+
+	destacado BOOLEAN DEFAULT FALSE,
+
+	estado BOOLEAN DEFAULT TRUE,
+
+
+	CONSTRAINT fk_producto_categoria
+		FOREIGN KEY(id_categoria)
+		REFERENCES categoria(id_categoria),
+
+	CONSTRAINT fk_producto_marca
+		FOREIGN KEY(id_marca)
+		REFERENCES marca(id_marca)
+);
+
+
+CREATE TABLE imagen_producto (
+	id_imagen SERIAL PRIMARY KEY,
+
+	id_producto INT,
+
+	url_imagen VARCHAR(255),
+
+	principal BOOLEAN DEFAULT FALSE,
+
+	CONSTRAINT fk_imagen_producto
+		FOREIGN KEY(id_producto)
+		REFERENCES producto(id_producto)
+)
+
+
+CREATE TABLE carrito (
+	id_carrito SERIAL PRIMARY KEY,
+
+	id_usuario INT UNIQUE,
+
+	fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+	CONSTRAINT fk_carrito_usuario
+		FOREIGN KEY(id_usuario)
+		REFERENCES usuario(id_usuario)
+);
+
+SELECT * FROM usuario;
+
+
+CREATE TABLE detalle_carrito (
+    id_detalle_carrito SERIAL PRIMARY KEY,
+
+    id_carrito INT,
+    id_producto INT,
+
+    cantidad INT NOT NULL,
+
+    subtotal NUMERIC(10,2) NOT NULL,
+
+    CONSTRAINT fk_detalle_carrito
+        FOREIGN KEY(id_carrito)
+        REFERENCES carrito(id_carrito),
+
+    CONSTRAINT fk_detalle_producto
+        FOREIGN KEY(id_producto)
+        REFERENCES producto(id_producto)
+);
+
+
+CREATE TABLE pedido (
+    id_pedido SERIAL PRIMARY KEY,
+
+    id_usuario INT,
+
+    fecha_pedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    total NUMERIC(10,2),
+
+    estado VARCHAR(50),
+
+    CONSTRAINT fk_pedido_usuario
+        FOREIGN KEY(id_usuario)
+        REFERENCES usuario(id_usuario)
+);
+
+
+CREATE TABLE detalle_pedido (
+    id_detalle_pedido SERIAL PRIMARY KEY,
+
+    id_pedido INT,
+    id_producto INT,
+
+    cantidad INT NOT NULL,
+
+    precio_unitario NUMERIC(10,2) NOT NULL,
+
+    subtotal NUMERIC(10,2) NOT NULL,
+
+    CONSTRAINT fk_detallepedido_pedido
+        FOREIGN KEY(id_pedido)
+        REFERENCES pedido(id_pedido),
+
+    CONSTRAINT fk_detallepedido_producto
+        FOREIGN KEY(id_producto)
+        REFERENCES producto(id_producto)
+);
+
+
+CREATE TABLE envio (
+    id_envio SERIAL PRIMARY KEY,
+
+    id_pedido INT UNIQUE,
+
+    direccion_envio VARCHAR(255),
+
+    ciudad VARCHAR(100),
+
+    departamento VARCHAR(100),
+
+    estado_envio VARCHAR(50),
+
+    fecha_envio TIMESTAMP,
+
+    CONSTRAINT fk_envio_pedido
+        FOREIGN KEY(id_pedido)
+        REFERENCES pedido(id_pedido)
+);
+
+
+INSERT INTO rol(nombre_rol)
+VALUES
+('ADMIN'),
+('CLIENTE')
+
+
+SELECT * FROM rol;
+
+
+INSERT INTO categoria(nombre, descripcion)
+VALUES
+('Frenos', 'Sistema de frenado'),
+('Llantas', 'Llantas de alto rendimiento'),
+('Cadenas', 'Cadenas para bicicleta'),
+('Transmision', 'Cambios y piñones'),
+('Accesorios', 'Accesorios para ciclistas');
+
+SELECT * FROM categoria
+
+INSERT INTO marca(nombre, pais_origen)
+VALUES
+('Shimano', 'Japon'),
+('SRAM', 'Estados Unidos'),
+('Fox', 'Estados Unidos'),
+('Continental', 'Alemania'),
+('Maxxis', 'Taiwan');
+
+SELECT * FROM marca
+
+
+CREATE TABLE descuento (
+    id_descuento SERIAL PRIMARY KEY,
+
+    id_producto INT NOT NULL,
+
+    porcentaje NUMERIC(5,2) NOT NULL,
+
+    fecha_inicio DATE NOT NULL,
+
+    fecha_fin DATE NOT NULL,
+
+    activo BOOLEAN DEFAULT TRUE,
+
+    CONSTRAINT fk_descuento_producto
+        FOREIGN KEY(id_producto)
+        REFERENCES producto(id_producto)
+);
+
+SELECT * FROM producto;
+
+ALTER TABLE producto
+RENAME COLUMN especicaciones_tecnicas TO especificaciones_tecnicas
+
+INSERT INTO producto (
+    id_categoria,
+    id_marca,
+    nombre,
+    descripcion,
+    precio,
+    stock,
+    especificaciones_tecnicas
+)
+VALUES
+(1, 1, 'Freno Shimano XT', 'Freno hidráulico de alto rendimiento', 450000, 10, 'Compatible MTB'),
+
+(2, 2, 'Llanta Maxxis Crossmark', 'Llanta para montaña', 320000, 15, '29 pulgadas'),
+
+(3, 1, 'Cadena Shimano HG54', 'Cadena de 10 velocidades', 120000, 20, 'Acero reforzado'),
+
+(4, 2, 'Cassette SRAM GX', 'Cassette 12 velocidades', 580000, 8, 'Compatible Eagle'),
+
+(5, 3, 'Suspension Fox Float', 'Suspensión delantera MTB', 2500000, 5, 'Recorrido 120mm');
+
+
+
+INSERT INTO descuento (
+    id_producto,
+    porcentaje,
+    fecha_inicio,
+    fecha_fin
+)
+VALUES
+(1, 10.00, '2026-05-01', '2026-05-15'),
+
+(2, 15.00, '2026-05-05', '2026-05-20'),
+
+(3, 5.00, '2026-06-01', '2026-06-10'),
+
+(4, 20.00, '2026-07-01', '2026-07-15'),
+
+(5, 12.00, '2026-08-01', '2026-08-20');
+
+
+SELECT * FROM producto
+
+
+SELECT 
+    p.id_producto,
+    p.nombre,
+    p.precio,
+    d.porcentaje,
+    d.fecha_inicio,
+    d.fecha_fin
+FROM producto p
+JOIN descuento d
+ON p.id_producto = d.id_producto;
+
+
+INSERT INTO usuario (
+    id_rol,
+    nombre,
+    apellido,
+    correo,
+    contrasena,
+    telefono,
+    direccion
+)
+VALUES
+(1, 'Alexandra', 'Diaz', 'alexandra@gmail.com', '123456', '3001111111', 'Medellin'),
+
+(2, 'Carlos', 'Perez', 'carlos@gmail.com', '123456', '3002222222', 'Bogota'),
+
+(2, 'Laura', 'Gomez', 'laura@gmail.com', '123456', '3003333333', 'Cali'),
+
+(2, 'Andres', 'Torres', 'andres@gmail.com', '123456', '3004444444', 'Barranquilla'),
+
+(2, 'Sofia', 'Ramirez', 'sofia@gmail.com', '123456', '3005555555', 'Bucaramanga');
+
+
+INSERT INTO carrito (
+    id_usuario
+)
+VALUES
+(1),
+(2),
+(3),
+(4),
+(5);
+
+INSERT INTO pedido (
+    id_usuario,
+    total,
+    estado
+)
+VALUES
+(1, 450000, 'PENDIENTE'),
+
+(2, 320000, 'ENVIADO'),
+
+(3, 120000, 'ENTREGADO'),
+
+(4, 580000, 'PENDIENTE'),
+
+(5, 2500000, 'EN_PROCESO');
+
+SELECT id_producto, nombre
+FROM producto;
+
+INSERT INTO detalle_pedido (
+    id_pedido,
+    id_producto,
+    cantidad,
+    precio_unitario,
+    subtotal
+)
+VALUES
+(1, 1, 1, 450000, 450000),
+
+(2, 2, 1, 320000, 320000),
+
+(3, 3, 1, 120000, 120000),
+
+(4, 4, 1, 580000, 580000),
+
+(5, 5, 1, 2500000, 2500000);
+
+
+INSERT INTO envio (
+    id_pedido,
+    direccion_envio,
+    ciudad,
+    departamento,
+    estado_envio,
+    fecha_envio
+)
+VALUES
+(1, 'Calle 10 #20-30', 'Medellin', 'Antioquia', 'EN_TRANSITO', CURRENT_TIMESTAMP),
+
+(2, 'Carrera 15 #45-80', 'Bogota', 'Cundinamarca', 'ENTREGADO', CURRENT_TIMESTAMP),
+
+(3, 'Calle 8 #12-50', 'Cali', 'Valle', 'EN_TRANSITO', CURRENT_TIMESTAMP),
+
+(4, 'Carrera 50 #10-22', 'Barranquilla', 'Atlantico', 'PENDIENTE', CURRENT_TIMESTAMP),
+
+(5, 'Calle 90 #30-15', 'Bucaramanga', 'Santander', 'EN_PROCESO', CURRENT_TIMESTAMP);
+
+
+INSERT INTO detalle_carrito (
+    id_carrito,
+    id_producto,
+    cantidad,
+    subtotal
+)
+VALUES
+(1, 1, 1, 450000),
+
+(2, 2, 2, 640000),
+
+(3, 3, 1, 120000),
+
+(4, 4, 1, 580000),
+
+(5, 5, 1, 2500000);
+
+
+
+
+
