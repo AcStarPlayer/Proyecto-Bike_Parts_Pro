@@ -1,7 +1,7 @@
 Instrucciones para el SignIn
 
-1. TODAVIA NO EXISTE EL ICONO //Cuando alguien ingrese al sitio debe probar el icono de persona en el BarNav
-2. EJECUTAR login.html desde el navegador //Esto lo debe llevar a la vista de Ingresar o Login
+1. Cuando alguien ingrese al sitio debe probar el icono de persona en el BarNav
+2. Esto lo debe llevar a la vista de Ingresar o Login
 3. Si el usuario ya tiene correo y contraseñas registrados, los ingresa e inicia sesión
 4. Si el usuario no tiene ni correo y contraseña resgistrados, debe ir al boton No tienes cuenta? Registrate
 5. Se realizará el flujo de registro y se almacenará el Json en local storage
@@ -22,5 +22,6 @@ Ingresando este códio aleatorio el perfil creado será el de "cliente"
 4. Si en vez de ingresar el código de 6 digitos generado se ingresan los codigos quemados
 entonces el perfil registrado de la sesión sería "AdminAuxiliar" o "Cliente premium"
 
-CLIENTE_PREMIUM = ["123456", "789012", "345678"];
-ADMIN_AUXILIAR = ["999888", "777666", "555444"];
+CODIGOS_CLIENTE_FIEL = ["111222", "333444", "555666"];
+CODIGOS_CLIENTE_PREMIUM = ["123456", "789012", "345678"];
+CODIGOS_ADMIN_AUXILIAR = ["999888", "777666", "555444"];
