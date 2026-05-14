@@ -60,27 +60,30 @@ export function navBar(description, basePath = "") {
    const desplegado = document.getElementById("desplegado")
 
    busqueda.addEventListener("input",function (){
-    busquedaUsuario = busqueda.value.toLowerCase();
+    const busquedaUsuario = busqueda.value.toLowerCase();
     desplegado.innerHTML = ""
     if (busquedaUsuario.length === 0){
       return
-    }
-    partes.forEach(parte => {
-      if (parte.toLowerCase().includes(busquedaUsuario)){
-        const p = document.createElement("p")
-        p.textContent = parte
-        p.style.cursor = "pointer"
-
-        p.onclick = () => {
-        busqueda.value = parte
-        desplegado.innerHTML = ""
-        } 
-        desplegado.appendChild(p)
       }
+    else{
+      const listaResultados = document.createElement("ul")
+      listaResultados.classList = "lista-busqueda-rapida"
+        partes.forEach(parte => {
+            if (parte.toLowerCase().includes(busquedaUsuario)){
+              const p = document.createElement("p")
+              p.textContent = parte
+              p.style.cursor = "pointer"
+            
+              p.onclick = () => {
+              busqueda.value = parte
+              desplegado.innerHTML = ""
+              }  
+              listaResultados.appendChild(p)
+            }
+        })
+      desplegado.appendChild(listaResultados) 
+    }
+  })
+  }
 
 
-    })
-   })
-
-   
-}
