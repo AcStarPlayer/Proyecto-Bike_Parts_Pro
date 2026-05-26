@@ -46,7 +46,7 @@
   box-sizing: border-box;
   position: sticky;
   top: 0;
-  z-index: 9999 !important;
+  z-index: 100 !important;
 }
 
 .botones-nav li {
