@@ -34,75 +34,160 @@
 
     </div>
 
+  
   </section>
 
-<!-- ================= PRODUCTOS DESTACADOS ================= -->
+  
+    <!-- Barra informativa debajo del banner -->
 
-<section class="destacados container my-5">
-
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h2 class="fw-bold">PRODUCTOS DESTACADOS</h2>
+  <div class="stats-strip">
+    <div class="stat-item">
+      <span class="stat-number">+500</span>
+      <span class="stat-label">Productos disponibles</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-number">+3.000</span>
+      <span class="stat-label">Clientes satisfechos</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-number">5 años</span>
+      <span class="stat-label">De experiencia</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-number">24/7</span>
+      <span class="stat-label">Soporte al cliente</span>
+    </div>
   </div>
 
-  <div class="scroll-container">
-
-    <!-- CARD 1 -->
-    <div class="producto-card">
-      <img src="img/catalogo/1.webp">
-      <h5>Cadena 12 vel SX12SL</h5>
-      <p class="precio">$170.900</p>
-      <button>Agregar al carrito</button>
+  <!-- CATEGORÍAS (Encuentra lo q necesitas)  -->
+  <section class="categorias-section container my-5">
+    <div class="section-header">
+      <span class="section-tag">Explora</span>
+      <h2>Encuentra lo que necesitas</h2>
+      <p>Componentes seleccionados para cada tipo de ciclista</p>
     </div>
-
-    <!-- CARD 2 -->
-    <div class="producto-card">
-      <img src="img/catalogo/2.webp">
-      <h5>Pacha Cassette Ruta 11Vel </h5>
-      <p class="precio">$120.950</p>
-      <button>Agregar al carrito</button>
+ 
+    <div class="categorias-grid">
+ 
+      <a href="vistas/catalogo/catalogo.html?cat=transmision" class="categoria-card">
+        <div class="cat-icon-wrap">
+          <i class="bi bi-gear-wide-connected"></i>
+        </div>
+        <div class="cat-info">
+          <h4>Transmisión</h4>
+          <p>Cadenas, cassettes, platos y desviadores</p>
+        </div>
+        <i class="bi bi-arrow-right cat-arrow"></i>
+      </a>
+ 
+      <a href="vistas/catalogo/catalogo.html?cat=ruedas" class="categoria-card">
+        <div class="cat-icon-wrap">
+          <i class="bi bi-circle"></i>
+        </div>
+        <div class="cat-info">
+          <h4>Ruedas</h4>
+          <p>Rines, llantas y ejes de alto rendimiento</p>
+        </div>
+        <i class="bi bi-arrow-right cat-arrow"></i>
+      </a>
+ 
+      <a href="vistas/catalogo/catalogo.html?cat=frenos" class="categoria-card">
+        <div class="cat-icon-wrap">
+          <i class="bi bi-stoplights"></i>
+        </div>
+        <div class="cat-info">
+          <h4>Frenos</h4>
+          <p>Sistemas de disco y frenos de llanta</p>
+        </div>
+        <i class="bi bi-arrow-right cat-arrow"></i>
+      </a>
+ 
+      <a href="vistas/catalogo/catalogo.html?cat=accesorios" class="categoria-card">
+        <div class="cat-icon-wrap">
+          <i class="bi bi-shield-check"></i>
+        </div>
+        <div class="cat-info">
+          <h4>Protección</h4>
+          <p>Cascos, corazas y ropa técnica</p>
+        </div>
+        <i class="bi bi-arrow-right cat-arrow"></i>
+      </a>
+ 
+      <a href="vistas/catalogo/catalogo.html?cat=pedales" class="categoria-card">
+        <div class="cat-icon-wrap">
+          <i class="bi bi-grid-1x2"></i>
+        </div>
+        <div class="cat-info">
+          <h4>Pedales</h4>
+          <p>Pedales planos, automáticos y de ruta</p>
+        </div>
+        <i class="bi bi-arrow-right cat-arrow"></i>
+      </a>
+ 
+      <a href="vistas/catalogo/catalogo.html" class="categoria-card cat-card-ver-todo">
+        <div class="cat-icon-wrap cat-icon-accent">
+          <i class="bi bi-grid"></i>
+        </div>
+        <div class="cat-info">
+          <h4>Ver todo el catálogo</h4>
+          <p>Más de 500 productos disponibles</p>
+        </div>
+        <i class="bi bi-arrow-right cat-arrow"></i>
+      </a>
+ 
     </div>
-
-    <!-- CARD 3 -->
-    <div class="producto-card">
-      <img src="img/catalogo/3.webp">
-      <h5>Casco Pro</h5>
-      <p class="precio">$93.999</p>
-      <button>Agregar al carrito</button>
-    </div>
-
-    <!-- CARD 4 -->
-    <div class="producto-card">
-      <img src="img/catalogo/4.webp">
-      <h5>Pedales Ruta ZP-110</h5>
-      <p class="precio">$150.000</p>
-      <button>Agregar al carrito</button>
-    </div>
-
-    <!-- CARD 5 -->
-    <div class="producto-card">
-      <img src="img/catalogo/5.webp">
-      <h5>Pedales Ruta ZP-150</h5>
-      <p class="precio">$160.000</p>
-      <button>Agregar al carrito</button>
-    </div>
-
-    <!-- CARD 6 -->
-    <div class="producto-card">
-      <img src="img/catalogo/6.webp">
-      <h5>Ruedas Ruta 700C 24H</h5>
-      <p class="precio">$670.000</p>
-      <button>Agregar al carrito</button>
-    </div>
-
+  </section>
   
-    
+   <!-- Sección: ¿POR QUÉ ELEGIRNOS?  -->
+  <section class="porque-section">
+    <div class="container">
+      <div class="section-header section-header-light">
+        <span class="section-tag section-tag-light">Nuestra promesa</span>
+        <h2 style="color: var(--color-white);">¿Por qué elegirnos?</h2>
+      </div>
+ 
+      <div class="porque-grid">
+ 
+        <div class="porque-card">
+          <div class="porque-icon">
+            <i class="bi bi-patch-check-fill"></i>
+          </div>
+          <h4>Calidad garantizada</h4>
+          <p>Todos nuestros componentes pasan por un proceso de verificación antes de llegar a tus manos.</p>
+        </div>
+ 
+        <div class="porque-card">
+          <div class="porque-icon">
+            <i class="bi bi-truck"></i>
+          </div>
+          <h4>Envío rápido</h4>
+          <p>Despacho en 24-48 horas hábiles a cualquier punto del país con seguimiento en tiempo real.</p>
+        </div>
+ 
+        <div class="porque-card">
+          <div class="porque-icon">
+            <i class="bi bi-headset"></i>
+          </div>
+          <h4>Asesoría experta</h4>
+          <p>Nuestro equipo de ciclistas profesionales te ayuda a elegir el componente ideal para tu bicicleta.</p>
+        </div>
+ 
+        <div class="porque-card">
+          <div class="porque-icon">
+            <i class="bi bi-arrow-repeat"></i>
+          </div>
+          <h4>Devoluciones fáciles</h4>
+          <p>¿No es lo que esperabas? Tienes 30 días para hacer cambios o devoluciones sin costo.</p>
+        </div>
+ 
+      </div>
+    </div>
+  </section>
 
-  </div>
 
-</section>
-  
-
-  
   <section class="container my-5">
 
   <div id="carouselBike" class="carousel slide" data-bs-ride="carousel">
@@ -120,7 +205,7 @@
       <div class="carousel-item active">
         <img src="img/index/carousel1.png" class="d-block w-100" alt="slide1">
         <div class="carousel-caption text-start">
-          <h3>Componentes Premium</h3>
+          <h5>Componentes Premium</h5>
           <p>Mayor rendimiento en cada rodada.</p>
         </div>
       </div>
@@ -128,7 +213,7 @@
       <div class="carousel-item">
         <img src="img/index/carousel2.png" class="d-block w-100" alt="slide2">
         <div class="carousel-caption text-start">
-          <h3>Ofertas Exclusivas</h3>
+          <h5>Ofertas Exclusivas</h5>
           <p>Aprovecha descuentos limitados.</p>
         </div>
       </div>
@@ -136,7 +221,7 @@
       <div class="carousel-item">
         <img src="img/index/carousel3.png" class="d-block w-100" alt="slide3">
         <div class="carousel-caption text-start">
-          <h3>Calidad Garantizada</h3>
+          <h5>Calidad Garantizada</h5>
           <p>Productos probados por expertos.</p>
         </div>
       </div>
