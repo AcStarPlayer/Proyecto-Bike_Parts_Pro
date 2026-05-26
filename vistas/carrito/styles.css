@@ -41,7 +41,7 @@
   height: 22px;
   padding: 0 0.35rem;
   border-radius: 999px;
-  background: var(--color-primary-dark);
+  background: var(--color-accent);
   color: var(--color-white);
   display: inline-flex;
   align-items: center;
@@ -180,9 +180,8 @@
   min-width: 28px;
   height: 28px;
   padding: 0 0.5rem;
-  border-radius: 999px;
-  background: var(--color-accent);
-  color: var(--color-white);
+  background: var(--color-white);
+  color: var(--color-dark);
   display: inline-flex;
   align-items: center;
   justify-content: center;

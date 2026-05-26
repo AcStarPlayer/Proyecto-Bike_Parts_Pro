@@ -1,11 +1,12 @@
 export default function tarjetasConImagen(
   titulo,
-  subtitulo,
+  subtitulo=null,
   descripcion,
   imagen,
   links = "",
   tamano = "sm",
-  align = "center"
+  align = "center",
+  tag=null
 ) {
 
   const alignClass = align === 'center' ? 'center' : align === 'end' ? 'end' : 'start';
@@ -32,19 +33,19 @@ export default function tarjetasConImagen(
 
       <div class="ratio ${ratios[tamano]}">
         <img src="${imagen}" 
-             class="w-100 h-100 object-fit-cover rounded-top-4"
+             class="w-100 h-100 object-fit-${tag ? `contain`: `cover`} rounded-top-4"
              style="object-position: center;"
              alt="${titulo}">
       </div>
 
       <div class="card-body text-${alignClass} d-flex flex-column">
+        ${tag ? `<div class="tag">${tag}</div>`: ""}
+        <div class="fw-bold tarjetaConImagen-titulo">${titulo}</div>
+        ${ subtitulo ? `<p class="tarjetaConImagen-subtitulo text-muted mb-0">${subtitulo}</p>`: ""}
 
-        <p class="fw-bold mb-0">${titulo}</h5>
-        <p class="text-primary mb-0">${subtitulo}</p>
-
-        <p class="mb-2">
+        ${descripcion ? `<p class="mt-2 mb-2 tarjetaConImagen-descripcion">
           ${descripcion}
-        </p>
+        </p>`: ""}
 
         <div class="mt-auto d-flex justify-content-center">
           ${links}
