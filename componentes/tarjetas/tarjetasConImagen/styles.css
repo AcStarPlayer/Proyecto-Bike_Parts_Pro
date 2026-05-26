@@ -9,8 +9,10 @@
 .tarjetaConImagen-titulo {
   font-size: 1.2rem;
   color: var(--color-primary);
-  height: 2.5rem;
+  height: 2.3rem;
   overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .tarjetaConImagen-descripcion {
