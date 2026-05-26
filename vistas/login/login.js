@@ -1,12 +1,16 @@
 import { navBar } from "../../componentes/barraNavegacion/barNav.js";
 import { footer } from "../../componentes/pieDePagina/footer.js";
-import { botones } from "../../componentes/botones/botones.js";
+import {
+  guardarSesion,
+  construirSesionDesdeUsuario,
+  redirigirSegunSesion,
+} from "../../autorizaciones/autorizaciones.js";
 
 // Inicialización visual
 navBar("BikePartsPro", "../../");
 document.getElementById("footer").innerHTML = footer("../../");
 
-// Configuración
+// Configuración temporal de prueba
 const CLAVE_USUARIOS = "usuariosBikePartsPro";
 const CLAVE_SESION = "sesionBikePartsPro";
 const TIEMPO_CODIGO_MS = 120000;
@@ -81,7 +85,9 @@ function detenerContador() {
 }
 
 function resetearContadorVisual() {
-  contadorTiempo.textContent = "120s";
+  if (contadorTiempo) {
+    contadorTiempo.textContent = "120s";
+  }
 }
 
 function actualizarHash(hash = "") {
@@ -152,9 +158,13 @@ function limpiarCamposAcceso() {
   limpiarFlujoRegistroCompleto();
 }
 
-// Persistencia local
+// Persistencia temporal
 function obtenerUsuarios() {
-  return JSON.parse(localStorage.getItem(CLAVE_USUARIOS) || "[]");
+  try {
+    return JSON.parse(localStorage.getItem(CLAVE_USUARIOS) || "[]");
+  } catch {
+    return [];
+  }
 }
 
 function guardarUsuarios(usuarios) {
@@ -173,31 +183,14 @@ function usuarioExiste(email) {
   );
 }
 
-// Sesión
-function construirSesionDesdeUsuario(usuario) {
-  return {
-    autenticado: true,
-    email: usuario.email,
-    nombre: usuario.nombre,
-    rol: usuario.rol,
-    clienteFiel: usuario.clienteFiel || false,
-    clientePremium: usuario.clientePremium || false,
-    adminAuxiliar: usuario.adminAuxiliar || false,
-    fechaInicioSesion: new Date().toISOString()
-  };
-}
-
-function guardarSesion(sesion) {
+// Sesión temporal
+function guardarSesionTemporal(sesion) {
+  guardarSesion(sesion);
   localStorage.setItem(CLAVE_SESION, JSON.stringify(sesion));
 }
 
-function redirigirSegunSesion(sesion) {
-  if (sesion.adminAuxiliar || sesion.rol === "admin") {
-    window.location.href = "../../vistas/admin/productos/producto.html";
-    return;
-  }
-
-  window.location.href = "../../vistas/catalogo/catalogo.html";
+function redirigirLuegoDeLogin(sesion) {
+  redirigirSegunSesion(sesion, "../../");
 }
 
 // Validaciones
@@ -229,11 +222,15 @@ function generarCodigoVerificacion() {
 function iniciarContador() {
   detenerContador();
   tiempoRestante = TIEMPO_CODIGO_MS / 1000;
-  contadorTiempo.textContent = `${tiempoRestante}s`;
+  if (contadorTiempo) {
+    contadorTiempo.textContent = `${tiempoRestante}s`;
+  }
 
   contadorInterval = setInterval(() => {
     tiempoRestante--;
-    contadorTiempo.textContent = `${tiempoRestante}s`;
+    if (contadorTiempo) {
+      contadorTiempo.textContent = `${tiempoRestante}s`;
+    }
 
     if (tiempoRestante <= 0) {
       detenerContador();
@@ -349,8 +346,8 @@ function inicializarLogin() {
     }
 
     const sesion = construirSesionDesdeUsuario(usuario);
-    guardarSesion(sesion);
-    redirigirSegunSesion(sesion);
+    guardarSesionTemporal(sesion);
+    redirigirLuegoDeLogin(sesion);
   });
 }
 
@@ -362,10 +359,7 @@ function inicializarRegistroPaso1() {
 
     const nombre = document.getElementById("nombre-registro").value.trim();
     const telefono = document.getElementById("telefono-registro").value.trim();
-    const email = document
-      .getElementById("email-registro")
-      .value.trim()
-      .toLowerCase();
+    const email = document.getElementById("email-registro").value.trim().toLowerCase();
 
     if (!nombre || !telefono || !email) {
       mostrarMensaje(
@@ -397,7 +391,7 @@ function inicializarRegistroPaso1() {
     datosRegistroPendiente = {
       nombre,
       telefono,
-      email
+      email,
     };
 
     enviarCodigoSimulado(email);
@@ -483,7 +477,7 @@ function inicializarRegistroPaso2() {
       clienteFiel,
       clientePremium,
       adminAuxiliar,
-      fechaRegistro: new Date().toISOString()
+      fechaRegistro: new Date().toISOString(),
     };
 
     guardarUsuario(nuevoUsuario);
