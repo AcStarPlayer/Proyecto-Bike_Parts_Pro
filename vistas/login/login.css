@@ -1,0 +1,120 @@
+/* Login específico - extiende estilos globales */
+.login-page-bikeparts {
+  min-height: 100vh;
+  background: linear-gradient(135deg, 
+    rgba(8, 83, 71, 0.08) 0%, 
+    rgba(0, 0, 0, 0.02) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.login-card-bikeparts {
+  width: 100%;
+  /*max-width: 680px;*/
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+  background-color: var(--color-white);
+  backdrop-filter: blur(10px);
+  max-width: 500px; 
+  margin: 0 auto;
+}
+
+.login-card-bikeparts .form-control:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 0.2rem rgba(1, 105, 111, 0.15);
+}
+
+.login-card-bikeparts h2 {
+  font-size: clamp(1.6rem, 1.1rem + 1vw, 2rem) !important;
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.login-tag-bikeparts {
+  display: inline-block;
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+}
+
+.login-subinfo-bikeparts {
+  color: var(--color-gray);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.login-extra-links {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.login-extra-links a {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.login-extra-links a:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+#contador-tiempo {
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  color: var(--color-accent);
+  font-size: 1.1rem;
+}
+
+#codigo-verificacion {
+  font-size: 1.5rem;
+  letter-spacing: 0.3rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-family: 'Courier New', monospace;
+}
+
+@media (max-width: 768px) {
+  .login-card-bikeparts {
+    margin: 1rem !important;
+    max-width: 95vw !important;
+  }
+  
+  .login-page-bikeparts {
+    padding: 1.5rem 0.5rem;
+  }
+  
+  .login-extra-links {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .login-card-bikeparts {
+    margin: 1rem;
+    max-width: none;
+  }
+}
+
+@media (max-width: 575px) {
+  .login-card-bikeparts h2 {
+    white-space: normal;
+    font-size: clamp(1.5rem, 1.2rem + 1vw, 1.8rem) !important;
+  }
+}

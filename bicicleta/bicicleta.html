@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bicicleta</title>
+    <link rel="stylesheet" href="../bicicleta/bicicleta.css" />
+</head>
+<body>
+    <div class="bike-card">
+        <canvas id="canvas3d"></canvas>
+    </div>
+    <button id="btnExplode">Exploded View</button>
+    
+    <div id="tooltip"></div>
+
+    <div id="infoPanel">
+        <h2 id="titulo">Selecciona una pieza</h2>
+        <p id="descripcion">Explora la bicicleta</p>
+    </div>
+    
+
+    <script type="importmap">
+        {
+            "imports": {
+            "three": "https://unpkg.com/three@0.158.0/build/three.module.js"
+            }
+        }
+    </script>
+
+    <script type="module" src="../bicicleta/bicicleta.js"></script>
+
+</body>
+</html>
