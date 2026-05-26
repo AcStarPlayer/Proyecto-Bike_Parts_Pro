@@ -5,6 +5,12 @@ import {
   construirSesionDesdeUsuario,
   redirigirSegunSesion,
 } from "../../autorizaciones/autorizaciones.js";
+import {
+  TIEMPO_CODIGO_MS,
+  enviarCodigoSimulado,
+  validarCodigoSimulado,
+  eliminarCodigoSimulado,
+} from "../../autorizaciones/codigoVerificacion.js";
 
 // Inicialización visual
 navBar("BikePartsPro", "../../");
@@ -12,15 +18,11 @@ document.getElementById("footer").innerHTML = footer("../../");
 
 // Configuración temporal de prueba
 const CLAVE_USUARIOS = "usuariosBikePartsPro";
-const TIEMPO_CODIGO_MS = 120000;
 
 // Códigos quemados para jerarquías
 const CODIGOS_CLIENTE_FIEL = ["111222", "333444", "555666"];
 const CODIGOS_CLIENTE_PREMIUM = ["123456", "789012", "345678"];
 const CODIGOS_ADMIN_AUXILIAR = ["999888", "777666", "555444"];
-
-// Mock OTP temporal
-const codigosSimulados = new Map();
 
 // DOM
 const vistaLogin = document.getElementById("vista-login");
@@ -85,7 +87,7 @@ function detenerContador() {
 
 function resetearContadorVisual() {
   if (contadorTiempo) {
-    contadorTiempo.textContent = "120s";
+    contadorTiempo.textContent = `${TIEMPO_CODIGO_MS / 1000}s`;
   }
 }
 
@@ -160,7 +162,9 @@ function limpiarCamposAcceso() {
 // Persistencia temporal
 function obtenerUsuarios() {
   try {
-    return JSON.parse(localStorage.getItem(CLAVE_USUARIOS) || "[]");
+    const data = localStorage.getItem(CLAVE_USUARIOS);
+    const usuarios = JSON.parse(data || "[]");
+    return Array.isArray(usuarios) ? usuarios : [];
   } catch {
     return [];
   }
@@ -177,51 +181,31 @@ function guardarUsuario(usuario) {
 }
 
 function usuarioExiste(email) {
+  const emailNormalizado = email.trim().toLowerCase();
   return obtenerUsuarios().some(
-    (usuario) => usuario.email.toLowerCase() === email.toLowerCase()
+    (usuario) => (usuario.email || "").trim().toLowerCase() === emailNormalizado
   );
 }
 
-// OTP mock
-function generarCodigoVerificacion() {
-  return Math.floor(100000 + Math.random() * 900000).toString();
+// Validaciones
+function validarTelefono(telefono) {
+  return /^[0-9]{10,}$/.test(telefono);
 }
 
-function enviarCodigoSimulado(email) {
-  const codigo = generarCodigoVerificacion();
-  codigosSimulados.set(email, codigo);
-  console.log(`Código simulado para ${email}: ${codigo}`);
-  return codigo;
-}
-
-function iniciarContador() {
-  detenerContador();
-  tiempoRestante = TIEMPO_CODIGO_MS / 1000;
-
-  if (contadorTiempo) {
-    contadorTiempo.textContent = `${tiempoRestante}s`;
+function validarPassword(password, confirmPassword) {
+  if (!password || !confirmPassword) {
+    return "Debes completar ambos campos de contraseña";
   }
 
-  contadorInterval = setInterval(() => {
-    tiempoRestante -= 1;
+  if (password !== confirmPassword) {
+    return "Las contraseñas no coinciden";
+  }
 
-    if (contadorTiempo) {
-      contadorTiempo.textContent = `${tiempoRestante}s`;
-    }
+  if (password.length < 6) {
+    return "La contraseña debe tener al menos 6 caracteres";
+  }
 
-    if (tiempoRestante <= 0) {
-      detenerContador();
-      mostrarMensaje(
-        mensajeRegistroPaso2,
-        "warning",
-        "Código expirado. Solicita uno nuevo."
-      );
-      formularioCodigoVerificacion.reset();
-      emailConfirmado.textContent = "";
-      resetearContadorVisual();
-      mostrarPasoRegistroDatos();
-    }
-  }, 1000);
+  return "";
 }
 
 // Eventos
@@ -306,7 +290,7 @@ function inicializarLogin() {
     const password = document.getElementById("password-login").value;
 
     const usuario = obtenerUsuarios().find(
-      (u) => u.email.toLowerCase() === email && u.password === password
+      (u) => (u.email || "").trim().toLowerCase() === email && (u.password || "") === password
     );
 
     if (!usuario) {
@@ -318,26 +302,6 @@ function inicializarLogin() {
     guardarSesion(sesion);
     redirigirSegunSesion(sesion, "../../");
   });
-}
-
-function validarTelefono(telefono) {
-  return /^[0-9]{10,}$/.test(telefono);
-}
-
-function validarPassword(password, confirmPassword) {
-  if (!password || !confirmPassword) {
-    return "Debes completar ambos campos de contraseña";
-  }
-
-  if (password !== confirmPassword) {
-    return "Las contraseñas no coinciden";
-  }
-
-  if (password.length < 6) {
-    return "La contraseña debe tener al menos 6 caracteres";
-  }
-
-  return "";
 }
 
 function inicializarRegistroPaso1() {
@@ -413,11 +377,9 @@ function inicializarRegistroPaso2() {
     const codigoIngresado = document.getElementById("codigo-verificacion").value.trim();
     const password = document.getElementById("password-registro").value;
     const confirmPassword = document.getElementById("confirm-password-registro").value;
-
     const email = datosRegistroPendiente.email;
-    const codigoValido = codigosSimulados.get(email);
 
-    const esCodigoDinamicoValido = codigoIngresado === codigoValido;
+    const esCodigoDinamicoValido = validarCodigoSimulado(email, codigoIngresado);
     const esCodigoClienteFiel = CODIGOS_CLIENTE_FIEL.includes(codigoIngresado);
     const esCodigoClientePremium = CODIGOS_CLIENTE_PREMIUM.includes(codigoIngresado);
     const esCodigoAdminAuxiliar = CODIGOS_ADMIN_AUXILIAR.includes(codigoIngresado);
@@ -465,7 +427,7 @@ function inicializarRegistroPaso2() {
     };
 
     guardarUsuario(nuevoUsuario);
-    codigosSimulados.delete(email);
+    eliminarCodigoSimulado(email);
 
     const nombreUsuario = nuevoUsuario.nombre;
 
@@ -506,6 +468,36 @@ function inicializarRegistroPaso2() {
       `¡${nombreUsuario}! Tu cuenta fue creada como Cliente. Ahora inicia sesión.`
     );
   });
+}
+
+function iniciarContador() {
+  detenerContador();
+  tiempoRestante = TIEMPO_CODIGO_MS / 1000;
+
+  if (contadorTiempo) {
+    contadorTiempo.textContent = `${tiempoRestante}s`;
+  }
+
+  contadorInterval = setInterval(() => {
+    tiempoRestante -= 1;
+
+    if (contadorTiempo) {
+      contadorTiempo.textContent = `${tiempoRestante}s`;
+    }
+
+    if (tiempoRestante <= 0) {
+      detenerContador();
+      mostrarMensaje(
+        mensajeRegistroPaso2,
+        "warning",
+        "Código expirado. Solicita uno nuevo."
+      );
+      formularioCodigoVerificacion.reset();
+      emailConfirmado.textContent = "";
+      resetearContadorVisual();
+      mostrarPasoRegistroDatos();
+    }
+  }, 1000);
 }
 
 function inicializarLoginPage() {
