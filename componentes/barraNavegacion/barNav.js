@@ -1,26 +1,14 @@
-function obtenerSesionActiva() {
-  try {
-    const sesionGuardada = JSON.parse(
-      localStorage.getItem("sesionBikePartsPro") || "null"
-    );
-
-    if (!sesionGuardada || typeof sesionGuardada !== "object") {
-      return null;
-    }
-
-    return sesionGuardada;
-  } catch (error) {
-    console.error("No fue posible leer la sesión activa:", error);
-    return null;
-  }
-}
+import {
+  obtenerSesionActiva,
+  limpiarSesion,
+} from "../../autorizaciones/autorizaciones.js";
 
 function construirVistasPublicas(basePath = "") {
   return {
     "Inicio": `${basePath}index.html`,
     "Catálogo": `${basePath}vistas/catalogo/catalogo.html`,
     "Quienes somos": `${basePath}vistas/acercaDeNosotros/acercaDeNosotros.html`,
-    "Contáctanos": `${basePath}vistas/contactenos/contacto.html`
+    "Contáctanos": `${basePath}vistas/contactenos/contacto.html`,
   };
 }
 
@@ -201,7 +189,7 @@ function inicializarBuscador(container, basePath = "") {
     "casco",
     "corazas",
     "marco",
-    "cuadro"
+    "cuadro",
   ];
 
   const busqueda = container.querySelector("#busqueda");
@@ -220,7 +208,7 @@ function inicializarBuscador(container, basePath = "") {
     }
 
     const coincidencias = partes.filter((parte) =>
-      parte.toLowerCase().includes(termino.toLowerCase())
+      parte.toLowerCase().includes(termino.toLowerCase()),
     );
 
     coincidencias.forEach((parte) => {
@@ -250,7 +238,7 @@ function inicializarBuscador(container, basePath = "") {
     }
 
     const coincidencia = partes.find((parte) =>
-      parte.toLowerCase().includes(termino)
+      parte.toLowerCase().includes(termino),
     );
 
     if (coincidencia) {
@@ -272,7 +260,7 @@ function inicializarCierreSesion(container, basePath = "") {
 
   if (botonCerrarSesion) {
     botonCerrarSesion.addEventListener("click", () => {
-      localStorage.removeItem("sesionBikePartsPro");
+      limpiarSesion();
       window.location.href = `${basePath}vistas/login/login.html`;
     });
   }
@@ -297,7 +285,7 @@ export function navBar(description, basePath = "") {
     description,
     viewsHtml,
     bloqueSesion,
-    basePath
+    basePath,
   );
 
   inicializarMenuMovil(container);
