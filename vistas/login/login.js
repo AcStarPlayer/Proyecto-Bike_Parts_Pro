@@ -12,7 +12,6 @@ document.getElementById("footer").innerHTML = footer("../../");
 
 // Configuración temporal de prueba
 const CLAVE_USUARIOS = "usuariosBikePartsPro";
-const CLAVE_SESION = "sesionBikePartsPro";
 const TIEMPO_CODIGO_MS = 120000;
 
 // Códigos quemados para jerarquías
@@ -20,7 +19,7 @@ const CODIGOS_CLIENTE_FIEL = ["111222", "333444", "555666"];
 const CODIGOS_CLIENTE_PREMIUM = ["123456", "789012", "345678"];
 const CODIGOS_ADMIN_AUXILIAR = ["999888", "777666", "555444"];
 
-// Simulación de códigos enviados
+// Mock OTP temporal
 const codigosSimulados = new Map();
 
 // DOM
@@ -51,7 +50,7 @@ let contadorInterval = null;
 let tiempoRestante = 0;
 let datosRegistroPendiente = null;
 
-// Utilidades de interfaz
+// Utilidades UI
 function limpiarMensaje(elemento) {
   if (!elemento) return;
   elemento.className = "d-none";
@@ -183,51 +182,29 @@ function usuarioExiste(email) {
   );
 }
 
-// Sesión temporal
-function guardarSesionTemporal(sesion) {
-  guardarSesion(sesion);
-  localStorage.setItem(CLAVE_SESION, JSON.stringify(sesion));
-}
-
-function redirigirLuegoDeLogin(sesion) {
-  redirigirSegunSesion(sesion, "../../");
-}
-
-// Validaciones
-function validarTelefono(telefono) {
-  return /^[0-9]{10,}$/.test(telefono);
-}
-
-function validarPassword(password, confirmPassword) {
-  if (!password || !confirmPassword) {
-    return "Debes completar ambos campos de contraseña";
-  }
-
-  if (password !== confirmPassword) {
-    return "Las contraseñas no coinciden";
-  }
-
-  if (password.length < 6) {
-    return "La contraseña debe tener al menos 6 caracteres";
-  }
-
-  return "";
-}
-
-// Código de verificación
+// OTP mock
 function generarCodigoVerificacion() {
   return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+function enviarCodigoSimulado(email) {
+  const codigo = generarCodigoVerificacion();
+  codigosSimulados.set(email, codigo);
+  console.log(`Código simulado para ${email}: ${codigo}`);
+  return codigo;
 }
 
 function iniciarContador() {
   detenerContador();
   tiempoRestante = TIEMPO_CODIGO_MS / 1000;
+
   if (contadorTiempo) {
     contadorTiempo.textContent = `${tiempoRestante}s`;
   }
 
   contadorInterval = setInterval(() => {
-    tiempoRestante--;
+    tiempoRestante -= 1;
+
     if (contadorTiempo) {
       contadorTiempo.textContent = `${tiempoRestante}s`;
     }
@@ -247,14 +224,7 @@ function iniciarContador() {
   }, 1000);
 }
 
-function enviarCodigoSimulado(email) {
-  const codigo = generarCodigoVerificacion();
-  codigosSimulados.set(email, codigo);
-  console.log(`Código simulado para ${email}: ${codigo}`);
-  return codigo;
-}
-
-// Eventos de navegación
+// Eventos
 function inicializarNavegacionEntreVistas() {
   linkSignin.addEventListener("click", (e) => {
     e.preventDefault();
@@ -327,7 +297,6 @@ function inicializarNavegacionEntreVistas() {
   });
 }
 
-// Login
 function inicializarLogin() {
   formularioLogin.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -346,12 +315,31 @@ function inicializarLogin() {
     }
 
     const sesion = construirSesionDesdeUsuario(usuario);
-    guardarSesionTemporal(sesion);
-    redirigirLuegoDeLogin(sesion);
+    guardarSesion(sesion);
+    redirigirSegunSesion(sesion, "../../");
   });
 }
 
-// Registro paso 1
+function validarTelefono(telefono) {
+  return /^[0-9]{10,}$/.test(telefono);
+}
+
+function validarPassword(password, confirmPassword) {
+  if (!password || !confirmPassword) {
+    return "Debes completar ambos campos de contraseña";
+  }
+
+  if (password !== confirmPassword) {
+    return "Las contraseñas no coinciden";
+  }
+
+  if (password.length < 6) {
+    return "La contraseña debe tener al menos 6 caracteres";
+  }
+
+  return "";
+}
+
 function inicializarRegistroPaso1() {
   formularioDatosRegistro.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -407,7 +395,6 @@ function inicializarRegistroPaso1() {
   });
 }
 
-// Registro paso 2
 function inicializarRegistroPaso2() {
   formularioCodigoVerificacion.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -423,10 +410,7 @@ function inicializarRegistroPaso2() {
       return;
     }
 
-    const codigoIngresado = document
-      .getElementById("codigo-verificacion")
-      .value.trim();
-
+    const codigoIngresado = document.getElementById("codigo-verificacion").value.trim();
     const password = document.getElementById("password-registro").value;
     const confirmPassword = document.getElementById("confirm-password-registro").value;
 
@@ -524,7 +508,6 @@ function inicializarRegistroPaso2() {
   });
 }
 
-// Inicialización general
 function inicializarLoginPage() {
   resolverVistaInicial();
   mostrarPasoRegistroDatos();
