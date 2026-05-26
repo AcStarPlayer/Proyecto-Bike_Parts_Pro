@@ -54,7 +54,7 @@ const integrantes = [
   },
   {
     nombre: "Fernando Alayon",
-    rol: "BackEnd Developer",
+    rol: "FullStack Developer",
     descripcion: "Enfocado en bases de datos y aplicaciones web.",
     github: "https://github.com/feralayon",
     linkedin: "https://www.linkedin.com/in/freddy-fernando-alayon-cubillos",
@@ -62,7 +62,7 @@ const integrantes = [
   },
   {
     nombre: "Leisy Sanchez",
-    rol: "BackEnd Developer",
+    rol: "FullStack Developer",
     descripcion: "Enfocado en bases de datos y aplicaciones web.",
     github: "https://github.com/Leisy17",
     linkedin: "https://www.linkedin.com/in/leisy-sanchez",
@@ -89,7 +89,7 @@ integrantes.forEach((persona) => {
       ${tarjetasConImagen(
         persona.nombre,
         persona.rol,
-        persona.descripcion,
+        null,
         persona.imagen,
         links,
         "sm",

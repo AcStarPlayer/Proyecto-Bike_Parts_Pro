@@ -1,87 +1,98 @@
 export const productosPredeterminados = [
   {
     sku: "BPP-012",
-    titulo: "Cadena 12 vel 1/2x11/128",
-    precio: 167000,
-    descripcion: "Cadena super ligera perforada",
-    imagen: "../../img/index/1.webp"
+    titulo: "Cadena Shimano",
+    precio: 45000,
+    descripcion: "Cadena de alto rendimiento diseñada para bicicletas MTB y ruta, con excelente resistencia al desgaste y cambios suaves en cualquier terreno.",
+    categoria: "transmision",
+    imagen: "../../img/index/tensor1.webp"
   },
   {
     sku: "BPP-011",
-    titulo: "Pacha Cassette Ruta 11Vel 11-32T",
+    titulo: "Frenos de disco",
     precio: 120000,
-    descripcion: "Precisión total",
-    imagen: "../../img/catalogo/2.webp"
+    descripcion: "Sistema de frenos de disco hidráulicos con máxima precisión y respuesta inmediata para una conducción más segura y estable.",
+    categoria: "frenos",
+    imagen: "../../img/index/tensor2.webp"
   },
   {
     sku: "BPP-010",
-    titulo: "",
+    titulo: "Casco Pro",
     precio: 80000,
-    descripcion: "Ligero y seguro",
-    imagen: "../../img/catalogo/3.webp"
+    descripcion: "Casco ultraligero con diseño aerodinámico y ventilación avanzada, ideal para ciclismo urbano y de montaña.",
+    categoria: "direccion",
+    imagen: "../../img/index/silla1.webp"
   },
   {
     sku: "BPP-001",
     titulo: "Pedales aluminio",
     precio: 60000,
-    descripcion: "Alta durabilidad",
-    imagen: "../../img/catalogo/4.webp"
+    descripcion: "Pedales fabricados en aluminio reforzado con superficie antideslizante para mayor estabilidad y control durante el pedaleo.",
+    categoria: "transmision",
+    imagen: "../../img/index/pacha2.webp"
   },
   {
     sku: "BPP-002",
-    titulo: "Pedales",
+    titulo: "Rin 29",
     precio: 200000,
-    descripcion: "Resistencia extrema",
-    imagen: "../../img/catalogo/4.webp"
+    descripcion: "Rin de 29 pulgadas construido en aleación resistente para soportar impactos extremos y recorridos exigentes.",
+    categoria: "ruedas",
+    imagen: "../../img/index/pedales1.webp"
   },
   {
     sku: "BPP-003",
-    titulo: "Ruedas Ruta 700C 24H",
+    titulo: "Sillín confort",
     precio: 55000,
-    descripcion: "Mayor comodidad",
-    imagen: "../../img/catalogo/5.webp"
+    descripcion: "Sillín ergonómico acolchado que reduce la presión y mejora la comodidad en trayectos largos de ciclismo.",
+    categoria: "direccion",
+    imagen: "../../img/index/pedales2.webp"
   },
   {
     sku: "BPP-004",
-    titulo: "Rueda De Disco Textreme Pro",
+    titulo: "Manubrio MTB",
     precio: 70000,
-    descripcion: "Control total",
-    imagen: "../../img/catalogo/6.webp"
+    descripcion: "Manubrio de montaña fabricado en aluminio liviano para mayor control, estabilidad y resistencia en terrenos difíciles.",
+    categoria: "direccion",
+    imagen: "../../img/index/casco2.webp"
   },
   {
     sku: "BPP-005",
-    titulo: "Sillin",
+    titulo: "Guantes ciclismo",
     precio: 25000,
-    descripcion: "Mejor agarre",
-    imagen: "../../img/catalogo/7.webp"
+    descripcion: "Guantes transpirables con refuerzo antideslizante que mejoran el agarre y reducen la fatiga en las manos.",
+    categoria: "direccion",
+    imagen: "../../img/index/llanta2.webp"
   },
   {
     sku: "BPP-006",
-    titulo: "Sillín De Bicicleta AS1",
+    titulo: "Bomba aire",
     precio: 35000,
-    descripcion: "Compacta y eficiente",
-    imagen: "/../img/catalogo/7.webp"
+    descripcion: "Bomba portátil compacta compatible con válvulas Presta y Schrader, ideal para emergencias y ajustes rápidos.",
+    categoria: "llantas",
+    imagen: "../../img/index/llanta1.webp"
   },
   {
     sku: "BPP-007",
-    titulo: "Suspención",
+    titulo: "Kit herramientas",
     precio: 90000,
-    descripcion: "Todo en uno",
-    imagen: "../../img/catalogo/lampara1.webp"
+    descripcion: "Kit multifuncional para mantenimiento de bicicletas con llaves hexagonales, desmontadores y herramientas esenciales.",
+    categoria: "transmision",
+    imagen: "../../img/index/lampara1.webp"
   },
   {
     sku: "BPP-008",
-  titulo: "Suspensión Delantera D/B",
-  precio: 45000,
-  descripcion: "Alta resistencia MTB",
-  imagen: "../../img/catalogo/casco.webp"
-  },  
-
+    titulo: "Cadena Shimano",
+    precio: 45000,
+    descripcion: "Cadena reforzada con tratamiento anticorrosivo que garantiza durabilidad y un rendimiento eficiente en cambios.",
+    categoria: "transmision",
+    imagen: "../../img/index/casco.webp"
+  },
   {
-  sku: "BPP-009",
-  titulo: "Sillín De Bicicleta AS1",
-  precio: 45000,
-  descripcion: "Alta resistencia MTB",
-  imagen: "../../img/catalogo/gafas1.webp"
-}
+    sku: "BPP-009",
+    titulo: "Gafas ciclismo",
+    precio: 45000,
+    descripcion: "Gafas deportivas con protección UV y diseño envolvente para mayor seguridad visual en rutas de alta velocidad.",
+    categoria: "direccion",
+    imagen: "../../img/index/gafas1.webp"
+  }
 ];
