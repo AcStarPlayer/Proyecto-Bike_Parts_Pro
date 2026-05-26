@@ -69,9 +69,7 @@ function eliminarProductoDelCarritoCompras(sku) {
 }
 
 function actualizarGloboCantidadCarrito() {
-  const globoCantidadCarrito = document.getElementById(
-    "globo-cantidad-carrito",
-  );
+  const globoCantidadCarrito = document.getElementById("globo-cantidad-carrito");
   if (!globoCantidadCarrito) return;
 
   const cantidadTotal = obtenerCantidadTotalArticulosCarrito();
@@ -112,22 +110,24 @@ function construirHtmlItemsCarrito() {
       return `
       <li class="item-producto-carrito">
         <div class="encabezado-item-carrito">
-            <p class="nombre-item-carrito">${item.nombre}</p>
-            
-            <div class="controles-cantidad">
-              <button class="btn-cantidad-menos" data-sku-disminuir="${item.sku}">-</button>
-              <span class="indicador-cantidad-item-carrito">${item.cantidad}</span>
-              <button class="btn-cantidad-mas" data-sku-aumentar="${item.sku}">+</button>
-          </div>
-          </div>
+          <p class="nombre-item-carrito">${item.nombre}</p>
 
-          <div class="detalles-item-carrito">
-            <span>Marca: ${item.marca || "Sin marca"}</span>
-            <span>SKU: ${item.sku}</span>
-            <span>Unitario: ${formatearMonedaPesosColombianos(item.precio)}</span>
-          </div>          
+          <div class="controles-cantidad">
+            <button class="btn-cantidad-menos" data-sku-disminuir="${item.sku}">-</button>
+            <span class="etiqueta-cantidad-item-carrito">Cantidad</span>
+            <span class="indicador-cantidad-item-carrito">${item.cantidad}</span>
+            <button class="btn-cantidad-mas" data-sku-aumentar="${item.sku}">+</button>
+          </div>
+        </div>
+
+        <div class="detalles-item-carrito">
+          <span>Marca: ${item.marca || "Sin marca"}</span>
+          <span>SKU: ${item.sku}</span>
+          <span>Unitario: ${formatearMonedaPesosColombianos(item.precio)}</span>
+        </div>
+
         <div class="informacion-total-item-carrito">
-        <p class="total-linea-item-carrito">
+          <p class="total-linea-item-carrito">
             ${formatearMonedaPesosColombianos(valorTotalLinea)}
           </p>
           <div class="acciones-item-carrito">
@@ -138,21 +138,41 @@ function construirHtmlItemsCarrito() {
         </div>
       </li>
     `;
-    }).join("");
+    })
+    .join("");
+}
+
+function construirHtmlBotonFinalizarCompra() {
+  if (!carritoCompras.length) return "";
+
+  return `
+    <div class="acciones-finalizar-carrito">
+      <button
+        type="button"
+        id="boton-finalizar-compra-carrito"
+        class="boton-finalizar-compra-carrito"
+      >
+        Finalizar compra
+      </button>
+    </div>
+  `;
 }
 
 function renderizarListaCarritoCompras() {
-  const listaProductosCarrito = document.getElementById(
-    "lista-productos-carrito",
-  );
+  const listaProductosCarrito = document.getElementById("lista-productos-carrito");
   const mensajeCarritoVacio = document.getElementById("mensaje-carrito-vacio");
   const botonVaciarCarrito = document.getElementById("boton-vaciar-carrito");
+  const contenedorAccionFinalizar = document.getElementById("contenedor-finalizar-compra-carrito");
 
   if (!listaProductosCarrito || !mensajeCarritoVacio || !botonVaciarCarrito) {
     return;
   }
 
   listaProductosCarrito.innerHTML = construirHtmlItemsCarrito();
+
+  if (contenedorAccionFinalizar) {
+    contenedorAccionFinalizar.innerHTML = construirHtmlBotonFinalizarCompra();
+  }
 
   const carritoEstaVacio = carritoCompras.length === 0;
   mensajeCarritoVacio.style.display = carritoEstaVacio ? "block" : "none";
@@ -224,6 +244,25 @@ function renderizarBotonFlotanteCarrito() {
   document.body.appendChild(boton);
 }
 
+export function finalizarCompraCarrito() {
+  if (carritoCompras.length === 0) return;
+
+  const datosCompra = {
+    items: carritoCompras.map((item) => ({
+      sku: item.sku,
+      nombre: item.nombre,
+      marca: item.marca,
+      precio: item.precio,
+      cantidad: item.cantidad,
+      subtotal: item.precio * item.cantidad,
+    })),
+    total: obtenerValorTotalCarrito(),
+    cantidadTotal: obtenerCantidadTotalArticulosCarrito(),
+  };
+
+  console.log("Preparado para pasarela de pago:", datosCompra);
+}
+
 export function vaciarCarritoCompras() {
   carritoCompras = [];
   guardarCarritoCompras();
@@ -235,5 +274,11 @@ export function renderizarCarritoCompras() {
   actualizarGloboCantidadCarrito();
   renderizarListaCarritoCompras();
   renderizarTotalCarritoCompras();
+
+  const botonFinalizarCompra = document.getElementById("boton-finalizar-compra-carrito");
+  if (botonFinalizarCompra) {
+    botonFinalizarCompra.addEventListener("click", finalizarCompraCarrito);
+  }
+
   actualizarBotonFlotanteCarrito();
 }

@@ -14,9 +14,7 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 }
 
 .boton-flotante-carrito:hover {
@@ -41,8 +39,9 @@
   height: 22px;
   padding: 0 0.35rem;
   border-radius: 999px;
-  background: var(--color-primary-dark);
+  background: var(--color-primary);
   color: var(--color-white);
+  border: 2px solid var(--color-white);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -177,17 +176,29 @@
 }
 
 .indicador-cantidad-item-carrito {
-  min-width: 28px;
-  height: 28px;
-  padding: 0 0.5rem;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 0.45rem;
   border-radius: 999px;
-  background: var(--color-accent);
-  color: var(--color-white);
+  background: rgba(20, 67, 120, 0.12);
+  color: var(--color-primary-dark);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.76rem;
-  font-weight: 900;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: none;
+  border: 1px solid rgba(20, 67, 120, 0.18);
+  cursor: default;
+  pointer-events: none;
+  user-select: none;
+}
+
+.etiqueta-cantidad-item-carrito {
+  font-size: 0.78rem;
+  color: var(--color-gray);
+  font-weight: 600;
 }
 
 .detalles-item-carrito {
@@ -255,6 +266,40 @@
   color: var(--color-primary-dark);
 }
 
+/* ── ACCIONES FINALES ── */
+.acciones-finalizar-carrito {
+  margin-top: 0.9rem;
+}
+
+.boton-finalizar-compra-carrito {
+  width: 100%;
+  min-height: 46px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  color: var(--color-white);
+  font-size: 0.98rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.14);
+}
+
+.boton-finalizar-compra-carrito:hover {
+  background: linear-gradient(135deg, var(--color-primary-dark), var(--color-primary));
+  transform: translateY(-2px);
+  box-shadow: 0 14px 26px rgba(0, 0, 0, 0.16);
+}
+
+.boton-finalizar-compra-carrito:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
 /* ── BOTÓN AGREGAR AL CARRITO (tarjetas) ── */
 .boton-agregar-carrito-producto {
   width: 100%;
@@ -266,9 +311,7 @@
   font-size: 0.9rem;
   font-weight: 700;
   cursor: pointer;
-  transition:
-    background 0.2s ease,
-    transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .boton-agregar-carrito-producto:hover {
@@ -276,9 +319,16 @@
   transform: translateY(-1px);
 }
 
-.boton-agregar-carrito-producto.agregado {
+.boton-agregar-carrito-producto.agregado,
+.boton-agregar-carrito-producto.agregado:hover,
+.boton-agregar-carrito-producto:disabled {
   background: var(--color-accent);
   color: var(--color-white);
+  transform: none;
+  box-shadow: none;
+  transition: none;
+  cursor: default;
+  pointer-events: none;
 }
 
 .controles-cantidad {
@@ -306,6 +356,29 @@
 .btn-cantidad-mas:hover,
 .btn-cantidad-menos:hover {
   background-color: var(--color-surface);
+}
+
+/* ── TOAST ── */
+.toast-carrito-agregado {
+  position: fixed;
+  left: 50%;
+  bottom: 1.25rem;
+  transform: translateX(-50%) translateY(12px);
+  background: var(--color-primary-dark);
+  color: var(--color-white);
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 2000;
+  font-weight: 700;
+}
+
+.toast-carrito-agregado.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 /* ── RESPONSIVE ── */
