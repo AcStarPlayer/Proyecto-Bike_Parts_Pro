@@ -53,14 +53,14 @@
   width: auto;
 }
 
-.botones-nav li:hover {
-  border-radius: 3px;
-  background-color: var(--color-primary-dark);
-  cursor: pointer;
-}
-
 .botones-nav a {
   text-decoration: none;
+}
+
+.botones-nav a:hover {
+  border-radius: 3px;
+  cursor: pointer;
+  color: var(--color-hover);
 }
 
 .nav-style-text {
@@ -76,8 +76,8 @@
   cursor: pointer;
   gap: 5px;
   z-index: 10;
-  background: var(--color-primary-dark);
-  border: var(--color-border) 0.5px solid;
+  background: var(--color-primary);
+  border: var(--color-gray) 0.01px solid;
 }
 
 .botones-nav {
@@ -89,9 +89,9 @@
 }
 
 .bar {
-  width: 30px;
-  height: 4px;
-  background-color: var(--color-white);
+  width: 25px;
+  height: 2px;
+  background-color: var(--color-gray);
   border-radius: 2px;
   transition: all 0.3s ease;
 }
@@ -100,16 +100,18 @@
     font-size: 0.75rem !important;
   }
 
-  .search-container {
+.search-container {
+  position: relative;
   display: flex;
   align-items: center;
+  flex-direction: column;
   background-color: var(--color-white);
-  border-radius: 15px; 
-  padding: 4px 4px 4px 15px; 
-  border: 1px solid var(--color-border);
-  flex-grow: 1; 
-  max-width: 500px; 
-  margin: 0 20px; 
+  border-radius: 8px;
+  padding: 2px 6px;
+  margin: 0 0.75rem;
+  max-width: 800px;
+  flex: 1;
+  min-width: 0;
 }
 
 .search-container input {
@@ -117,34 +119,41 @@
   background: transparent;
   outline: none;
   width: 100%;
-  font-size: 0.9rem;
-  color: var(--color-primary-dark);
+  font-size: 0.85rem;
+  color: var(--color-gray);
 }
 
 .search-container button {
-  background-color: var(--color-accent);
-  color: var(--color-white);
   border: none;
-  padding: 8px 20px;
-  border-radius: 20px;
+  background: transparent;
+  border-left: 1px solid var(--color-gray);
+  padding: 6px 10px;
   cursor: pointer;
-  font-weight: 700;
-  transition: all 0.3s ease;
+  color: var(--color-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
 }
 
 .search-container button:hover {
   filter: brightness(1.1);
   transform: scale(1.02);
 }
+
 .ingreso{
-  height: 3rem;
-  width: 3rem;
-  object-fit: cover;
   display: flex;
   background-color: transparent;
   align-items: center;
   justify-content: center;
+  padding: 8px;
+  color: var(--color-white);
+  font-weight: 600;
+  font-size: 1rem;
+  border: 1px var(--color-gray) solid;
+
 }
+
 .ingreso svg{
   height: 90%;
   width: 90%;
@@ -153,10 +162,6 @@
   color: rgb(255, 255, 255);
 }
 
-.search-container{
-  position: relative;
-
-}
 .lista-busqueda-rapida {
   list-style: none;
   padding: 0;
@@ -174,7 +179,7 @@
 
 .lista-busqueda-rapida p:hover, 
 .lista-busqueda-rapida li:hover {
-  background-color: #eee; 
+  background-color: var(--color-surface); 
   color: var(--color-accent);
 }
 
@@ -182,24 +187,56 @@
 .lista-busqueda-rapida p:last-child {
   border-bottom: none;
 }
+
+.busqueda-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
 #desplegado {
   position: absolute;
-
-  top: 100%; 
-  left: 10px;
-  width: 95%; 
-  background-color: #eee;
+  top: 100%;
+  width: 100%;
+  background-color: var(--color-white);
   z-index: 10000 !important ;
-  border: 1px solid var(--color-border);
-  border-radius: 15px 15px 15px 15px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   max-height: 250px;
   overflow-y: auto; 
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1200px) {
+  .logo-area {
+    order: 1;
+  }
+
+  .separator,
+  .text-container {
+    display: none;
+  }
+
+  .search-container {
+    order: 2;
+    flex-grow: 1;
+    width: auto;
+  }
+
+  .ingreso {
+    order: 3;
+    margin-left: 0;
+    padding: 2.5px 10px;
+    font-size: 1.1rem;
+    border: var(--color-gray) 0.01px solid;
+  }
+
+  .ingreso-text {
+    display: none;
+  }
+
   .menu-toggle {
+    order: 4;
     display: flex;
+    margin-left: 0.5rem;
   }
 
   .botones-nav {
@@ -216,24 +253,14 @@
   .botones-nav.active {
     display: flex;
   }
-  
+
   .botones-nav li {
     width: 100%;
   }
+
   .botones-nav li:hover {
     border-radius: 0px;
     background-color: var(--color-primary-opacity);
-  }
-  .search-container button {
-    font-size: 0;
-    padding: 10px;
-    border-radius: 50%; 
-  }
-
-  .search-container button:before {
-    content: "🔍"; 
-    font-size: 1.2rem;
-    background-color: transparent;
   }
 }
 
