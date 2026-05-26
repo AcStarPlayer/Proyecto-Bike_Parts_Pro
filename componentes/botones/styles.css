@@ -19,8 +19,8 @@
 }
 
 .btn-primary:hover {
-  background-color: var(--color-primary-light);
-  border-color: var(--color-primary-light);
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
 }
 
 .btn-dark {

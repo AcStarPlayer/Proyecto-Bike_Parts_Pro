@@ -39,7 +39,7 @@
   height: 22px;
   padding: 0 0.35rem;
   border-radius: 999px;
-  background: var(--color-primary);
+  background: var(--color-primary-dark);
   color: var(--color-white);
   border: 2px solid var(--color-white);
   display: inline-flex;
@@ -176,12 +176,12 @@
 }
 
 .indicador-cantidad-item-carrito {
-  min-width: 26px;
-  height: 26px;
-  padding: 0 0.45rem;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 0.5rem;
   border-radius: 999px;
-  background: rgba(20, 67, 120, 0.12);
-  color: var(--color-primary-dark);
+  background: var(--color-accent);
+  color: var(--color-white);
   display: inline-flex;
   align-items: center;
   justify-content: center;
