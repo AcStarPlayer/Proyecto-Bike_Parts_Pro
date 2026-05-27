@@ -8,3 +8,4 @@ navBar("Sube de nivel", "./");
 
 document.getElementById("footer").innerHTML = footer("../../");
 
+inicializarBotonesCarrito();

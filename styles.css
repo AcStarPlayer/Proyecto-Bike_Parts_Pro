@@ -1,8 +1,7 @@
-/* ================= IMPORTS ================= */
+
 @import url(vistas/carrito/styles.css);
 
 
-/* ================= VARIABLES ================= */
 :root {
   --color-primary: #2D5A3D;
   --color-primary-opacity: rgba(45, 90, 61, 0.3);
@@ -21,9 +20,6 @@
 }
 
 
-
-
-/* ================= BASE ================= */
 body {
   background-color: var(--color-light);
   font-family: 'Poppins', sans-serif;
@@ -35,7 +31,7 @@ img {
 }
 
 
-/* ================= TIPOGRAFÍA ================= */
+/*  TIPOGRAFÍA */
 h1, h2, h3 {
   color: var(--color-primary-dark);
 }
@@ -45,7 +41,7 @@ h1, h2, h3 {
 .text-secondary { color: var(--color-gray) !important; }
 
 
-/* ================= HERO ================= */
+/* HERO */
 .hero {
   position: relative;
   height: 500px;
@@ -112,7 +108,6 @@ h1, h2, h3 {
 }
 
 
-
 /* Barra informativa debajo del banner */
 .stats-strip {
   background: var(--color-primary-dark);
@@ -153,7 +148,7 @@ h1, h2, h3 {
 }
 
 
-/* ================= CATEGORÍAS ================= */
+/* CATEGORÍAS  */
 .categorias-section {
   padding-top: 1rem;
 }
@@ -246,7 +241,7 @@ h1, h2, h3 {
 }
 
 
-/* ================= ¿POR QUÉ ELEGIRNOS? ================= */
+/* ¿POR QUÉ ELEGIRNOS? */
 .porque-section {
   background: var(--color-primary);
   padding: 60px 0;
@@ -359,7 +354,7 @@ h1, h2, h3 {
 }
 
 
-/* ================= RESPONSIVE ================= */
+/*  RESPONSIVE  */
 
 /* 📱 CELULARES */
 @media (max-width: 768px) {
