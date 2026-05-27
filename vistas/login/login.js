@@ -11,48 +11,67 @@ import {
   validarCodigoSimulado,
   eliminarCodigoSimulado,
 } from "../../autorizaciones/codigoVerificacion.js";
+import {
+  solicitarRecuperacion,
+  validarSolicitudRecuperacion,
+  marcarRecuperacionComoUsada,
+  limpiarRecuperacion,
+} from "../../autorizaciones/recuperacionContrasena.js";
 
-// Inicialización visual
 navBar("BikePartsPro", "../../");
 document.getElementById("footer").innerHTML = footer("../../");
 
-// Configuración temporal de prueba
 const CLAVE_USUARIOS = "usuariosBikePartsPro";
 
-// Códigos quemados para jerarquías
 const CODIGOS_CLIENTE_FIEL = ["111222", "333444", "555666"];
 const CODIGOS_CLIENTE_PREMIUM = ["123456", "789012", "345678"];
 const CODIGOS_ADMIN_AUXILIAR = ["999888", "777666", "555444"];
 
-// DOM
 const vistaLogin = document.getElementById("vista-login");
 const vistaSignin = document.getElementById("vista-signin");
+const vistaRecuperacion = document.getElementById("vista-recuperacion");
 
 const formularioLogin = document.getElementById("formulario-login");
 const formularioDatosRegistro = document.getElementById("form-datos-registro");
 const formularioCodigoVerificacion = document.getElementById("form-codigo-verificacion");
 
+const formularioRecuperacionSolicitud = document.getElementById("form-recuperacion-solicitud");
+const formularioRecuperacionCambio = document.getElementById("form-recuperacion-cambio");
+
+const pasoRegistroDatos = document.getElementById("paso-registro-datos");
 const pasoCodigoVerificacion = document.getElementById("paso-codigo-verificacion");
+
+const pasoRecuperacionSolicitud = document.getElementById("paso-recuperacion-solicitud");
+const pasoRecuperacionCambio = document.getElementById("paso-recuperacion-cambio");
 
 const linkSignin = document.getElementById("link-signin");
 const linkVolverLogin = document.getElementById("volver-login");
+const linkVolverLoginDesdeRegistro = document.getElementById("volver-login-desde-registro");
 const linkVolverDatosRegistro = document.getElementById("volver-datos-registro");
 const linkRecuperar = document.getElementById("link-recuperar");
+
+const linkVolverLoginDesdeRecuperacion = document.getElementById("volver-login-desde-recuperacion");
+const linkVolverSolicitudRecuperacion = document.getElementById("volver-solicitud-recuperacion");
+const linkCancelarRecuperacion = document.getElementById("cancelar-recuperacion");
+
 const botonReenviarCodigo = document.getElementById("reenviar-codigo");
+const botonReenviarRecuperacion = document.getElementById("reenviar-recuperacion");
 
 const emailConfirmado = document.getElementById("email-confirmado");
+const emailRecuperacionConfirmado = document.getElementById("email-recuperacion-confirmado");
 const contadorTiempo = document.getElementById("contador-tiempo");
 
 const mensajeLogin = document.getElementById("mensaje-login");
 const mensajeRegistroPaso1 = document.getElementById("mensaje-registro-paso1");
 const mensajeRegistroPaso2 = document.getElementById("mensaje-registro-paso2");
+const mensajeRecuperacionSolicitud = document.getElementById("mensaje-recuperacion-solicitud");
+const mensajeRecuperacionCambio = document.getElementById("mensaje-recuperacion-cambio");
 
-// Estado
 let contadorInterval = null;
 let tiempoRestante = 0;
 let datosRegistroPendiente = null;
+let emailRecuperacionPendiente = "";
 
-// Utilidades UI
 function limpiarMensaje(elemento) {
   if (!elemento) return;
   elemento.className = "d-none";
@@ -63,6 +82,8 @@ function limpiarTodosLosMensajes() {
   limpiarMensaje(mensajeLogin);
   limpiarMensaje(mensajeRegistroPaso1);
   limpiarMensaje(mensajeRegistroPaso2);
+  limpiarMensaje(mensajeRecuperacionSolicitud);
+  limpiarMensaje(mensajeRecuperacionCambio);
 }
 
 function mostrarMensaje(elemento, tipo, texto) {
@@ -96,17 +117,30 @@ function actualizarHash(hash = "") {
   window.history.replaceState({}, "", nuevaUrl);
 }
 
-// Navegación de vistas
-function mostrarVistaLogin() {
-  vistaLogin.classList.remove("d-none");
+function ocultarTodasLasVistas() {
+  vistaLogin.classList.add("d-none");
   vistaSignin.classList.add("d-none");
+  vistaRecuperacion.classList.add("d-none");
+}
+
+function mostrarVistaLogin() {
+  ocultarTodasLasVistas();
+  vistaLogin.classList.remove("d-none");
   actualizarHash("");
 }
 
 function mostrarVistaSignin() {
-  vistaLogin.classList.add("d-none");
+  ocultarTodasLasVistas();
   vistaSignin.classList.remove("d-none");
+  mostrarPasoRegistroDatos();
   actualizarHash("#signin");
+}
+
+function mostrarVistaRecuperacion() {
+  ocultarTodasLasVistas();
+  vistaRecuperacion.classList.remove("d-none");
+  mostrarPasoRecuperacionSolicitud();
+  actualizarHash("#recuperacion");
 }
 
 function mostrarPasoRegistroDatos() {
@@ -119,29 +153,44 @@ function mostrarPasoRegistroCodigo() {
   pasoCodigoVerificacion.classList.remove("d-none");
 }
 
+function mostrarPasoRecuperacionSolicitud() {
+  pasoRecuperacionSolicitud.classList.remove("d-none");
+  pasoRecuperacionCambio.classList.add("d-none");
+}
+
+function mostrarPasoRecuperacionCambio() {
+  pasoRecuperacionSolicitud.classList.add("d-none");
+  pasoRecuperacionCambio.classList.remove("d-none");
+}
+
 function resolverVistaInicial() {
   if (window.location.hash === "#signin") {
     mostrarVistaSignin();
     mostrarPasoRegistroDatos();
-  } else {
-    mostrarVistaLogin();
+    return;
   }
+
+  if (window.location.hash === "#recuperacion") {
+    mostrarVistaRecuperacion();
+    return;
+  }
+
+  mostrarVistaLogin();
 }
 
-// Limpieza de formularios
 function limpiarCamposLogin() {
-  formularioLogin.reset();
+  if (formularioLogin) formularioLogin.reset();
   limpiarMensaje(mensajeLogin);
 }
 
 function limpiarCamposRegistroPaso1() {
-  formularioDatosRegistro.reset();
+  if (formularioDatosRegistro) formularioDatosRegistro.reset();
   limpiarMensaje(mensajeRegistroPaso1);
 }
 
 function limpiarCamposRegistroPaso2() {
-  formularioCodigoVerificacion.reset();
-  emailConfirmado.textContent = "";
+  if (formularioCodigoVerificacion) formularioCodigoVerificacion.reset();
+  if (emailConfirmado) emailConfirmado.textContent = "";
   limpiarMensaje(mensajeRegistroPaso2);
   detenerContador();
   resetearContadorVisual();
@@ -154,12 +203,33 @@ function limpiarFlujoRegistroCompleto() {
   mostrarPasoRegistroDatos();
 }
 
+function limpiarCamposRecuperacionSolicitud() {
+  if (formularioRecuperacionSolicitud) formularioRecuperacionSolicitud.reset();
+  limpiarMensaje(mensajeRecuperacionSolicitud);
+}
+
+function limpiarCamposRecuperacionCambio() {
+  if (formularioRecuperacionCambio) formularioRecuperacionCambio.reset();
+  if (emailRecuperacionConfirmado) emailRecuperacionConfirmado.textContent = "";
+  limpiarMensaje(mensajeRecuperacionCambio);
+}
+
+function limpiarFlujoRecuperacionCompleto() {
+  limpiarCamposRecuperacionSolicitud();
+  limpiarCamposRecuperacionCambio();
+  if (emailRecuperacionPendiente) {
+    limpiarRecuperacion(emailRecuperacionPendiente);
+  }
+  emailRecuperacionPendiente = "";
+  mostrarPasoRecuperacionSolicitud();
+}
+
 function limpiarCamposAcceso() {
   limpiarCamposLogin();
   limpiarFlujoRegistroCompleto();
+  limpiarFlujoRecuperacionCompleto();
 }
 
-// Persistencia temporal
 function obtenerUsuarios() {
   try {
     const data = localStorage.getItem(CLAVE_USUARIOS);
@@ -180,6 +250,23 @@ function guardarUsuario(usuario) {
   guardarUsuarios(usuarios);
 }
 
+function actualizarPasswordUsuario(email, nuevaPassword) {
+  const emailNormalizado = email.trim().toLowerCase();
+  const usuarios = obtenerUsuarios();
+  const indice = usuarios.findIndex(
+    (usuario) => (usuario.email || "").trim().toLowerCase() === emailNormalizado
+  );
+
+  if (indice === -1) {
+    return false;
+  }
+
+  usuarios[indice].password = nuevaPassword;
+  usuarios[indice].fechaActualizacionPassword = new Date().toISOString();
+  guardarUsuarios(usuarios);
+  return true;
+}
+
 function usuarioExiste(email) {
   const emailNormalizado = email.trim().toLowerCase();
   return obtenerUsuarios().some(
@@ -187,7 +274,6 @@ function usuarioExiste(email) {
   );
 }
 
-// Validaciones
 function validarTelefono(telefono) {
   return /^[0-9]{10,}$/.test(telefono);
 }
@@ -208,33 +294,42 @@ function validarPassword(password, confirmPassword) {
   return "";
 }
 
-// Eventos
 function inicializarNavegacionEntreVistas() {
-  linkSignin.addEventListener("click", (e) => {
+  linkSignin?.addEventListener("click", (e) => {
     e.preventDefault();
     limpiarTodosLosMensajes();
     limpiarCamposLogin();
     limpiarFlujoRegistroCompleto();
+    limpiarFlujoRecuperacionCompleto();
     mostrarVistaSignin();
   });
 
-  linkVolverLogin.addEventListener("click", (e) => {
+  linkVolverLogin?.addEventListener("click", (e) => {
     e.preventDefault();
     limpiarTodosLosMensajes();
     limpiarFlujoRegistroCompleto();
+    limpiarFlujoRecuperacionCompleto();
     mostrarVistaLogin();
   });
 
-  linkVolverDatosRegistro.addEventListener("click", (e) => {
+  linkVolverLoginDesdeRegistro?.addEventListener("click", (e) => {
+    e.preventDefault();
+    limpiarTodosLosMensajes();
+    limpiarFlujoRegistroCompleto();
+    limpiarFlujoRecuperacionCompleto();
+    mostrarVistaLogin();
+  });
+
+  linkVolverDatosRegistro?.addEventListener("click", (e) => {
     e.preventDefault();
     limpiarMensaje(mensajeRegistroPaso2);
-    formularioCodigoVerificacion.reset();
+    if (formularioCodigoVerificacion) formularioCodigoVerificacion.reset();
     detenerContador();
     resetearContadorVisual();
     mostrarPasoRegistroDatos();
   });
 
-  botonReenviarCodigo.addEventListener("click", (e) => {
+  botonReenviarCodigo?.addEventListener("click", (e) => {
     e.preventDefault();
 
     const email = emailConfirmado.textContent.trim();
@@ -258,16 +353,61 @@ function inicializarNavegacionEntreVistas() {
     );
   });
 
-  if (linkRecuperar) {
-    linkRecuperar.addEventListener("click", (e) => {
-      e.preventDefault();
+  linkRecuperar?.addEventListener("click", (e) => {
+    e.preventDefault();
+    limpiarTodosLosMensajes();
+    limpiarCamposLogin();
+    limpiarFlujoRegistroCompleto();
+    limpiarFlujoRecuperacionCompleto();
+    mostrarVistaRecuperacion();
+  });
+
+  linkVolverLoginDesdeRecuperacion?.addEventListener("click", (e) => {
+    e.preventDefault();
+    limpiarTodosLosMensajes();
+    limpiarFlujoRecuperacionCompleto();
+    mostrarVistaLogin();
+  });
+
+  linkVolverSolicitudRecuperacion?.addEventListener("click", (e) => {
+    e.preventDefault();
+    limpiarMensaje(mensajeRecuperacionCambio);
+    limpiarCamposRecuperacionCambio();
+    mostrarPasoRecuperacionSolicitud();
+  });
+
+  linkCancelarRecuperacion?.addEventListener("click", (e) => {
+    e.preventDefault();
+    limpiarTodosLosMensajes();
+    limpiarFlujoRecuperacionCompleto();
+    mostrarVistaLogin();
+  });
+
+  botonReenviarRecuperacion?.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    if (!emailRecuperacionPendiente) {
       mostrarMensaje(
-        mensajeLogin,
-        "info",
-        "La recuperación de contraseña aún no está disponible."
+        mensajeRecuperacionCambio,
+        "warning",
+        "No hay una solicitud de recuperación pendiente."
       );
-    });
-  }
+      return;
+    }
+
+    const resultado = solicitarRecuperacion(emailRecuperacionPendiente);
+
+    if (!resultado.ok) {
+      mostrarMensaje(mensajeRecuperacionCambio, "danger", resultado.message);
+      return;
+    }
+
+    mostrarMensaje(
+      mensajeRecuperacionCambio,
+      "success",
+      "Se generó un nuevo token de recuperación."
+    );
+  });
 
   window.addEventListener("hashchange", () => {
     if (window.location.hash === "#signin") {
@@ -275,14 +415,20 @@ function inicializarNavegacionEntreVistas() {
       if (pasoCodigoVerificacion.classList.contains("d-none")) {
         mostrarPasoRegistroDatos();
       }
-    } else {
-      mostrarVistaLogin();
+      return;
     }
+
+    if (window.location.hash === "#recuperacion") {
+      mostrarVistaRecuperacion();
+      return;
+    }
+
+    mostrarVistaLogin();
   });
 }
 
 function inicializarLogin() {
-  formularioLogin.addEventListener("submit", (e) => {
+  formularioLogin?.addEventListener("submit", (e) => {
     e.preventDefault();
     limpiarMensaje(mensajeLogin);
 
@@ -290,7 +436,9 @@ function inicializarLogin() {
     const password = document.getElementById("password-login").value;
 
     const usuario = obtenerUsuarios().find(
-      (u) => (u.email || "").trim().toLowerCase() === email && (u.password || "") === password
+      (u) =>
+        (u.email || "").trim().toLowerCase() === email &&
+        (u.password || "") === password
     );
 
     if (!usuario) {
@@ -305,7 +453,7 @@ function inicializarLogin() {
 }
 
 function inicializarRegistroPaso1() {
-  formularioDatosRegistro.addEventListener("submit", (e) => {
+  formularioDatosRegistro?.addEventListener("submit", (e) => {
     e.preventDefault();
     limpiarMensaje(mensajeRegistroPaso1);
 
@@ -340,11 +488,7 @@ function inicializarRegistroPaso1() {
       return;
     }
 
-    datosRegistroPendiente = {
-      nombre,
-      telefono,
-      email,
-    };
+    datosRegistroPendiente = { nombre, telefono, email };
 
     enviarCodigoSimulado(email);
     emailConfirmado.textContent = email;
@@ -360,7 +504,7 @@ function inicializarRegistroPaso1() {
 }
 
 function inicializarRegistroPaso2() {
-  formularioCodigoVerificacion.addEventListener("submit", (e) => {
+  formularioCodigoVerificacion?.addEventListener("submit", (e) => {
     e.preventDefault();
     limpiarMensaje(mensajeRegistroPaso2);
 
@@ -388,7 +532,7 @@ function inicializarRegistroPaso2() {
       !esCodigoDinamicoValido &&
       !esCodigoClienteFiel &&
       !esCodigoClientePremium &&
-      !esCodigoAdminAuxiliar
+      !esCodigoAdmin_AUXILIAR
     ) {
       mostrarMensaje(mensajeRegistroPaso2, "danger", "Código incorrecto");
       return;
@@ -500,15 +644,138 @@ function iniciarContador() {
   }, 1000);
 }
 
+function inicializarRecuperacionSolicitud() {
+  formularioRecuperacionSolicitud?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    limpiarMensaje(mensajeRecuperacionSolicitud);
+
+    const email = document.getElementById("email-recuperacion").value.trim().toLowerCase();
+
+    if (!email) {
+      mostrarMensaje(
+        mensajeRecuperacionSolicitud,
+        "warning",
+        "Debes ingresar un correo electrónico válido."
+      );
+      return;
+    }
+
+    if (!usuarioExiste(email)) {
+      mostrarMensaje(
+        mensajeRecuperacionSolicitud,
+        "warning",
+        "No existe una cuenta registrada con ese correo."
+      );
+      return;
+    }
+
+    const resultado = solicitarRecuperacion(email);
+
+    if (!resultado.ok) {
+      mostrarMensaje(mensajeRecuperacionSolicitud, "danger", resultado.message);
+      return;
+    }
+
+    emailRecuperacionPendiente = email;
+    emailRecuperacionConfirmado.textContent = email;
+    mostrarPasoRecuperacionCambio();
+
+    mostrarMensaje(
+      mensajeRecuperacionCambio,
+      "info",
+      "Se simuló el envío del correo. Usa el token generado en la consola para continuar."
+    );
+  });
+}
+
+function inicializarRecuperacionCambio() {
+  formularioRecuperacionCambio?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    limpiarMensaje(mensajeRecuperacionCambio);
+
+    if (!emailRecuperacionPendiente) {
+      mostrarMensaje(
+        mensajeRecuperacionCambio,
+        "warning",
+        "Primero solicita la recuperación de contraseña."
+      );
+      mostrarPasoRecuperacionSolicitud();
+      return;
+    }
+
+    const tokenIngresado = document.getElementById("token-recuperacion").value.trim();
+    const nuevaPassword = document.getElementById("nueva-password").value;
+    const confirmarNuevaPassword = document.getElementById("confirmar-nueva-password").value;
+
+    if (!tokenIngresado) {
+      mostrarMensaje(
+        mensajeRecuperacionCambio,
+        "warning",
+        "Debes ingresar el token o código de recuperación."
+      );
+      return;
+    }
+
+    const errorPassword = validarPassword(nuevaPassword, confirmarNuevaPassword);
+    if (errorPassword) {
+      mostrarMensaje(mensajeRecuperacionCambio, "warning", errorPassword);
+      return;
+    }
+
+    const validacion = validarSolicitudRecuperacion(
+      emailRecuperacionPendiente,
+      tokenIngresado
+    );
+
+    if (!validacion.ok) {
+      mostrarMensaje(mensajeRecuperacionCambio, "danger", validacion.message);
+      return;
+    }
+
+    const actualizado = actualizarPasswordUsuario(
+      emailRecuperacionPendiente,
+      nuevaPassword
+    );
+
+    if (!actualizado) {
+      mostrarMensaje(
+        mensajeRecuperacionCambio,
+        "danger",
+        "No fue posible actualizar la contraseña del usuario."
+      );
+      return;
+    }
+
+    marcarRecuperacionComoUsada(emailRecuperacionPendiente);
+    limpiarRecuperacion(emailRecuperacionPendiente);
+
+    const emailActualizado = emailRecuperacionPendiente;
+
+    limpiarFlujoRecuperacionCompleto();
+    limpiarCamposLogin();
+    mostrarVistaLogin();
+
+    mostrarMensaje(
+      mensajeLogin,
+      "success",
+      `Contraseña actualizada correctamente para ${emailActualizado}. Ahora puedes iniciar sesión.`
+    );
+  });
+}
+
 function inicializarLoginPage() {
   resolverVistaInicial();
   mostrarPasoRegistroDatos();
+  mostrarPasoRecuperacionSolicitud();
   limpiarTodosLosMensajes();
+  resetearContadorVisual();
 
   inicializarNavegacionEntreVistas();
   inicializarLogin();
   inicializarRegistroPaso1();
   inicializarRegistroPaso2();
+  inicializarRecuperacionSolicitud();
+  inicializarRecuperacionCambio();
 }
 
 inicializarLoginPage();
