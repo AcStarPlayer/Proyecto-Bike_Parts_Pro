@@ -292,7 +292,7 @@
   width: 1.75rem;
   height: 1.75rem;
   border-radius: 50%;
-  background-color: var(--color-white);
+  background-color: var(--color-surface);
   border: 2px solid var(--color-light);
   display: flex;
   align-items: center;
@@ -304,7 +304,8 @@
 
 .btn-cantidad-mas:hover,
 .btn-cantidad-menos:hover {
-  background-color: var(--color-surface);
+  background-color: var(--color-gray);
+  color: var(--color-white)
 }
 
 /* ── RESPONSIVE ── */
