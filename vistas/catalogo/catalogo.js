@@ -2,6 +2,10 @@ import tarjetasConImagen from "../../componentes/tarjetas/tarjetasConImagen/tarj
 import { navBar } from "../../componentes/barraNavegacion/barNav.js";
 import { footer } from "../../componentes/pieDePagina/footer.js";
 import { botones } from "../../componentes/botones/botones.js";
+import {
+  paginacion,
+  cambiarPagina,
+} from "../../componentes/paginacion/paginacion.js";
 import { productosPredeterminados } from "../../apis/productos.js";
 import { inicializarBotonesCarrito } from "../carrito/carrito-events.js";
 
@@ -19,21 +23,45 @@ if (!productosGuardados || !productosGuardados.length) {
   localStorage.setItem("productos", JSON.stringify(productosPredeterminados));
 }
 
-const catalogoDiv = document.getElementById("catalogo");
+let paginaActual = 1;
+const productosPorPagina = 10;
 
-let html = "";
+function filtrarProducto(producto, categoria, nombreProducto) {
+  const tieneCategoria = categoria !== null;
+  const tieneNombre = nombreProducto && nombreProducto.trim() !== "";
 
-productos.forEach((producto) => {
-  let acciones = botones(
-    `<i class="bi bi-cart-plus" style="font-size: 18px;"></i> Agregar al carrito`,
-    "primary boton-agregar-carrito-producto",
-    "button",
-    `data-sku="${producto.sku}"`,
+  if (!tieneCategoria && !tieneNombre) return true;
+
+  const matchCategoria = !tieneCategoria || producto.categoria === categoria;
+
+  const matchNombre =
+    !tieneNombre ||
+    producto.titulo.toLowerCase().includes(nombreProducto.toLowerCase());
+
+  return matchCategoria && matchNombre;
+}
+
+function catalogo(categoria = null, nombreProducto = null) {
+  const catalogoDiv = document.getElementById("catalogo");
+
+  const filtrados = productos.filter((p) =>
+    filtrarProducto(p, categoria, nombreProducto),
   );
 
-  console.log(producto.categoria);
+  const inicio = (paginaActual - 1) * productosPorPagina;
+  const paginaProductos = filtrados.slice(inicio, inicio + productosPorPagina);
 
-  html += `
+  let html = "";
+
+  paginaProductos.forEach((producto) => {
+    let acciones = botones(
+      `<i class="bi bi-cart-plus" style="font-size: 18px;"></i> Agregar al carrito`,
+      "primary boton-agregar-carrito-producto",
+      "button",
+      `data-sku="${producto.sku}"`,
+    );
+
+    html += `
     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
       ${tarjetasConImagen(
         producto.titulo,
@@ -48,14 +76,46 @@ productos.forEach((producto) => {
         acciones,
         "xxs",
         "start",
-        producto.categoria
+        producto.categoria,
       )}
     </div>
   `;
+  });
+
+  catalogoDiv.innerHTML = html;
+  return filtrados.length;
+}
+
+function renderizar(categoria = null, nombreProducto = null) {
+  const totalProductos = catalogo(categoria, nombreProducto);
+  const totalPaginas = Math.ceil(totalProductos / productosPorPagina);
+
+  document.querySelector("#paginacion").innerHTML = paginacion(
+    totalPaginas,
+    paginaActual,
+  );
+
+  inicializarBotonesCarrito();
+}
+
+document.addEventListener("click", (e) => {
+  const link = e.target.closest(".page-link");
+  if (!link) return;
+
+  e.preventDefault();
+
+  const totalPaginas = Math.ceil(productos.length / productosPorPagina);
+
+  const nuevaPagina = cambiarPagina(link, {
+    paginaActual,
+    totalPaginas,
+  });
+
+  paginaActual = nuevaPagina;
+
+  renderizar();
 });
 
-catalogoDiv.innerHTML = html;
-
-inicializarBotonesCarrito();
+renderizar();
 
 document.getElementById("footer").innerHTML = footer("../../");

@@ -7,6 +7,12 @@
   max-width: 100%;
 }
 
+#paginacion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media (hover: hover) and (pointer: fine) {
   #catalogo .card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
