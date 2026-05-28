@@ -13,7 +13,7 @@ export function navBar(description, basePath = "") {
   let viewsHtml = "";
 
   for (const view in views) {
-    viewsHtml += `<li class="p-1"><a class="nav-style-text w-100 d-flex justify-content-center align-items-center d-block h-100 p-3" href="${views[view]}">${view}</a></li>`
+    viewsHtml += `<li class="p-1"><a class="nav-style-text d-flex justify-content-center align-items-center d-block h-100 p-3" href="${views[view]}">${view}</a></li>`
   }
 
   container.innerHTML = `
@@ -47,7 +47,7 @@ export function navBar(description, basePath = "") {
     <ul class="botones-nav p-0" id="nav-list">
       ${viewsHtml}
     </ul>
-    <button class="ingreso rounded-1"><i class="bi bi-person"></i><span class="ingreso-text">Ingresa</span></button>
+    <button class="ingreso rounded-1 gap-2"><i class="bi bi-person"></i><span class="ingreso-text">Ingresa</span></button>
   `;
 
   const botonMenu = container.querySelector("#hamburguesa");

@@ -65,8 +65,8 @@
 
 .nav-style-text {
   color: var(--color-white);
-  font-weight: 700;
-  font-size: 0.95rem;
+  font-weight: 500;
+  font-size: 1rem;
 }
 
 .menu-toggle {
