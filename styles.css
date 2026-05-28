@@ -20,11 +20,18 @@
   --color-error: #C0392B;
 }
 
-
 body {
-  background-color: var(--color-light);
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Source Sans 3', sans-serif;
 }
+h1, h2, h3, h4, h5,
+.logo,
+.btn-primary {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
 
 html,
 body {
@@ -455,47 +462,18 @@ h1, h2, h3 {
 
 /* BOOTSTRAP CAROUSEL CUSTOM  */
 
-.carousel-item img {
-  height: 400px;
-  object-fit: cover;
-  filter: brightness(0.7);
-}
-
-.carousel-caption {
-  bottom: 35%;
-}
-
-.carousel-caption h5 {
-  font-weight: bold;
-  font-size: 50px;
-  color: #fcfffc;
-}
 
 .carousel-caption p {
-  color: #fffcfc;
+  color: #fff;
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.40);
+  border-left: 3px solid #1a9e60;
+  padding: 6px 14px 6px 12px;
+  border-radius: 0 6px 6px 0;
+  font-size: 16px;
+  margin: 0;
 }
 
-
-.tooltip {
-  position: absolute;
-  background: black;
-  color: white;
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-size: 13px;
-  display: none;
-  pointer-events: none;
-}
-
-.hotspot {
-  animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.3); }
-  100% { transform: scale(1); }
-}
 
 /* ================= RESPONSIVE ================= */
 
@@ -590,74 +568,7 @@ h1, h2, h3 {
     display: none;
   }
 
-  /* --- Carousel --- */
-  .carousel-item img {
-    height: 200px;
-  }
-
-  .carousel-caption h5 {
-    font-size: 20px;
-  }
-
-  /* --- Clases legacy de otras vistas --- */
-  .repuesto-card {
-    min-width: 160px;
-  }
-
-  .repuesto-card img {
-    height: 100px;
-  }
-
-  .slide img {
-    height: 200px;
-  }
-
-  .slide-content {
-    left: 20px;
-    right: 20px;
-    max-width: 100%;
-  }
-
-  .slide-content h2 {
-    font-size: 18px;
-  }
-
-  .slide-content p {
-    font-size: 14px;
-  }
-
-  .slide-content button {
-    width: 100%;
-  }
-
-  .bike-layout {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-
-  .bike-info  { order: 2; }
-  .bike-container { order: 1; }
-
-  .bike-interactive-section {
-    padding: 50px 20px;
-  }
-
-  .bike-header h2 {
-    font-size: 1.8rem;
-  }
-
-  .bike-hotspot {
-    width: 22px;
-    height: 22px;
-  }
-
-  .bike-hotspot::after {
-    font-size: 11px;
-    padding: 6px 8px;
-  }
-
-}
-
+  
 
 /* 📲 TABLETS */
 @media (max-width: 1024px) {
@@ -668,4 +579,5 @@ h1, h2, h3 {
   .slide-content {
     left: 30px;
   }
+}
 }
