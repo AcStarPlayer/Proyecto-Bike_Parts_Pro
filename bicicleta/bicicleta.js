@@ -17,9 +17,9 @@ const mapaCategorias = {
     "llantaDelantera": "ruedas",
     "cadena": "transmision",
     "plato": "transmision",
-    "marco": "cuadro",
-    "sillin": "cuadro",
-    "manubrio": "direccion-control"
+    "marco": "estructura",
+    "sillin": "estructura",
+    "manubrio": "direccion"
 };
 
 const canvas = document.getElementById("canvas3d");
