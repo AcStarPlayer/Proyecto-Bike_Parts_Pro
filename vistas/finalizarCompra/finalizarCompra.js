@@ -1,9 +1,3 @@
-import { navBar } from "../../componentes/barraNavegacion/barNav.js";
-import { footer } from "../../componentes/pieDePagina/footer.js";
-
-navBar("Finalizar compra", "../../");
-document.getElementById("footer").innerHTML = footer("../../");
-
 const CLAVE_CARRITO = "catalogo-carrito-compras";
 const IVA = 0.19;
 
@@ -30,11 +24,15 @@ function renderResumen() {
   const total = subtotal + iva;
 
   document.getElementById("resumen-items").innerHTML = carrito.length
-    ? carrito.map(i => `
+    ? carrito
+        .map(
+          (i) => `
         <div class="resumen-linea resumen-item">
           <span>${i.nombre} <span class="resumen-cantidad">×${i.cantidad}</span></span>
           <span>${formatCOP(i.precio * i.cantidad)}</span>
-        </div>`).join("")
+        </div>`,
+        )
+        .join("")
     : `<p class="resumen-vacio">No hay productos en el carrito.</p>`;
 
   document.getElementById("resumen-subtotal").textContent = formatCOP(subtotal);
@@ -43,9 +41,11 @@ function renderResumen() {
 }
 
 function manejarOpcionesPago() {
-  document.querySelectorAll('input[name="pago"]').forEach(radio => {
+  document.querySelectorAll('input[name="pago"]').forEach((radio) => {
     radio.addEventListener("change", () => {
-      document.querySelectorAll(".opcion-pago").forEach(o => o.classList.remove("activa"));
+      document
+        .querySelectorAll(".opcion-pago")
+        .forEach((o) => o.classList.remove("activa"));
       radio.closest(".opcion-pago").classList.add("activa");
     });
   });
@@ -57,12 +57,12 @@ function mostrarExito() {
       <i class="bi bi-check-circle-fill exito-icono"></i>
       <h2>¡Pedido confirmado!</h2>
       <p>Gracias por tu compra. Pronto recibirás los detalles de tu envío.</p>
-      <a href="../../index.html" class="btn-finalizar-checkout">Volver al inicio</a>
+      <a href="../catalogo/catalogo.html" class="btn-finalizar-checkout">Volver al catálogo</a>
     </div>
   `;
 }
 
-document.getElementById("form-checkout").addEventListener("submit", e => {
+document.getElementById("form-checkout").addEventListener("submit", (e) => {
   e.preventDefault();
   localStorage.removeItem(CLAVE_CARRITO);
   mostrarExito();

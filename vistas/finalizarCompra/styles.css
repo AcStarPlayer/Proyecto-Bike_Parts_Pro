@@ -1,61 +1,28 @@
-.checkout-page {
+body {
   background: var(--color-light);
-  padding: 2rem 0;
 }
 
-/* Stepper */
-.checkout-stepper {
-  display: flex;
+.checkout-topbar {
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0.85rem 1.5rem;
+}
+
+.checkout-back {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 2rem;
-}
-
-.step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-
-.step-circle {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  border: 2px solid var(--color-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 0.85rem;
-  color: var(--color-gray);
-}
-
-.step span {
-  font-size: 0.75rem;
-  color: var(--color-gray);
-  white-space: nowrap;
-}
-
-.step--active .step-circle {
-  border-color: var(--color-primary);
+  gap: 0.4rem;
   color: var(--color-primary);
-}
-
-.step--active span {
-  color: var(--color-primary);
+  font-size: 0.9rem;
   font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
 }
 
-.step-line {
-  flex: 1;
-  max-width: 80px;
-  height: 1px;
-  background: var(--color-border);
-  margin: 0 8px 16px;
+.checkout-back:hover {
+  color: var(--color-accent);
 }
 
-/* Layout */
 .checkout-layout {
   display: grid;
   grid-template-columns: 1fr 320px;
@@ -68,7 +35,6 @@
   top: 5.5rem;
 }
 
-/* Card */
 .checkout-card {
   background: var(--color-white);
   border: 1px solid var(--color-border);
@@ -87,7 +53,6 @@
   gap: 0.5rem;
 }
 
-/* Form */
 .form-group {
   margin-bottom: 1rem;
 }
@@ -126,7 +91,6 @@
   gap: 1rem;
 }
 
-/* Payment */
 .opcion-pago {
   display: flex;
   align-items: center;
@@ -136,7 +100,9 @@
   padding: 0.75rem 1rem;
   margin-bottom: 0.5rem;
   cursor: pointer;
-  transition: border-color 0.2s, background 0.2s;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
 }
 
 .opcion-pago.activa {
@@ -174,7 +140,6 @@
   font-size: 0.78rem;
 }
 
-/* Summary */
 .resumen-items {
   border-bottom: 1px solid var(--color-border);
   padding-bottom: 0.75rem;
@@ -218,7 +183,6 @@
   margin: 0;
 }
 
-/* CTA */
 .btn-finalizar-checkout {
   display: flex;
   align-items: center;
@@ -257,11 +221,11 @@
   color: var(--color-accent);
 }
 
-/* Success */
 .exito-compra {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 80vh;
   justify-content: center;
   text-align: center;
   padding: 5rem 1rem;
@@ -283,7 +247,6 @@
   margin: 0;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .checkout-layout {
     grid-template-columns: 1fr;
