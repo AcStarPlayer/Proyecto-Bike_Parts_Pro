@@ -13,6 +13,7 @@ import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass.js";
 const piezas = {};
 
 const mapaCategorias = {
+<<<<<<< HEAD
   llantaTrasera: "ruedas",
   llantaDelantera: "ruedas",
   cadena: "transmision",
@@ -20,6 +21,15 @@ const mapaCategorias = {
   marco: "estructura",
   sillin: "estructura",
   manubrio: "direccion",
+=======
+    "llantaTrasera": "ruedas",
+    "llantaDelantera": "ruedas",
+    "cadena": "transmision",
+    "plato": "transmision",
+    "marco": "estructura",
+    "sillin": "estructura",
+    "manubrio": "direccion"
+>>>>>>> 11e0df8 (change keys)
 };
 
 const canvas = document.getElementById("canvas3d");
