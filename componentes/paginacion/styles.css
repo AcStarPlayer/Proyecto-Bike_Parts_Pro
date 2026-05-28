@@ -1,0 +1,18 @@
+.paginator {
+    color: var(--color-primary-dark) !important;
+}
+
+a.page-link {
+    color: var(--color-primary-dark) !important;
+}
+
+.active > .page-link {
+    color: var(--color-white) !important;
+    background-color: var(--color-primary-dark) !important;
+    border-color: var(--color-primary-dark) !important;
+}
+
+a.page-link.active {
+    background-color: var(--color-primary-dark) !important;
+    color: var(--color-white) !important;
+}

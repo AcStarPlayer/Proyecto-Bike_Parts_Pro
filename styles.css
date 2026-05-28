@@ -4,12 +4,12 @@
 
 
 :root {
-  --color-primary: #2D5A3D;
-  --color-primary-opacity: rgba(45, 90, 61, 0.3);
+  --color-primary: rgb(27, 87, 58) ;
+  --color-primary-opacity: rgba(27, 87, 58, 0.1);
   --color-primary-dark: #213A2C;
   --color-primary-light: #4E8566;
-  --color-accent: #5AAD76;
-
+  --color-accent: #2fb962;
+  --color-hover: #B7FF00;
   --color-dark: #2A3B30;
   --color-gray: #7A8E82;
   --color-light: #F2F4F2;
@@ -497,12 +497,32 @@ h1, h2, h3 {
   100% { transform: scale(1); }
 }
 
+/* ================= RESPONSIVE ================= */
 
-/*  RESPONSIVE  */
+/* 📲 TABLETS — va primero, el breakpoint más grande */
+@media (max-width: 1024px) {
 
-/* 📱 CELULARES */
+  .hero-content h1 {
+    font-size: 36px;
+  }
+
+  .slide-content {
+    left: 30px;
+  }
+
+  .categorias-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .porque-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 📱 CELULARES — va después para pisar al de tablets en pantallas pequeñas */
 @media (max-width: 768px) {
 
+  /* --- Hero --- */
   .hero {
     height: auto;
     padding: 30px 20px;
@@ -523,10 +543,63 @@ h1, h2, h3 {
     align-items: center;
   }
 
-  .hero-buttons button {
+  .hero-buttons button,
+  .hero-buttons .btn-primary-home,
+  .hero-buttons .btn-outline-home {
     width: 70%;
+    text-align: center;
   }
 
+  /* --- Stats strip --- */
+  .stats-strip {
+    padding: 16px 20px;
+    gap: 8px;
+  }
+
+  .stat-divider {
+    display: none;
+  }
+
+  .stat-item {
+    padding: 8px 16px;
+    width: 48%;
+  }
+
+  /* --- Categorías --- */
+  .categorias-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* --- ¿Por qué elegirnos? --- */
+  .porque-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* --- CTA final --- */
+  .cta-box {
+    flex-direction: column;
+    text-align: center;
+    padding: 32px 24px;
+  }
+
+  .cta-content p {
+    max-width: 100%;
+  }
+
+  .cta-badge {
+    display: none;
+  }
+
+  /* --- Carousel --- */
+  .carousel-item img {
+    height: 200px;
+  }
+
+  .carousel-caption h5 {
+    font-size: 20px;
+  }
+
+  /* --- Clases legacy de otras vistas --- */
   .repuesto-card {
     min-width: 160px;
   }
@@ -562,7 +635,7 @@ h1, h2, h3 {
     text-align: center;
   }
 
-  .bike-info { order: 2; }
+  .bike-info  { order: 2; }
   .bike-container { order: 1; }
 
   .bike-interactive-section {
