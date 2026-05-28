@@ -21,7 +21,7 @@ export function navBar(description, basePath = "") {
       <img src="/../img/logo.svg" alt="logo" class="nav-logo">
       <span class="separator"></span>
       <div class="text-container">
-        <h5 class="nav-title nav-style-text m-0">
+        <h5 class="nav-title m-0">
           BikeParts<span class="badge-pro">PRO</span>
         </h5>
         <p class="nav-text m-0 f" style="color: var(--color-light);">${description}</p>
