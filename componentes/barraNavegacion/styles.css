@@ -121,7 +121,7 @@
 }
 
 .search-container {
-  display: flex;
+  display: none;
   align-items: center;
   background-color: var(--color-white);
   border-radius: 15px;
@@ -375,10 +375,6 @@
   .botones-nav li:hover {
     border-radius: 0;
     background-color: var(--color-primary-opacity);
-  }
-
-  .nav-session-wrapper {
-    margin-left: 0;
   }
 
   .sesion-nav {
