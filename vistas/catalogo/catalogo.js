@@ -136,7 +136,7 @@ document.addEventListener("click", (e) => {
   renderizar(categoriaActual);
 });
 
-renderizar();
+renderizar(categoriaActual);
 renderizarCategorias();
 
 document.getElementById("footer").innerHTML = footer("../../");
