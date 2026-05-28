@@ -15,7 +15,7 @@ export const categorias = [
     icon: "bi-stop-circle"
   },
   {
-    key: "direccion-control",
+    key: "direccion",
     name: "Dirección y Control",
     icon: "bi-compass"
   },
@@ -25,7 +25,7 @@ export const categorias = [
     icon: "bi-bicycle"
   },
   {
-    key: "cuadro",
+    key: "estructura",
     name: "Estructura",
     icon: "bi-diagram-3"
   }
