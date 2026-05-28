@@ -114,7 +114,6 @@ function construirHtmlItemsCarrito() {
 
           <div class="controles-cantidad">
             <button class="btn-cantidad-menos" data-sku-disminuir="${item.sku}">-</button>
-            <span class="etiqueta-cantidad-item-carrito">Cantidad</span>
             <span class="indicador-cantidad-item-carrito">${item.cantidad}</span>
             <button class="btn-cantidad-mas" data-sku-aumentar="${item.sku}">+</button>
           </div>
