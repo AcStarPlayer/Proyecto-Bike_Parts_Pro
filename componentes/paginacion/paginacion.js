@@ -25,6 +25,9 @@ export function paginacion(numPaginas, paginaActual = 1) {
   const prevDisabled = paginaActual === 1 ? "disabled" : "";
   const nextDisabled = paginaActual === numPaginas ? "disabled" : "";
 
+  const prevDisabled = paginaActual === 1 ? "disabled" : "";
+  const nextDisabled = paginaActual === numPaginas ? "disabled" : "";
+
   return `
         <nav aria-label="Page navigation"
      class="d-flex justify-content-center ${hidden}">
