@@ -86,6 +86,24 @@
     align-items: center;
 }
 
+.bike-3d-viewer{
+    width: 100%;
+    min-height: 620px;
+}
+
+.bike-card{
+    position: relative;
+}
+
+#canvas3d{
+    width: 100% !important;
+    height: 100% !important;
+}
+
+#canvas3d{
+    min-height: 620px;
+}
+
 .bike-card{
     width:100%;
     max-width:700px;
