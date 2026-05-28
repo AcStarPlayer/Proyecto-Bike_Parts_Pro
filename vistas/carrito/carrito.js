@@ -246,20 +246,12 @@ function renderizarBotonFlotanteCarrito() {
 export function finalizarCompraCarrito() {
   if (carritoCompras.length === 0) return;
 
-  const datosCompra = {
-    items: carritoCompras.map((item) => ({
-      sku: item.sku,
-      nombre: item.nombre,
-      marca: item.marca,
-      precio: item.precio,
-      cantidad: item.cantidad,
-      subtotal: item.precio * item.cantidad,
-    })),
-    total: obtenerValorTotalCarrito(),
-    cantidadTotal: obtenerCantidadTotalArticulosCarrito(),
-  };
+  const enVistas = window.location.pathname.includes("/vistas/");
+  const ruta = enVistas
+    ? "../finalizarCompra/finalizarCompra.html"
+    : "vistas/finalizarCompra/finalizarCompra.html";
 
-  console.log("Preparado para pasarela de pago:", datosCompra);
+  window.location.href = ruta;
 }
 
 export function vaciarCarritoCompras() {
