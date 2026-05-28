@@ -1,5 +1,6 @@
 
 @import url(vistas/carrito/styles.css);
+@import url(bicicleta/bicicleta.css);
 
 
 :root {
@@ -23,6 +24,16 @@
 body {
   background-color: var(--color-light);
   font-family: 'Poppins', sans-serif;
+}
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+/* mejora render canvas */
+canvas {
+  touch-action: none;
 }
 
 img {
@@ -147,6 +158,139 @@ h1, h2, h3 {
   background: rgba(255,255,255,0.2);
 }
 
+/* =========================
+   BICICLETA INTERACTIVA
+========================= */
+
+.bike-interactive-section {
+  width: 100%;
+  padding: 80px 40px;
+  background: linear-gradient(
+    180deg,
+    #eef2ee 0%,
+    #ffffff 100%
+  );
+}
+
+.bike-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.bike-header h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-top: 10px;
+}
+
+.bike-header p {
+  color: var(--color-gray);
+  margin-top: 10px;
+}
+
+.bike-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.bike-image {
+  width: 100%;
+  display: block;
+  object-fit: contain;
+}
+
+/* HOTSPOTS */
+
+.bike-hotspot {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  border: 4px solid white;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 0 0 0 rgba(90, 173, 118, 0.6);
+  animation: pulseBike 2s infinite;
+}
+
+.bike-hotspot:hover {
+  transform: scale(1.2);
+  background: var(--color-primary);
+}
+
+/* TOOLTIP */
+
+.bike-hotspot::after {
+  content: attr(data-label);
+  position: absolute;
+  bottom: 45px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.85);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: 0.3s;
+  pointer-events: none;
+}
+
+.bike-hotspot:hover::after {
+  opacity: 1;
+}
+
+/* POSICIONES */
+
+/* rueda delantera */
+.hotspot-wheel-front {
+  top: 58%;
+  left: 18%;
+}
+
+/* transmisión */
+.hotspot-transmission {
+  top: 63%;
+  left: 48%;
+}
+
+/* frenos */
+.hotspot-brakes {
+  top: 42%;
+  left: 22%;
+}
+
+/* pedales */
+.hotspot-pedals {
+  top: 67%;
+  left: 44%;
+}
+
+/* protección */
+.hotspot-protection {
+  top: 18%;
+  left: 52%;
+}
+
+/* ANIMACIÓN */
+
+@keyframes pulseBike {
+  0% {
+    box-shadow: 0 0 0 0 rgba(90, 173, 118, 0.7);
+  }
+
+  70% {
+    box-shadow: 0 0 0 18px rgba(90, 173, 118, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(90, 173, 118, 0);
+  }
+}
 
 /* CATEGORÍAS  */
 .categorias-section {
@@ -420,6 +564,25 @@ h1, h2, h3 {
 
   .bike-info { order: 2; }
   .bike-container { order: 1; }
+
+  .bike-interactive-section {
+    padding: 50px 20px;
+  }
+
+  .bike-header h2 {
+    font-size: 1.8rem;
+  }
+
+  .bike-hotspot {
+    width: 22px;
+    height: 22px;
+  }
+
+  .bike-hotspot::after {
+    font-size: 11px;
+    padding: 6px 8px;
+  }
+
 }
 
 

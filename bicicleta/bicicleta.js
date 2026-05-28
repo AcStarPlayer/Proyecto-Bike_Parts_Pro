@@ -51,7 +51,7 @@ let particleVelocities = [];
 let autoRotate = true;
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xd9c7a3);
+scene.background = null;
 
 scene.fog = new THREE.Fog(
     0xd2bea2,
@@ -78,15 +78,35 @@ floor.material.metalness = 0;
 
 floor.material.envMapIntensity = 1.2;
 
-scene.add(floor);
+//scene.add(floor);
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 
-camera.position.set(3.2, 1.1, 6.8);
+camera.position.set(0, 1.5, 7);
 
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setClearColor(0x000000, 0);
 
-renderer.setSize(380, 300);
+
+const container = canvas.parentElement;
+
+function updateRendererSize() {
+
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+
+    renderer.setSize(width, height);
+
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+
+    composer.setSize(width, height);
+}
+
+updateRendererSize();
+
+
+renderer.setPixelRatio(window.devicePixelRatio);
 
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -181,123 +201,54 @@ rubberTexture.colorSpace = THREE.SRGBColorSpace;
 
 const loader = new GLTFLoader();
 
-//loader.load('./sports_bike/scene.gltf', (gltf) => {
-loader.load('./models/bicicleta.glb', (gltf) => {
-    //const scene = gltf.scene;
-    const bicicleta = gltf.scene;
-    bicicletaModel = bicicleta;
-    bicicleta.position.y = 0.15;
+loader.load(
+    '../models/bicicleta.glb',
 
-    bicicleta.scale.set(1.6,1.6,1.6);
-    // vista frontal
-    bicicleta.rotation.y = Math.PI / 2;
+    (gltf) => {
 
-    scene.add(bicicleta);
+        console.log("✅ GLB cargado");
 
-    bicicleta.traverse(child => {
-        if (child.isMesh) {
-            
-            child.castShadow = true;
-            child.receiveShadow = true;
+        const bicicleta = gltf.scene;
 
-            //
-            if (child.material) {
-                const mats = Array.isArray(child.material) ? child.material : [child.material];
+        bicicletaModel = bicicleta;
 
-                mats.forEach(m => {
-                    m.needsUpdate = true;
+        bicicleta.position.set(0, -0.3, 0);
 
-                    m.envMapIntensity = 0.8;
-                    m.roughness = Math.min(m.roughness ?? 0.5, 0.8);
+        bicicleta.scale.set(2.2, 2.2, 2.2);
 
-                    if (m.map) {
-                        m.map.colorSpace = THREE.SRGBColorSpace;
-                        m.map.encoding = THREE.sRGBEncoding;
-                        m.color.set(0xffffff); // 🔥 CLAVE
-                    } else {
-                        console.warn("⚠️ Material sin textura:", child.name);
-                    }
+        bicicleta.rotation.y = Math.PI / 2;
 
-                    const name = child.name.toLowerCase();
+        scene.add(bicicleta);
+        console.log(bicicleta);
 
-                    if (name.includes("llanta")) {
+        bicicleta.traverse(child => {
 
-                        m.color.setHex(0x444444);
+            if (child.isMesh) {
 
-                        m.roughness = 0.7;
-                        m.metalness = 0.25;
+                child.castShadow = true;
+                child.receiveShadow = true;
 
-                        //m.envMapIntensity = 2.5;
-                        
-                        m.roughness = 0.95;
-                        m.metalness = 0.05;
-                        m.envMapIntensity = 0.8;
-                    }
+                objetos.push(child);
 
-                    else if (name.includes("marco")) {
-
-                        m.roughness = 0.35;
-                        m.metalness = 0.6;
-
-                    }
-
-                    else if (
-                        name.includes("cadena") ||
-                        name.includes("plato")
-                    ) {
-
-                        m.roughness = 0.4;
-                        m.metalness = 1.0;
-
-                    }
-
-                    else if (name.includes("sillin")) {
-
-                        m.color.setHex(0x111111);
-                        m.roughness = 0.9;
-                        m.metalness = 0.1;
-                    }
-
-                    else {
-
-                        m.roughness = Math.min(m.roughness ?? 0.5, 0.8);
-                        m.metalness = m.metalness ?? 0.2;
-                    }
-
-                    m.side = THREE.DoubleSide;
-
-                    m.clearcoat = 0.25;
-                    m.clearcoatRoughness = 0.8;
-
-                    m.toneMapped = true;
-                    m.envMapIntensity = 0.8;
-
-                });
+                piezas[child.name] = child;
             }
+        });
+    },
 
-            objetos.push(child);
-            piezas[child.name] = child;
-        }
-    });
+    (xhr) => {
 
-    const center = new THREE.Box3().setFromObject(bicicleta).getCenter(new THREE.Vector3());
+        console.log(
+            (xhr.loaded / xhr.total * 100) + '% cargado'
+        );
 
-    bicicleta.traverse(child => {
-        if (child.isMesh) {
+    },
 
-            const worldPos = new THREE.Vector3();
-            child.getWorldPosition(worldPos);
+    (error) => {
 
-            const direction = worldPos.clone().sub(center).normalize();
+        console.error("❌ ERROR GLB:", error);
 
-            explosionData.set(child, {
-                direction,
-                originalPosition: child.position.clone(),
-                delay: Math.random() * 0.3 // 🔥 efecto escalonado
-            });
-        }
-    });
-});
+    }
+);
 
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, camera));
@@ -479,31 +430,15 @@ window.addEventListener("click", () => {
         const categoria = mapaCategorias[selectedObject.name] || "otros";
 
         setTimeout(() => {
-            window.location.href = "/categoria/" + categoria;
+            window.location.href =
+                `vistas/catalogo/catalogo.html?cat=${categoria}`;
         }, 1200);
     }
 
     updateOutline();
 });
 
-window.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("btnExplode").addEventListener("click", () => {
-        explodeModel();
-    });
-});
-
-window.addEventListener("resize", () => {
-
-    const width = 380;
-    const height = 300;
-
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-
-    renderer.setSize(width, height);
-    composer.setSize(width, height);
-
-});
+window.addEventListener("resize", updateRendererSize);
 
 function animate() {
     requestAnimationFrame(animate);
