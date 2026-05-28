@@ -106,7 +106,6 @@
   align-items: center;
   flex-direction: column;
   background-color: var(--color-white);
-  border-radius: 8px;
   padding: 2px 6px;
   margin: 0 0.75rem;
   max-width: 800px;
