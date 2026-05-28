@@ -1,3 +1,7 @@
+body {
+  background-color: var(--color-light);
+}
+
 #titulo-contacto {
   font-size: 1.3rem;
   font-weight: 700;
