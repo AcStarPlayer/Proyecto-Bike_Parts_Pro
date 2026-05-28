@@ -6,8 +6,9 @@ import {
   paginacion,
   cambiarPagina,
 } from "../../componentes/paginacion/paginacion.js";
-import { productosPredeterminados } from "../../apis/productos.js";
+import { productosPredeterminados, filtrarProductos } from "../../apis/productos.js";
 import { inicializarBotonesCarrito } from "../carrito/carrito-events.js";
+import { categorias } from "../../apis/categorias.js";
 
 navBar("Sube de nivel", "../../");
 
@@ -24,29 +25,13 @@ if (!productosGuardados || !productosGuardados.length) {
 }
 
 let paginaActual = 1;
+let categoriaActual = null;
 const productosPorPagina = 10;
-
-function filtrarProducto(producto, categoria, nombreProducto) {
-  const tieneCategoria = categoria !== null;
-  const tieneNombre = nombreProducto && nombreProducto.trim() !== "";
-
-  if (!tieneCategoria && !tieneNombre) return true;
-
-  const matchCategoria = !tieneCategoria || producto.categoria === categoria;
-
-  const matchNombre =
-    !tieneNombre ||
-    producto.titulo.toLowerCase().includes(nombreProducto.toLowerCase());
-
-  return matchCategoria && matchNombre;
-}
 
 function catalogo(categoria = null, nombreProducto = null) {
   const catalogoDiv = document.getElementById("catalogo");
 
-  const filtrados = productos.filter((p) =>
-    filtrarProducto(p, categoria, nombreProducto),
-  );
+  const filtrados = filtrarProductos(productos, { categoria, nombre: nombreProducto });
 
   const inicio = (paginaActual - 1) * productosPorPagina;
   const paginaProductos = filtrados.slice(inicio, inicio + productosPorPagina);
@@ -98,7 +83,39 @@ function renderizar(categoria = null, nombreProducto = null) {
   inicializarBotonesCarrito();
 }
 
+function renderizarCategorias() {
+  const filtrosDiv = document.getElementById("filtros");
+  let html = "";
+
+  for (const categoria of categorias) {
+    const activa = categoriaActual === categoria.key || (categoria.key === "todos" && categoriaActual === null);
+    html += `
+  <div class="card border-0 text-center categoria-mini shadow-sm mx-2 ${activa ? "categoria-activa" : ""}"
+       data-key="${categoria.key}" role="button">
+    <div class="card-body d-flex justify-content-center align-items-center flex-column h-100 p-2">
+      <i class="${categoria.icon} categoria-icon fs-4"></i>
+      <div class="small mt-1 categoria-text lh-1 text-wrap">
+        ${categoria.name}
+      </div>
+    </div>
+  </div>
+    `;
+  }
+
+  filtrosDiv.innerHTML = html;
+}
+
 document.addEventListener("click", (e) => {
+  const card = e.target.closest(".categoria-mini");
+  if (card) {
+    const key = card.dataset.key;
+    categoriaActual = key === "todos" ? null : key;
+    paginaActual = 1;
+    renderizar(categoriaActual);
+    renderizarCategorias();
+    return;
+  }
+
   const link = e.target.closest(".page-link");
   if (!link) return;
 
@@ -113,9 +130,10 @@ document.addEventListener("click", (e) => {
 
   paginaActual = nuevaPagina;
 
-  renderizar();
+  renderizar(categoriaActual);
 });
 
 renderizar();
+renderizarCategorias();
 
 document.getElementById("footer").innerHTML = footer("../../");
