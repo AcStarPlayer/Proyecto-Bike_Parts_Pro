@@ -1,20 +1,143 @@
-body{
-    margin:0;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:#f5f5f5;
+/* =========================
+   SECTION 3D
+========================= */
+
+.bike-3d-section {
+    width: 100%;
+    padding: 90px 40px;
+    background:
+    radial-gradient(circle at top, #f8faf8 0%, #edf2ee 100%);
+    overflow: hidden;
+    position: relative;
+}
+
+.bike-3d-section::before{
+    content:"";
+
+    position:absolute;
+
+    width:500px;
+    height:500px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(90,173,118,0.18),
+            transparent 70%
+        );
+
+    top:-120px;
+    right:-120px;
+
+    z-index:0;
+}
+
+.bike-3d-content{
+    position:relative;
+    z-index:2;
+}
+
+.bike-3d-content {
+    max-width: 1400px;
+    margin: auto;
+
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    align-items: center;
+    gap: 60px;
+}
+
+.bike-3d-info h2 {
+    font-size: 3.2rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 18px 0;
+    color: var(--color-primary-dark);
+}
+
+.bike-3d-info p {
+    color: var(--color-gray);
+    font-size: 1rem;
+    line-height: 1.8;
+    max-width: 520px;
+}
+
+.bike-btn {
+    margin-top: 30px;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 14px;
+
+    background: var(--color-primary);
+    color: white;
+
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.bike-btn:hover {
+    transform: translateY(-3px);
+    background: var(--color-primary-dark);
+}
+
+.bike-3d-viewer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bike-3d-viewer{
+    width: 100%;
+    min-height: 620px;
 }
 
 .bike-card{
-    width:380px;
-    height:300px;
-    background:white;
-    border-radius:20px;
+    position: relative;
+}
+
+#canvas3d{
+    width: 100% !important;
+    height: 100% !important;
+}
+
+#canvas3d{
+    min-height: 620px;
+}
+
+.bike-card{
+    width:100%;
+    max-width:700px;
+
+    height: clamp(420px, 70vh, 620px);
+
+    background:
+    linear-gradient(
+        145deg,
+        rgba(255,255,255,0.95),
+        rgba(240,245,241,0.9)
+    );
+
+    border-radius:30px;
     overflow:hidden;
-    box-shadow:0 10px 40px rgba(0,0,0,0.12);
+    isolation:isolate;
+
     position:relative;
+
+    border:1px solid rgba(255,255,255,0.6);
+
+    backdrop-filter: blur(12px);
+
+    box-shadow:
+        0 25px 70px rgba(0,0,0,0.12),
+        0 10px 30px rgba(45,90,61,0.10);
+
+    transition:
+        transform .4s ease,
+        box-shadow .4s ease;
+}
+
+.bike-card:hover{
+    transform: translateY(-6px);
 }
 
 canvas {
@@ -23,13 +146,15 @@ canvas {
     display: block;
 }
 
+canvas:focus {
+    outline: none;
+}
+
 #canvas3d{
-    width:380px;
-    height:300px;
-    border-radius:20px;
-    overflow:hidden;
-    background:white;
-    box-shadow:0 10px 40px rgba(0,0,0,0.15);
+    width:100%;
+    height:100%;
+    display:block;
+    border-radius:30px;
 }
 
 #tooltip {
@@ -44,24 +169,41 @@ canvas {
 }
 
 #infoPanel {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    width: 260px;
-    background: white;
-    padding: 18px;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    display: none;
 }
 
-#btnExplode {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    padding: 12px 18px;
-    border: none;
-    background: black;
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
+@media (max-width: 992px){
+
+    .bike-3d-content{
+        grid-template-columns:1fr;
+        gap:40px;
+    }
+
+    .bike-3d-info{
+        text-align:center;
+    }
+
+    .bike-3d-info p{
+        margin:auto;
+    }
+
+    .bike-card{
+        max-width:100%;
+    }
+}
+
+@media (max-width: 768px){
+
+    .bike-3d-section{
+        padding:60px 20px;
+    }
+
+    .bike-3d-info h2{
+        font-size:2.2rem;
+    }
+
+    .bike-card{
+        height:420px;
+        border-radius:24px;
+    }
 }

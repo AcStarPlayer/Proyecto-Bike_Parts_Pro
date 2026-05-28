@@ -1,15 +1,14 @@
-import * as THREE from 'https://unpkg.com/three@0.158.0/build/three.module.js';
-import { OrbitControls } from 'https://unpkg.com/three@0.158.0/examples/jsm/controls/OrbitControls.js';
-import { GLTFLoader } from 'https://unpkg.com/three@0.158.0/examples/jsm/loaders/GLTFLoader.js';
+import * as THREE from 'three';
 
-import { EffectComposer } from 'https://unpkg.com/three@0.158.0/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'https://unpkg.com/three@0.158.0/examples/jsm/postprocessing/RenderPass.js';
-import { OutlinePass } from 'https://unpkg.com/three@0.158.0/examples/jsm/postprocessing/OutlinePass.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 
-import { RGBELoader } from 'https://unpkg.com/three@0.158.0/examples/jsm/loaders/RGBELoader.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-import { TextureLoader } from 'https://unpkg.com/three@0.158.0/build/three.module.js';
-import { UnrealBloomPass } from 'https://unpkg.com/three@0.158.0/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
 
 const piezas = {};
 
@@ -18,12 +17,19 @@ const mapaCategorias = {
     "llantaDelantera": "ruedas",
     "cadena": "transmision",
     "plato": "transmision",
-    "marco": "marco",
-    "sillin": "sillin",
-    "manubrio": "manubrio"
+    "marco": "cuadro",
+    "sillin": "cuadro",
+    "manubrio": "direccion-control"
 };
 
 const canvas = document.getElementById("canvas3d");
+
+if (!canvas) {
+    console.warn("⚠️ canvas3d no existe en esta página, bicicleta.js no se inicia");
+    // aborta sin romper JS
+    throw new Error("NO_CANVAS");
+}
+
 const tooltip = document.getElementById("tooltip");
 
 let bicicletaModel;
@@ -50,8 +56,14 @@ let particleVelocities = [];
 
 let autoRotate = true;
 
+if (window.__BICICLETA_3D_INIT__) {
+    console.warn("⚠️ Bicicleta 3D ya inicializada");
+    throw new Error("DUPLICATE_INIT");
+}
+window.__BICICLETA_3D_INIT__ = true;
+
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xd9c7a3);
+scene.background = null;
 
 scene.fog = new THREE.Fog(
     0xd2bea2,
@@ -78,26 +90,50 @@ floor.material.metalness = 0;
 
 floor.material.envMapIntensity = 1.2;
 
-scene.add(floor);
+//scene.add(floor);
 
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-
-camera.position.set(3.2, 1.1, 6.8);
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+camera.position.set(0, 1.1, 3.2);
 
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setClearColor(0x000000, 0);
 
-renderer.setSize(380, 300);
+const container = canvas.parentElement;
+
+renderer.setSize(
+    container.clientWidth,
+    container.clientHeight
+);
+
+renderer.domElement.style.width = "100%";
+renderer.domElement.style.height = "100%";
+
+function updateRendererSize() {
+
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+
+    if (width === 0 || height === 0) return;
+
+    renderer.setSize(width, height);
+
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+
+    if (composer) {
+        composer.setSize(width, height);
+    }
+}
+
+renderer.setPixelRatio(window.devicePixelRatio);
 
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-renderer.useLegacyLights = false;
-
 renderer.outputColorSpace = THREE.SRGBColorSpace;
-renderer.physicallyCorrectLights = true;
 
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 2.4;
+renderer.toneMappingExposure = 1.0;
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
@@ -107,8 +143,8 @@ controls.enablePan = false;
 controls.minPolarAngle = Math.PI / 2.2;
 controls.maxPolarAngle = Math.PI / 2.2;
 
-controls.minDistance = 4;
-controls.maxDistance = 7;
+controls.minDistance = 2.2;
+controls.maxDistance = 6;
 
 controls.target.set(0, 0.45, 0);
 
@@ -145,6 +181,9 @@ sunLight.shadow.mapSize.height = 2048;
 
 scene.add(sunLight);
 
+const axesHelper = new THREE.AxesHelper(5);
+scene.add(axesHelper);
+
 const rgbeLoader = new RGBELoader();
 
 /*rgbeLoader.load(
@@ -156,11 +195,11 @@ rgbeLoader.load(
         texture.encoding = THREE.sRGBEncoding;
 
         scene.environment = texture;
-        scene.environmentIntensity = 1.8;
+        scene.environmentIntensity = 1.4;
     }
 );
 
-const textureLoader = new TextureLoader();
+const textureLoader = new THREE.TextureLoader();
 const sparkTexture = textureLoader.load(
     'https://threejs.org/examples/textures/sprites/spark1.png'
 );
@@ -181,132 +220,75 @@ rubberTexture.colorSpace = THREE.SRGBColorSpace;
 
 const loader = new GLTFLoader();
 
-//loader.load('./sports_bike/scene.gltf', (gltf) => {
-loader.load('./models/bicicleta.glb', (gltf) => {
-    //const scene = gltf.scene;
-    const bicicleta = gltf.scene;
-    bicicletaModel = bicicleta;
-    bicicleta.position.y = 0.15;
+const MODEL_PATH = location.pathname.includes("index")
+    ? "bicicleta/models/bicicleta.glb"
+    : "../bicicleta/models/bicicleta.glb";
 
-    bicicleta.scale.set(1.6,1.6,1.6);
-    // vista frontal
-    bicicleta.rotation.y = Math.PI / 2;
+loader.load(
+    MODEL_PATH,
 
-    scene.add(bicicleta);
+    (gltf) => {
 
-    bicicleta.traverse(child => {
-        if (child.isMesh) {
-            
-            child.castShadow = true;
-            child.receiveShadow = true;
+        console.log("✅ GLB cargado");
+        console.log(gltf.scene);
 
-            //
-            if (child.material) {
-                const mats = Array.isArray(child.material) ? child.material : [child.material];
+        const bicicleta = gltf.scene;
 
-                mats.forEach(m => {
-                    m.needsUpdate = true;
+        bicicletaModel = bicicleta;
 
-                    m.envMapIntensity = 0.8;
-                    m.roughness = Math.min(m.roughness ?? 0.5, 0.8);
+        bicicleta.position.set(0, -0.6, 0);
 
-                    if (m.map) {
-                        m.map.colorSpace = THREE.SRGBColorSpace;
-                        m.map.encoding = THREE.sRGBEncoding;
-                        m.color.set(0xffffff); // 🔥 CLAVE
-                    } else {
-                        console.warn("⚠️ Material sin textura:", child.name);
-                    }
+        bicicleta.scale.set(0.9, 0.9, 0.9);
 
-                    const name = child.name.toLowerCase();
+        bicicleta.rotation.y = Math.PI / 2;
 
-                    if (name.includes("llanta")) {
+        scene.add(bicicleta);
 
-                        m.color.setHex(0x444444);
+        const box = new THREE.Box3().setFromObject(bicicleta);
+        const center = box.getCenter(new THREE.Vector3());
 
-                        m.roughness = 0.7;
-                        m.metalness = 0.25;
+        controls.target.copy(center);
+        camera.lookAt(center);
 
-                        //m.envMapIntensity = 2.5;
-                        
-                        m.roughness = 0.95;
-                        m.metalness = 0.05;
-                        m.envMapIntensity = 0.8;
-                    }
+        console.log(bicicleta);
 
-                    else if (name.includes("marco")) {
+        bicicleta.traverse(child => {
 
-                        m.roughness = 0.35;
-                        m.metalness = 0.6;
+            if (child.isMesh) {
 
-                    }
+                child.castShadow = true;
+                child.receiveShadow = true;
 
-                    else if (
-                        name.includes("cadena") ||
-                        name.includes("plato")
-                    ) {
+                objetos.push(child);
 
-                        m.roughness = 0.4;
-                        m.metalness = 1.0;
-
-                    }
-
-                    else if (name.includes("sillin")) {
-
-                        m.color.setHex(0x111111);
-                        m.roughness = 0.9;
-                        m.metalness = 0.1;
-                    }
-
-                    else {
-
-                        m.roughness = Math.min(m.roughness ?? 0.5, 0.8);
-                        m.metalness = m.metalness ?? 0.2;
-                    }
-
-                    m.side = THREE.DoubleSide;
-
-                    m.clearcoat = 0.25;
-                    m.clearcoatRoughness = 0.8;
-
-                    m.toneMapped = true;
-                    m.envMapIntensity = 0.8;
-
-                });
+                piezas[child.name] = child;
             }
+        });
+    },
 
-            objetos.push(child);
-            piezas[child.name] = child;
-        }
-    });
+    (xhr) => {
 
-    const center = new THREE.Box3().setFromObject(bicicleta).getCenter(new THREE.Vector3());
+        console.log(
+            (xhr.loaded / xhr.total * 100) + '% cargado'
+        );
 
-    bicicleta.traverse(child => {
-        if (child.isMesh) {
+    },
 
-            const worldPos = new THREE.Vector3();
-            child.getWorldPosition(worldPos);
+    (error) => {
 
-            const direction = worldPos.clone().sub(center).normalize();
+        console.error("❌ ERROR GLB:", error);
 
-            explosionData.set(child, {
-                direction,
-                originalPosition: child.position.clone(),
-                delay: Math.random() * 0.3 // 🔥 efecto escalonado
-            });
-        }
-    });
-});
+    }
+);
 
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, camera));
 
 const bloomPass = new UnrealBloomPass(
-    new THREE.Vector2(window.innerWidth, window.innerHeight),
-    0.05, 
-    0.1,
-    0.9
+  new THREE.Vector2(window.innerWidth, window.innerHeight),
+  0.06,
+  0.15,
+  0.9
 );
 
 composer.addPass(bloomPass);
@@ -324,6 +306,8 @@ outlinePass.edgeGlow = 1;
 outlinePass.edgeThickness = 2;
 outlinePass.visibleEdgeColor.set(0x00ff88);
 outlinePass.hiddenEdgeColor.set(0x003322);
+
+updateRendererSize();
 
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
@@ -473,36 +457,27 @@ window.addEventListener("click", () => {
         selectedObject.getWorldPosition(pos);
         createExplosionParticles(pos);
 
-        document.getElementById("titulo").innerText = selectedObject.name;
-        document.getElementById("descripcion").innerText = "Ver productos";
+        const titulo = document.getElementById("titulo");
+        const descripcion = document.getElementById("descripcion");
+
+        if (titulo && descripcion && selectedObject) {
+            titulo.innerText = selectedObject.name;
+            descripcion.innerText = "Ver productos";
+        }
 
         const categoria = mapaCategorias[selectedObject.name] || "otros";
 
         setTimeout(() => {
-            window.location.href = "/categoria/" + categoria;
+            window.location.href =
+                `vistas/catalogo/catalogo.html?cat=${categoria}`;
         }, 1200);
     }
 
     updateOutline();
 });
 
-window.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("btnExplode").addEventListener("click", () => {
-        explodeModel();
-    });
-});
-
 window.addEventListener("resize", () => {
-
-    const width = 380;
-    const height = 300;
-
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-
-    renderer.setSize(width, height);
-    composer.setSize(width, height);
-
+    if (composer) updateRendererSize();
 });
 
 function animate() {

@@ -41,7 +41,7 @@ const integrantes = [
     descripcion: "Experiencia en apps web y e-commerce.",
     github: "https://github.com/AcStarPlayer",
     linkedin: "https://www.linkedin.com/in/bandresdev/",
-    imagen: "../../img/integrantes/foto3.jpeg",
+    imagen: "../../img/integrantes/foto3.png",
   },
   {
     nombre: "Jordan Barrera",
