@@ -3,12 +3,12 @@
 
 
 :root {
-  --color-primary: #2D5A3D;
-  --color-primary-opacity: rgba(45, 90, 61, 0.3);
+  --color-primary: rgb(27, 87, 58) ;
+  --color-primary-opacity: rgba(27, 87, 58, 0.1);
   --color-primary-dark: #213A2C;
   --color-primary-light: #4E8566;
-  --color-accent: #5AAD76;
-
+  --color-accent: #2fb962;
+  --color-hover: #B7FF00;
   --color-dark: #2A3B30;
   --color-gray: #7A8E82;
   --color-light: #F2F4F2;
