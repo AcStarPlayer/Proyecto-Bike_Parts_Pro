@@ -26,6 +26,9 @@ if (!productosGuardados || !productosGuardados.length) {
 
 let paginaActual = 1;
 let categoriaActual = null;
+const params = new URLSearchParams(window.location.search);
+
+categoriaActual = params.get("cat") || null;
 const productosPorPagina = 10;
 
 function catalogo(categoria = null, nombreProducto = null) {
