@@ -25,8 +25,6 @@ export function paginacion(numPaginas, paginaActual = 1) {
   return `
         <nav aria-label="Page navigation"
      class="d-flex justify-content-center ${hidden}">
-        <nav aria-label="Page navigation"
-     class="d-flex justify-content-center ${hidden}">
             <ul class="pagination mb-0">
                 <li class="page-item ${prevDisabled}">
                 <a class="page-link" href="#" aria-label="Previous" data-action="prev">
