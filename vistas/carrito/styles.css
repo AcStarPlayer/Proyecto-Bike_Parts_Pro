@@ -59,6 +59,8 @@
   width: min(420px, 100vw);
   background: var(--color-white);
   color: var(--color-primary-dark);
+  top: 4.5rem !important;
+  height: calc(100vh - 4.5rem) !important;
 }
 
 .encabezado-panel-carrito-compras {
@@ -138,7 +140,7 @@
   background: var(--color-white);
   flex: 1 1 auto;
   min-height: 0;
-  max-height: 100%;
+  max-height: 38vh;
   overflow-y: auto;
 }
 
