@@ -19,16 +19,19 @@ export function paginacion(numPaginas, paginaActual = 1) {
     `;
   }
 
+  const prevDisabled = paginaActual === 1 ? "disabled" : "";
+  const nextDisabled = paginaActual === numPaginas ? "disabled" : "";
+
   return `
         <nav aria-label="Page navigation" class="d-flex justify-content-center">
             <ul class="pagination mb-0">
-                <li class="page-item">
+                <li class="page-item ${prevDisabled}">
                 <a class="page-link" href="#" aria-label="Previous" data-action="prev">
                     <span class="paginator" aria-hidden="true">&lsaquo;</span>
                 </a>
                 </li>
                 ${html}
-                <li class="page-item">
+                <li class="page-item ${nextDisabled}">
                 <a class="page-link" href="#" aria-label="Next" data-action="next">
                     <span class="paginator" aria-hidden="true">&rsaquo;</span>
                 </a>
