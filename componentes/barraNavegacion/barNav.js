@@ -151,7 +151,10 @@ function construirHtmlNavbar(description, viewsHtml, bloqueSesion, basePath = ""
       <div id="desplegado"></div>
       <button type="button" id="boton-buscar">Buscar</button>
     </div>
-
+    <div class="d-flex flex-row">
+    <div class="nav-session-wrapper" id="mobile-nav">
+      ${bloqueSesion}
+    </div>
     <button
       class="menu-toggle p-2 rounded-1"
       id="hamburguesa"
@@ -164,14 +167,13 @@ function construirHtmlNavbar(description, viewsHtml, bloqueSesion, basePath = ""
       <span class="bar"></span>
       <span class="bar"></span>
     </button>
-
+    </div>
     <ul class="botones-nav p-0" id="nav-list">
       ${viewsHtml}
     </ul>
-
-    <div class="nav-session-wrapper">
+    <div class="nav-session-wrapper" id="desktop-nav">
       ${bloqueSesion}
-    </div>
+    </div> 
   `;
 }
 
