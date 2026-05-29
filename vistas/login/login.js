@@ -508,109 +508,123 @@ function inicializarRegistroPaso2() {
     e.preventDefault();
     limpiarMensaje(mensajeRegistroPaso2);
 
-    if (!datosRegistroPendiente) {
+    try {
+      if (!datosRegistroPendiente) {
+        mostrarMensaje(
+          mensajeRegistroPaso2,
+          "warning",
+          "Primero completa los datos básicos del registro"
+        );
+        mostrarPasoRegistroDatos();
+        return;
+      }
+
+      const codigoIngresado = document
+        .getElementById("codigo-verificacion")
+        .value.trim();
+
+      const password = document.getElementById("password-registro").value;
+      const confirmPassword = document.getElementById("confirm-password-registro").value;
+      const email = datosRegistroPendiente.email;
+
+      const esCodigoDinamicoValido = validarCodigoSimulado(email, codigoIngresado);
+      const esCodigoClienteFiel = CODIGOS_CLIENTE_FIEL.includes(codigoIngresado);
+      const esCodigoClientePremium = CODIGOS_CLIENTE_PREMIUM.includes(codigoIngresado);
+      const esCodigoAdminAuxiliar = CODIGOS_ADMIN_AUXILIAR.includes(codigoIngresado);
+
+      const esCodigoEspecialValido =
+        esCodigoClienteFiel || esCodigoClientePremium || esCodigoAdminAuxiliar;
+
+      if (!esCodigoDinamicoValido && !esCodigoEspecialValido) {
+        mostrarMensaje(
+          mensajeRegistroPaso2,
+          "danger",
+          "El código no existe, es incorrecto o ya venció."
+        );
+        return;
+      }
+
+      const errorPassword = validarPassword(password, confirmPassword);
+      if (errorPassword) {
+        mostrarMensaje(mensajeRegistroPaso2, "warning", errorPassword);
+        return;
+      }
+
+      let rol = "cliente";
+      let clienteFiel = false;
+      let clientePremium = false;
+      let adminAuxiliar = false;
+
+      if (esCodigoClienteFiel) {
+        clienteFiel = true;
+      } else if (esCodigoClientePremium) {
+        clientePremium = true;
+      } else if (esCodigoAdminAuxiliar) {
+        rol = "admin";
+        adminAuxiliar = true;
+      }
+
+      const nuevoUsuario = {
+        nombre: datosRegistroPendiente.nombre,
+        email: datosRegistroPendiente.email,
+        telefono: datosRegistroPendiente.telefono,
+        password,
+        rol,
+        clienteFiel,
+        clientePremium,
+        adminAuxiliar,
+        fechaRegistro: new Date().toISOString(),
+      };
+
+      guardarUsuario(nuevoUsuario);
+      eliminarCodigoSimulado(email);
+
+      const nombreUsuario = nuevoUsuario.nombre;
+
+      limpiarFlujoRegistroCompleto();
+      limpiarCamposLogin();
+      mostrarVistaLogin();
+
+      if (adminAuxiliar) {
+        mostrarMensaje(
+          mensajeLogin,
+          "success",
+          `¡${nombreUsuario}! Tu cuenta fue creada como Admin Auxiliar. Ahora inicia sesión.`
+        );
+        return;
+      }
+
+      if (clientePremium) {
+        mostrarMensaje(
+          mensajeLogin,
+          "success",
+          `¡${nombreUsuario}! Tu cuenta fue creada como Cliente Premium. Ahora inicia sesión.`
+        );
+        return;
+      }
+
+      if (clienteFiel) {
+        mostrarMensaje(
+          mensajeLogin,
+          "success",
+          `¡${nombreUsuario}! Tu cuenta fue creada como Cliente Fiel. Ahora inicia sesión.`
+        );
+        return;
+      }
+
+      mostrarMensaje(
+        mensajeLogin,
+        "success",
+        `¡${nombreUsuario}! Tu cuenta fue creada como Cliente. Ahora inicia sesión.`
+      );
+    } catch (error) {
+      console.error("Error en registro paso 2:", error);
       mostrarMensaje(
         mensajeRegistroPaso2,
-        "warning",
-        "Primero completa los datos básicos del registro"
+        "danger",
+        "Ocurrió un error al validar el código. Revisa la consola."
       );
-      mostrarPasoRegistroDatos();
-      return;
     }
-
-    const codigoIngresado = document.getElementById("codigo-verificacion").value.trim();
-    const password = document.getElementById("password-registro").value;
-    const confirmPassword = document.getElementById("confirm-password-registro").value;
-    const email = datosRegistroPendiente.email;
-
-    const esCodigoDinamicoValido = validarCodigoSimulado(email, codigoIngresado);
-    const esCodigoClienteFiel = CODIGOS_CLIENTE_FIEL.includes(codigoIngresado);
-    const esCodigoClientePremium = CODIGOS_CLIENTE_PREMIUM.includes(codigoIngresado);
-    const esCodigoAdminAuxiliar = CODIGOS_ADMIN_AUXILIAR.includes(codigoIngresado);
-
-    if (
-      !esCodigoDinamicoValido &&
-      !esCodigoClienteFiel &&
-      !esCodigoClientePremium &&
-      !esCodigoAdmin_AUXILIAR
-    ) {
-      mostrarMensaje(mensajeRegistroPaso2, "danger", "Código incorrecto");
-      return;
-    }
-
-    const errorPassword = validarPassword(password, confirmPassword);
-    if (errorPassword) {
-      mostrarMensaje(mensajeRegistroPaso2, "warning", errorPassword);
-      return;
-    }
-
-    let rol = "cliente";
-    let clienteFiel = false;
-    let clientePremium = false;
-    let adminAuxiliar = false;
-
-    if (esCodigoClienteFiel) {
-      clienteFiel = true;
-    } else if (esCodigoClientePremium) {
-      clientePremium = true;
-    } else if (esCodigoAdminAuxiliar) {
-      rol = "admin";
-      adminAuxiliar = true;
-    }
-
-    const nuevoUsuario = {
-      nombre: datosRegistroPendiente.nombre,
-      email: datosRegistroPendiente.email,
-      telefono: datosRegistroPendiente.telefono,
-      password,
-      rol,
-      clienteFiel,
-      clientePremium,
-      adminAuxiliar,
-      fechaRegistro: new Date().toISOString(),
-    };
-
-    guardarUsuario(nuevoUsuario);
-    eliminarCodigoSimulado(email);
-
-    const nombreUsuario = nuevoUsuario.nombre;
-
-    limpiarFlujoRegistroCompleto();
-    limpiarCamposLogin();
-    mostrarVistaLogin();
-
-    if (adminAuxiliar) {
-      mostrarMensaje(
-        mensajeLogin,
-        "success",
-        `¡${nombreUsuario}! Tu cuenta fue creada como Admin Auxiliar. Ahora inicia sesión.`
-      );
-      return;
-    }
-
-    if (clientePremium) {
-      mostrarMensaje(
-        mensajeLogin,
-        "success",
-        `¡${nombreUsuario}! Tu cuenta fue creada como Cliente Premium. Ahora inicia sesión.`
-      );
-      return;
-    }
-
-    if (clienteFiel) {
-      mostrarMensaje(
-        mensajeLogin,
-        "success",
-        `¡${nombreUsuario}! Tu cuenta fue creada como Cliente Fiel. Ahora inicia sesión.`
-      );
-      return;
-    }
-
-    mostrarMensaje(
-      mensajeLogin,
-      "success",
-      `¡${nombreUsuario}! Tu cuenta fue creada como Cliente. Ahora inicia sesión.`
-    );
   });
 }
 
