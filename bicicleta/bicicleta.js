@@ -1,14 +1,14 @@
-import * as THREE from "three";
+import * as THREE from 'three';
 
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
-import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
-import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
-import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass.js";
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
 
 const piezas = {};
 
@@ -25,11 +25,9 @@ const mapaCategorias = {
 const canvas = document.getElementById("canvas3d");
 
 if (!canvas) {
-  console.warn(
-    "⚠️ canvas3d no existe en esta página, bicicleta.js no se inicia",
-  );
-  // aborta sin romper JS
-  throw new Error("NO_CANVAS");
+    console.warn("⚠️ canvas3d no existe en esta página, bicicleta.js no se inicia");
+    // aborta sin romper JS
+    throw new Error("NO_CANVAS");
 }
 
 const tooltip = document.getElementById("tooltip");
@@ -59,8 +57,8 @@ let particleVelocities = [];
 let autoRotate = true;
 
 if (window.__BICICLETA_3D_INIT__) {
-  console.warn("⚠️ Bicicleta 3D ya inicializada");
-  throw new Error("DUPLICATE_INIT");
+    console.warn("⚠️ Bicicleta 3D ya inicializada");
+    throw new Error("DUPLICATE_INIT");
 }
 window.__BICICLETA_3D_INIT__ = true;
 
@@ -97,12 +95,7 @@ floor.material.envMapIntensity = 1.2;
 
 scene.add(floor);
 
-const camera = new THREE.PerspectiveCamera(
-  45,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  100,
-);
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
 camera.position.set(0, 1.1, 3.2);
 
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
@@ -110,25 +103,29 @@ renderer.setClearColor(0x000000, 0);
 
 const container = canvas.parentElement;
 
-renderer.setSize(container.clientWidth, container.clientHeight);
+renderer.setSize(
+    container.clientWidth,
+    container.clientHeight
+);
 
 renderer.domElement.style.width = "100%";
 renderer.domElement.style.height = "100%";
 
 function updateRendererSize() {
-  const width = container.clientWidth;
-  const height = container.clientHeight;
 
-  if (width === 0 || height === 0) return;
+    const width = container.clientWidth;
+    const height = container.clientHeight;
 
-  renderer.setSize(width, height);
+    if (width === 0 || height === 0) return;
 
-  camera.aspect = width / height;
-  camera.updateProjectionMatrix();
+    renderer.setSize(width, height);
 
-  if (composer) {
-    composer.setSize(width, height);
-  }
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+
+    if (composer) {
+        composer.setSize(width, height);
+    }
 }
 
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -209,10 +206,10 @@ const rgbeLoader = new RGBELoader();
 /*rgbeLoader.load(
     'https://threejs.org/examples/textures/equirectangular/royal_esplanade_1k.hdr',*/
 rgbeLoader.load(
-  "https://threejs.org/examples/textures/equirectangular/venice_sunset_1k.hdr",
-  (texture) => {
-    texture.mapping = THREE.EquirectangularReflectionMapping;
-    texture.encoding = THREE.sRGBEncoding;
+    'https://threejs.org/examples/textures/equirectangular/venice_sunset_1k.hdr',    
+    (texture) => {
+        texture.mapping = THREE.EquirectangularReflectionMapping;
+        texture.encoding = THREE.sRGBEncoding;
 
         scene.environment = texture;
         scene.environmentIntensity = 1.2;
@@ -221,27 +218,19 @@ rgbeLoader.load(
 
 const textureLoader = new THREE.TextureLoader();
 const sparkTexture = textureLoader.load(
-  "https://threejs.org/examples/textures/sprites/spark1.png",
+    'https://threejs.org/examples/textures/sprites/spark1.png'
 );
 sparkTexture.colorSpace = THREE.SRGBColorSpace;
 
-const carbonTexture = textureLoader.load(
-  "https://threejs.org/examples/textures/carbon/Carbon.png",
-);
-const carbonNormal = textureLoader.load(
-  "https://threejs.org/examples/textures/water/Water_1_M_Normal.jpg",
-);
+const carbonTexture = textureLoader.load('https://threejs.org/examples/textures/carbon/Carbon.png');
+const carbonNormal = textureLoader.load('https://threejs.org/examples/textures/water/Water_1_M_Normal.jpg');
 
-const metalTexture = textureLoader.load(
-  "https://threejs.org/examples/textures/metal.jpg",
-);
+const metalTexture = textureLoader.load('https://threejs.org/examples/textures/metal.jpg');
 
 carbonTexture.colorSpace = THREE.SRGBColorSpace;
 metalTexture.colorSpace = THREE.SRGBColorSpace;
 
-const rubberTexture = textureLoader.load(
-  "https://threejs.org/examples/textures/terrain/grasslight-big.jpg",
-);
+const rubberTexture = textureLoader.load('https://threejs.org/examples/textures/terrain/grasslight-big.jpg');
 
 metalTexture.colorSpace = THREE.SRGBColorSpace;
 rubberTexture.colorSpace = THREE.SRGBColorSpace;
@@ -256,7 +245,7 @@ const logoMaterial = new THREE.MeshBasicMaterial({
 
     transparent: true,
 
-    opacity: 0.22
+    opacity: 0.08
     
 });
 
@@ -274,36 +263,37 @@ scene.add(logoPlane);
 const loader = new GLTFLoader();
 
 const MODEL_PATH = location.pathname.includes("index")
-  ? "bicicleta/models/bicicleta.glb"
-  : "../bicicleta/models/bicicleta.glb";
+    ? "bicicleta/models/bicicleta.glb"
+    : "../bicicleta/models/bicicleta.glb";
 
 loader.load(
 
     MODEL_PATH,
 
-  (gltf) => {
-    console.log("✅ GLB cargado");
-    console.log(gltf.scene);
+    (gltf) => {
 
-    const bicicleta = gltf.scene;
+        console.log("✅ GLB cargado");
+        console.log(gltf.scene);
 
-    bicicletaModel = bicicleta;
+        const bicicleta = gltf.scene;
 
-    bicicleta.position.set(0, -0.6, 0);
+        bicicletaModel = bicicleta;
 
-    bicicleta.scale.set(0.9, 0.9, 0.9);
+        bicicleta.position.set(0, -0.6, 0);
 
-    bicicleta.rotation.y = Math.PI / 2;
+        bicicleta.scale.set(0.9, 0.9, 0.9);
 
-    scene.add(bicicleta);
+        bicicleta.rotation.y = Math.PI / 2;
 
-    const box = new THREE.Box3().setFromObject(bicicleta);
-    const center = box.getCenter(new THREE.Vector3());
+        scene.add(bicicleta);
 
-    controls.target.copy(center);
-    camera.lookAt(center);
+        const box = new THREE.Box3().setFromObject(bicicleta);
+        const center = box.getCenter(new THREE.Vector3());
 
-    console.log(bicicleta);
+        controls.target.copy(center);
+        camera.lookAt(center);
+
+        console.log(bicicleta);
 
         bicicleta.traverse((child) => {
 
@@ -498,7 +488,7 @@ loader.load(
                 child.castShadow = true;
                 child.receiveShadow = true;
 
-        objetos.push(child);
+                objetos.push(child);
 
                 piezas[child.name] = child;
 
@@ -524,9 +514,13 @@ loader.load(
 
     },
 
-  (xhr) => {
-    console.log((xhr.loaded / xhr.total) * 100 + "% cargado");
-  },
+    (xhr) => {
+
+        console.log(
+            (xhr.loaded / xhr.total * 100) + '% cargado'
+        );
+
+    },
 
     (error) => {
 
@@ -549,9 +543,9 @@ const bloomPass = new UnrealBloomPass(
 composer.addPass(bloomPass);
 
 const outlinePass = new OutlinePass(
-  new THREE.Vector2(window.innerWidth, window.innerHeight),
-  scene,
-  camera,
+    new THREE.Vector2(window.innerWidth, window.innerHeight),
+    scene,
+    camera
 );
 
 composer.addPass(outlinePass);
@@ -568,235 +562,252 @@ const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
 function updateOutline() {
-  const selected = [];
+    const selected = [];
 
-  if (hoveredObject) selected.push(hoveredObject);
-  if (selectedObject) selected.push(selectedObject);
+    if (hoveredObject) selected.push(hoveredObject);
+    if (selectedObject) selected.push(selectedObject);
 
-  outlinePass.selectedObjects = selected;
+    outlinePass.selectedObjects = selected;
 }
 
 function explodeModel() {
-  exploded = !exploded;
 
-  explosionData.forEach((data, obj) => {
-    const distance = exploded ? 2 : 0;
+    exploded = !exploded;
 
-    obj.userData.targetPosition = data.originalPosition
-      .clone()
-      .add(data.direction.clone().multiplyScalar(distance));
+    explosionData.forEach((data, obj) => {
 
-    obj.userData.delay = data.delay;
-    obj.userData.startPosition = obj.position.clone();
-    obj.userData.startTime = performance.now();
-  });
+        const distance = exploded ? 2 : 0;
+
+        obj.userData.targetPosition = data.originalPosition.clone().add(
+            data.direction.clone().multiplyScalar(distance)
+        );
+
+        obj.userData.delay = data.delay;
+        obj.userData.startPosition = obj.position.clone();
+        obj.userData.startTime = performance.now();  
+    });
 }
 
 function createExplosionParticles(position) {
-  const count = 120;
 
-  const geometry = new THREE.BufferGeometry();
-  const positions = new Float32Array(count * 3);
-  const velocities = [];
+    const count = 120;
 
-  for (let i = 0; i < count; i++) {
-    positions[i * 3] = position.x;
-    positions[i * 3 + 1] = position.y;
-    positions[i * 3 + 2] = position.z;
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(count * 3);
+    const velocities = [];
 
-    velocities.push({
-      x: (Math.random() - 0.5) * 0.4,
-      y: Math.random() * 0.8,
-      z: (Math.random() - 0.5) * 0.4,
+    for (let i = 0; i < count; i++) {
+
+        positions[i * 3] = position.x;
+        positions[i * 3 + 1] = position.y;
+        positions[i * 3 + 2] = position.z;
+
+        velocities.push({
+            x: (Math.random() - 0.5) * 0.4,
+            y: (Math.random()) * 0.8,
+            z: (Math.random() - 0.5) * 0.4
+        });
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+    const material = new THREE.PointsMaterial({
+        map: sparkTexture,          
+        size: 0.15,
+        color: 0x00ff99,
+        transparent: true,
+        alphaTest: 0.5,
+        blending: THREE.AdditiveBlending, 
+        depthWrite: false
     });
-  }
 
-  geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    particleSystem = new THREE.Points(geometry, material);
+    particleSystem.userData.velocities = velocities;
 
-  const material = new THREE.PointsMaterial({
-    map: sparkTexture,
-    size: 0.15,
-    color: 0x00ff99,
-    transparent: true,
-    alphaTest: 0.5,
-    blending: THREE.AdditiveBlending,
-    depthWrite: false,
-  });
-
-  particleSystem = new THREE.Points(geometry, material);
-  particleSystem.userData.velocities = velocities;
-
-  scene.add(particleSystem);
+    scene.add(particleSystem);
 }
 
 function easeInOutCubic(t) {
-  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    return t < 0.5
+        ? 4 * t * t * t
+        : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
 
 function moveCameraTo(targetObj) {
-  const box = new THREE.Box3().setFromObject(targetObj);
-  const center = box.getCenter(new THREE.Vector3());
 
-  cameraStart.copy(camera.position);
+    const box = new THREE.Box3().setFromObject(targetObj);
+    const center = box.getCenter(new THREE.Vector3());
 
-  cameraEnd.copy(center).add(new THREE.Vector3(2, 2, 3));
-  cameraTarget.copy(center);
+    cameraStart.copy(camera.position);
 
-  cameraAnimating = true;
-  cameraStartTime = performance.now();
+    cameraEnd.copy(center).add(new THREE.Vector3(2, 2, 3));
+    cameraTarget.copy(center);
 
-  controls.enabled = false;
+    cameraAnimating = true;
+    cameraStartTime = performance.now();
+
+    controls.enabled = false;
 }
 
 window.addEventListener("mousemove", (e) => {
-  autoRotate = false;
 
-  mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    autoRotate = false;
 
-  raycaster.setFromCamera(mouse, camera);
-  const hit = raycaster.intersectObjects(objetos, false);
+    mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 
-  if (hit.length > 0) {
-    hoveredObject = hit[0].object;
+    raycaster.setFromCamera(mouse, camera);
+    const hit = raycaster.intersectObjects(objetos, false);
 
-    tooltip.style.display = "block";
-    tooltip.style.left = e.clientX + "px";
-    tooltip.style.top = e.clientY + "px";
-    tooltip.innerText = hoveredObject.name;
-  } else {
-    hoveredObject = null;
-    tooltip.style.display = "none";
+    if (hit.length > 0) {
+        hoveredObject = hit[0].object;
 
-    autoRotate = true;
-  }
+        tooltip.style.display = "block";
+        tooltip.style.left = e.clientX + "px";
+        tooltip.style.top = e.clientY + "px";
+        tooltip.innerText = hoveredObject.name;
 
-  updateOutline();
+    } else {
+        hoveredObject = null;
+        tooltip.style.display = "none";
+
+        autoRotate = true;
+    }
+
+    updateOutline();
 });
 
 window.addEventListener("click", () => {
-  raycaster.setFromCamera(mouse, camera);
-  const hit = raycaster.intersectObjects(objetos, false);
 
-  if (hit.length > 0) {
-    selectedObject = hit[0].object;
-    explodeModel();
-    moveCameraTo(selectedObject);
+    raycaster.setFromCamera(mouse, camera);
+    const hit = raycaster.intersectObjects(objetos, false);
 
-    if (selectedObject.material) {
-      const mats = Array.isArray(selectedObject.material)
-        ? selectedObject.material
-        : [selectedObject.material];
+    if (hit.length > 0) {
+        selectedObject = hit[0].object;
+        explodeModel();
+        moveCameraTo(selectedObject);
 
-      mats.forEach((m) => {
-        m.emissive = new THREE.Color(0x00ff88);
+        if (selectedObject.material) {
 
-        m.emissiveIntensity = 3;
-      });
+            const mats = Array.isArray(selectedObject.material)
+                ? selectedObject.material
+                : [selectedObject.material];
+
+            mats.forEach(m => {
+
+                m.emissive = new THREE.Color(0x00ff88);
+
+                m.emissiveIntensity = 3;
+
+            });
+        }
+
+        const pos = new THREE.Vector3();
+        selectedObject.getWorldPosition(pos);
+        createExplosionParticles(pos);
+
+        const titulo = document.getElementById("titulo");
+        const descripcion = document.getElementById("descripcion");
+
+        if (titulo && descripcion && selectedObject) {
+            titulo.innerText = selectedObject.name;
+            descripcion.innerText = "Ver productos";
+        }
+
+        const categoria = mapaCategorias[selectedObject.name];
+        let urlParams ="";
+        if (categoria !== undefined) {
+        urlParams = `?cat=${categoria}`;
+        }
+        setTimeout(() => {
+            window.location.href = `vistas/catalogo/catalogo.html${urlParams}`;
+        }, 1200);
     }
 
-    const pos = new THREE.Vector3();
-    selectedObject.getWorldPosition(pos);
-    createExplosionParticles(pos);
-
-    const titulo = document.getElementById("titulo");
-    const descripcion = document.getElementById("descripcion");
-
-    if (titulo && descripcion && selectedObject) {
-      titulo.innerText = selectedObject.name;
-      descripcion.innerText = "Ver productos";
-    }
-
-    const categoria = mapaCategorias[selectedObject.name];
-    let urlParams ="";
-    if (categoria !== undefined) {
-      urlParams = `?cat=${categoria}`;
-    }
-    setTimeout(() => {
-        window.location.href = `vistas/catalogo/catalogo.html${urlParams}`;
-      }, 1200);
-  }
-
-  updateOutline();
+    updateOutline();
 });
 
 window.addEventListener("resize", () => {
-  if (composer) updateRendererSize();
+    if (composer) updateRendererSize();
 });
 
 function animate() {
-  requestAnimationFrame(animate);
+    requestAnimationFrame(animate);
 
-  if (bicicletaModel && autoRotate) {
-    bicicletaModel.rotation.y += 0.0015;
-  }
+    if (bicicletaModel && autoRotate) {
+        bicicletaModel.rotation.y += 0.0015;
+    }
 
-  objetos.forEach((obj) => {
-    if (obj.userData.targetPosition) {
-      if (!obj.userData.startTime) {
-        obj.userData.startTime = performance.now();
-      }
+    objetos.forEach(obj => {
 
-      const elapsed = (performance.now() - obj.userData.startTime) / 1000;
+        if (obj.userData.targetPosition) {
 
-      if (elapsed > (obj.userData.delay || 0)) {
-        const duration = 1.2;
-        const start = obj.userData.startTime || performance.now();
+            if (!obj.userData.startTime) {
+                obj.userData.startTime = performance.now();
+            }
 
-        const t = Math.min((performance.now() - start) / (duration * 1000), 1);
+            const elapsed = (performance.now() - obj.userData.startTime) / 1000;
+
+            if (elapsed > (obj.userData.delay || 0)) {
+                const duration = 1.2;
+                const start = obj.userData.startTime || performance.now();
+
+                const t = Math.min((performance.now() - start) / (duration * 1000), 1);
+                const eased = easeInOutCubic(t);
+
+                obj.position.lerpVectors(
+                    obj.userData.startPosition,
+                    obj.userData.targetPosition,
+                    eased
+                );
+            }
+        }
+    });
+
+    if (cameraAnimating) {
+
+        const elapsed = (performance.now() - cameraStartTime) / (cameraDuration * 1000);
+        const t = Math.min(elapsed, 1);
         const eased = easeInOutCubic(t);
 
-        obj.position.lerpVectors(
-          obj.userData.startPosition,
-          obj.userData.targetPosition,
-          eased,
-        );
-      }
-    }
-  });
+        camera.position.lerpVectors(cameraStart, cameraEnd, eased);
+        controls.target.lerp(cameraTarget, eased);
 
-  if (cameraAnimating) {
-    const elapsed =
-      (performance.now() - cameraStartTime) / (cameraDuration * 1000);
-    const t = Math.min(elapsed, 1);
-    const eased = easeInOutCubic(t);
-
-    camera.position.lerpVectors(cameraStart, cameraEnd, eased);
-    controls.target.lerp(cameraTarget, eased);
-
-    if (t === 1) {
-      cameraAnimating = false;
-      controls.enabled = true;
-    }
-  }
-
-  controls.update();
-
-  if (particleSystem) {
-    const positions = particleSystem.geometry.attributes.position.array;
-    const velocities = particleSystem.userData.velocities;
-
-    for (let i = 0; i < velocities.length; i++) {
-      velocities[i].y -= 0.015;
-
-      positions[i * 3] += velocities[i].x;
-      positions[i * 3 + 1] += velocities[i].y;
-      positions[i * 3 + 2] += velocities[i].z;
+        if (t === 1) {
+            cameraAnimating = false;
+            controls.enabled = true;
+        }
     }
 
-    particleSystem.material.opacity *= 0.96;
+    controls.update();
 
-    particleSystem.material.size *= 0.98;
+    if (particleSystem) {
 
-    if (particleSystem.material.opacity < 0.05) {
-      scene.remove(particleSystem);
-      particleSystem = null;
+        const positions = particleSystem.geometry.attributes.position.array;
+        const velocities = particleSystem.userData.velocities;
+
+        for (let i = 0; i < velocities.length; i++) {
+
+            velocities[i].y -= 0.015; 
+
+            positions[i * 3] += velocities[i].x;
+            positions[i * 3 + 1] += velocities[i].y;
+            positions[i * 3 + 2] += velocities[i].z;
+        }
+
+        particleSystem.material.opacity *= 0.96;
+
+        particleSystem.material.size *= 0.98;
+
+        if (particleSystem.material.opacity < 0.05) {
+            scene.remove(particleSystem);
+            particleSystem = null;
+        }
+
+        particleSystem.geometry.attributes.position.needsUpdate = true;
     }
 
-    particleSystem.geometry.attributes.position.needsUpdate = true;
-  }
-
-  composer.render();
+    composer.render();
 }
 
 animate();
