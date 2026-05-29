@@ -73,7 +73,7 @@ export const productosPredeterminados = [
   },
   {
     sku: "BPP-007",
-    titulo: "Suspención",
+    titulo: "Suspensión",
     precio: 90000,
     descripcion: "Kit multifuncional para mantenimiento de bicicletas con llaves hexagonales, desmontadores y herramientas esenciales.",
     categoria: "transmision",
