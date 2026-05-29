@@ -50,11 +50,6 @@ h4,
   margin-bottom: 8px;
 }
 
-html,
-body {
-  overflow-x: hidden;
-}
-
 /* mejora render canvas */
 canvas {
   touch-action: none;
