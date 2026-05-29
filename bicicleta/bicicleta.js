@@ -262,9 +262,7 @@ scene.add(logoPlane);
 
 const loader = new GLTFLoader();
 
-const MODEL_PATH = location.pathname.includes("index")
-    ? "bicicleta/models/bicicleta.glb"
-    : "../bicicleta/models/bicicleta.glb";
+const MODEL_PATH = new URL('models/bicicleta.glb', import.meta.url).href;
 
 loader.load(
 
