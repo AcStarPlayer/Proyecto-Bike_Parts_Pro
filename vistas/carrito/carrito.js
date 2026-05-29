@@ -1,3 +1,5 @@
+import { isAuthenticated } from "../../autorizaciones/autorizaciones.js";
+
 const CLAVE_CARRITO_COMPRAS = "catalogo-carrito-compras";
 let carritoCompras = obtenerCarritoComprasGuardado();
 
@@ -247,6 +249,15 @@ export function finalizarCompraCarrito() {
   if (carritoCompras.length === 0) return;
 
   const enVistas = window.location.pathname.includes("/vistas/");
+
+  if (!isAuthenticated()) {
+    const rutaLogin = enVistas
+      ? "../login/login.html"
+      : "vistas/login/login.html";
+    window.location.href = rutaLogin;
+    return;
+  }
+
   const ruta = enVistas
     ? "../finalizarCompra/finalizarCompra.html"
     : "vistas/finalizarCompra/finalizarCompra.html";
