@@ -32,26 +32,6 @@ function construirVistasPrivadas(sesionActiva, basePath = "") {
   return vistasPrivadas;
 }
 
-function obtenerTextoRolNavbar(sesionActiva) {
-  if (!sesionActiva || !sesionActiva.autenticado) {
-    return "";
-  }
-
-  if (sesionActiva.rol === "admin" || sesionActiva.adminAuxiliar) {
-    return "Administrador auxiliar";
-  }
-
-  if (sesionActiva.rol === "cliente" && sesionActiva.clientePremium) {
-    return "Cliente premium";
-  }
-
-  if (sesionActiva.rol === "cliente" && sesionActiva.clienteFiel) {
-    return "Cliente fiel";
-  }
-
-  return "Cliente";
-}
-
 function construirLinksVistas(vistas) {
   let viewsHtml = "";
 
@@ -162,9 +142,9 @@ function construirHtmlNavbar(description, viewsHtml, bloqueSesionDesktop, bloque
         <img src="${basePath}img/logo.svg" alt="Logo BikePartsPro" class="nav-logo">
         <span class="separator"></span>
         <div class="text-container">
-          <h5 class="nav-title nav-style-text m-0">
+          <h3 class="nav-title nav-style-text m-0">
             BikeParts<span class="badge-pro">PRO</span>
-          </h5>
+          </h3>
           <p class="nav-text m-0">${description}</p>
         </div>
       </a>

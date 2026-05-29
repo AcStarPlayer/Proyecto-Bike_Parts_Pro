@@ -28,19 +28,17 @@ h1,
 h2,
 h3,
 h4,
-
 .logo,
 .btn-primary,
 .btn,
 .navbar-brand {
   font-family: 'Oswald', sans-serif !important;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 
-.carousel-caption h5 {
-  font-family: 'Barlow Condensed', sans-serif;
+.carousel-caption h3 {
   font-weight: 800;
   font-size: 52px;
   color: #fff;
