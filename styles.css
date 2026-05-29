@@ -113,7 +113,7 @@ h1, h2, h3 {
   color: var(--color-white);
   padding: 5px 12px;
   border-radius: 20px;
-  font-size: 14px;
+  font-size: 0.95rem;
   font-weight: bold;
 }
 
@@ -165,7 +165,7 @@ h1, h2, h3 {
 }
  
 .stat-label {
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   color: rgb(255, 255, 255);
   margin-top: 4px;
   font-weight: 500;
@@ -373,14 +373,14 @@ h1, h2, h3 {
 }
  
 .cat-info h4 {
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   font-weight: 700;
   margin: 0 0 4px;
   color: var(--color-dark);
 }
  
 .cat-info p {
-  font-size: 0.78rem;
+  font-size: 1rem;
   color: var(--color-gray);
   margin: 0;
   line-height: 1.4;
@@ -465,7 +465,7 @@ h1, h2, h3 {
 }
  
 .porque-card p {
-  font-size: 0.83rem;
+  font-size: 1rem;
   color: rgba(255, 249, 249, 0.989);
   line-height: 1.6;
   margin: 0;

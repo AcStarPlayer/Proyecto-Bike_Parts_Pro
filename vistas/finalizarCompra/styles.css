@@ -59,7 +59,7 @@ body {
 
 .form-group label {
   display: block;
-  font-size: 0.82rem;
+  font-size: 0.95rem;
   color: var(--color-gray);
   margin-bottom: 4px;
   font-weight: 500;

@@ -20,7 +20,7 @@ body {
 .categoria-text {
   color: var(--color-dark);
   font-weight: 550;
-  font-size: 0.65rem;
+  font-size: 0.9rem;
 }
 
 .catalogo-filtros {
@@ -30,8 +30,8 @@ body {
 }
 
 .categoria-mini {
-  width: 90px;
-  height: 90px;
+  width: 100px;
+  height: 100px;
   flex: 0 0 auto;
   cursor: pointer;
   border-radius: 10px;

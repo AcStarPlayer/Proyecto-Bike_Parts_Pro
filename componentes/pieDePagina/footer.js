@@ -5,9 +5,9 @@ export function footer(basePath = "") {
 
         <div class="footer-col">
           <h3>Bike Parts Pro</h3>
-          <h4 class="fz8Rem">Somos una tienda Online especializada en la venta de repuestos,
+          <h5 class="fz8Rem">Somos una tienda Online especializada en la venta de repuestos,
             accesorios para la practica de tu deporte favorito.
-          </h4>
+          </h5>
         </div>
 
         <div class="footer-col">
