@@ -119,7 +119,7 @@ function construirBloqueSesion(sesionActiva, basePath = "") {
         </div>
       </div>
 
-      <button id="boton-cerrar-sesion" type="button" class="btn-cerrar-sesion-nav">
+      <button type="button" class="btn-cerrar-sesion-nav boton-cerrar-sesion">
         Cerrar sesión
       </button>
     </div>
@@ -283,13 +283,13 @@ function inicializarBuscador(container, basePath = "") {
 }
 
 function inicializarCierreSesion(container, basePath = "") {
-  const botonCerrarSesion = container.querySelector("#boton-cerrar-sesion");
+  container.addEventListener("click", (event) => {
+    const botonCerrarSesion = event.target.closest(".boton-cerrar-sesion");
 
-  if (!botonCerrarSesion) {
-    return;
-  }
+    if (!botonCerrarSesion) {
+      return;
+    }
 
-  botonCerrarSesion.addEventListener("click", () => {
     limpiarSesion();
     window.location.href = `${basePath}vistas/login/login.html`;
   });
