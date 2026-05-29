@@ -16,7 +16,8 @@ function inyectarPanelCarrito() {
   panel.tabIndex = -1;
   panel.id = "panel-lateral-carrito-compras";
   panel.setAttribute("aria-labelledby", "titulo-panel-lateral-carrito-compras");
-
+  panel.setAttribute("data-bs-backdrop", "true");
+  panel.setAttribute("data-bs-scroll", "false");
   panel.innerHTML = `
     <div class="offcanvas-header encabezado-panel-carrito-compras">
       <div>
@@ -104,19 +105,19 @@ function setAgregarButtonIdle(btn) {
   btn.classList.remove("agregado");
   btn.removeAttribute("aria-disabled");
   btn.disabled = false;
-  btn.innerHTML = btn.dataset.htmlOriginal || "Agregar al carrito";
+  btn.textContent = btn.dataset.labelOriginal || "Agregar al carrito";
   delete btn.dataset.uiState;
 }
 
 function setAgregarButtonAdded(btn) {
   if (!btn) return;
-  if (!btn.dataset.htmlOriginal) {
-    btn.dataset.htmlOriginal = btn.innerHTML || "Agregar al carrito";
+  if (!btn.dataset.labelOriginal) {
+    btn.dataset.labelOriginal = btn.textContent || "Agregar al carrito";
   }
 
   btn.dataset.uiState = "added";
   btn.classList.add("agregado");
-  btn.innerHTML = "Agregado";
+  btn.textContent = "Agregado";
   btn.disabled = true;
   btn.setAttribute("aria-disabled", "true");
 }
