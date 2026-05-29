@@ -130,7 +130,7 @@ function construirHtmlNavbar(description, viewsHtml, bloqueSesion, basePath = ""
   return `
     <div class="logo-area">
       <a href="${basePath}index.html" class="logo-link" aria-label="Ir al inicio">
-        <img src="/../img/logo.svg" alt="Logo BikePartsPro" class="nav-logo">
+        <img src="${basePath}img/logo.svg" alt="Logo BikePartsPro" class="nav-logo">
         <span class="separator"></span>
         <div class="text-container">
           <h5 class="nav-title nav-style-text m-0">
@@ -151,7 +151,10 @@ function construirHtmlNavbar(description, viewsHtml, bloqueSesion, basePath = ""
       <div id="desplegado"></div>
       <button type="button" id="boton-buscar">Buscar</button>
     </div>
-
+    <div class="d-flex flex-row">
+    <div class="nav-session-wrapper" id="mobile-nav">
+      ${bloqueSesion}
+    </div>
     <button
       class="menu-toggle p-2 rounded-1"
       id="hamburguesa"
@@ -164,14 +167,13 @@ function construirHtmlNavbar(description, viewsHtml, bloqueSesion, basePath = ""
       <span class="bar"></span>
       <span class="bar"></span>
     </button>
-
+    </div>
     <ul class="botones-nav p-0" id="nav-list">
       ${viewsHtml}
     </ul>
-
-    <div class="nav-session-wrapper">
+    <div class="nav-session-wrapper" id="desktop-nav">
       ${bloqueSesion}
-    </div>
+    </div> 
   `;
 }
 

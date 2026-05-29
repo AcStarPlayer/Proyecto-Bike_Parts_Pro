@@ -92,7 +92,7 @@ integrantes.forEach((persona) => {
         null,
         persona.imagen,
         links,
-        "sm",
+        "xs",
       )}
     </div>
   `;

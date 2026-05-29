@@ -28,7 +28,7 @@ export const productosPredeterminados = [
     titulo: "Pedales aluminio",
     precio: 60000,
     descripcion: "Pedales fabricados en aluminio reforzado con superficie antideslizante para mayor estabilidad y control durante el pedaleo.",
-    categoria: "transmision",
+    categoria: "estructura",
     imagen: "../../img/catalogo/4.webp"
   },
   {
@@ -44,7 +44,7 @@ export const productosPredeterminados = [
     titulo: "Ruedas Ruta 700C 24H",
     precio: 55000,
     descripcion: "Sillín ergonómico acolchado que reduce la presión y mejora la comodidad en trayectos largos de ciclismo.",
-    categoria: "direccion",
+    categoria: "estructura",
     imagen: "../../img/catalogo/6.webp"
   },
   {
@@ -96,3 +96,11 @@ export const productosPredeterminados = [
     imagen: "../../img/catalogo/12.webp"
   }
 ];
+
+export function filtrarProductos(productos, { categoria = null, nombre = null } = {}) {
+  return productos.filter((p) => {
+    const matchCategoria = !categoria || p.categoria === categoria;
+    const matchNombre = !nombre || p.titulo.toLowerCase().includes(nombre.toLowerCase());
+    return matchCategoria && matchNombre;
+  });
+}

@@ -24,3 +24,11 @@ body {
 .scale-hover:hover {
   transform: scale(1.2);
 }
+
+#integrantes .card {
+  overflow: hidden;
+}
+
+#integrantes .ratio img {
+  object-position: center 12% !important;
+}

@@ -1,14 +1,14 @@
-import * as THREE from 'three';
+import * as THREE from "three";
 
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
 
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
-import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
+import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
+import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
+import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass.js";
 
 const piezas = {};
 
@@ -17,17 +17,19 @@ const mapaCategorias = {
     "llantaDelantera": "ruedas",
     "cadena": "transmision",
     "plato": "transmision",
-    "marco": "marco",
-    "sillin": "sillin",
-    "manubrio": "manubrio"
+    "marco": "estructura",
+    "sillin": "estructura",
+    "manubrio": "direccion"
 };
 
 const canvas = document.getElementById("canvas3d");
 
 if (!canvas) {
-    console.warn("⚠️ canvas3d no existe en esta página, bicicleta.js no se inicia");
-    // aborta sin romper JS
-    throw new Error("NO_CANVAS");
+  console.warn(
+    "⚠️ canvas3d no existe en esta página, bicicleta.js no se inicia",
+  );
+  // aborta sin romper JS
+  throw new Error("NO_CANVAS");
 }
 
 const tooltip = document.getElementById("tooltip");
@@ -57,8 +59,8 @@ let particleVelocities = [];
 let autoRotate = true;
 
 if (window.__BICICLETA_3D_INIT__) {
-    console.warn("⚠️ Bicicleta 3D ya inicializada");
-    throw new Error("DUPLICATE_INIT");
+  console.warn("⚠️ Bicicleta 3D ya inicializada");
+  throw new Error("DUPLICATE_INIT");
 }
 window.__BICICLETA_3D_INIT__ = true;
 
@@ -66,21 +68,18 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color("#bfc9d1");
 
 scene.fog = new THREE.Fog(
-    0xcfd8df,
+    0xd2bea2,
     10,
-    45
+    40
 );
 
 const floor = new THREE.Mesh(
     new THREE.PlaneGeometry(50, 50),
-    new THREE.MeshStandardMaterial({
-
-        color: 0x5f6d5a,
-
-        roughness: 0.96,
-        metalness: 0.02,
-
-        envMapIntensity: 0.4
+        new THREE.MeshStandardMaterial({
+        color: 0x8d7458,
+        roughness: 1,
+        metalness: 0,
+        envMapIntensity: 1
     })
 );
 
@@ -95,7 +94,12 @@ floor.material.envMapIntensity = 1.2;
 
 scene.add(floor);
 
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+const camera = new THREE.PerspectiveCamera(
+  45,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  100,
+);
 camera.position.set(0, 1.1, 3.2);
 
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
@@ -103,29 +107,25 @@ renderer.setClearColor(0x000000, 0);
 
 const container = canvas.parentElement;
 
-renderer.setSize(
-    container.clientWidth,
-    container.clientHeight
-);
+renderer.setSize(container.clientWidth, container.clientHeight);
 
 renderer.domElement.style.width = "100%";
 renderer.domElement.style.height = "100%";
 
 function updateRendererSize() {
+  const width = container.clientWidth;
+  const height = container.clientHeight;
 
-    const width = container.clientWidth;
-    const height = container.clientHeight;
+  if (width === 0 || height === 0) return;
 
-    if (width === 0 || height === 0) return;
+  renderer.setSize(width, height);
 
-    renderer.setSize(width, height);
+  camera.aspect = width / height;
+  camera.updateProjectionMatrix();
 
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-
-    if (composer) {
-        composer.setSize(width, height);
-    }
+  if (composer) {
+    composer.setSize(width, height);
+  }
 }
 
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -154,9 +154,9 @@ controls.maxDistance = 6;
 controls.target.set(0, 0.45, 0);
 
 const hemi = new THREE.HemisphereLight(
-    0xffffff,
-    0x4b5d52,
-    1.2
+    0xd8ffe8,
+    0x29543f,
+    2.8
 );
 
 scene.add(hemi);
@@ -206,31 +206,39 @@ const rgbeLoader = new RGBELoader();
 /*rgbeLoader.load(
     'https://threejs.org/examples/textures/equirectangular/royal_esplanade_1k.hdr',*/
 rgbeLoader.load(
-    'https://threejs.org/examples/textures/equirectangular/venice_sunset_1k.hdr',    
-    (texture) => {
-        texture.mapping = THREE.EquirectangularReflectionMapping;
-        texture.encoding = THREE.sRGBEncoding;
+  "https://threejs.org/examples/textures/equirectangular/venice_sunset_1k.hdr",
+  (texture) => {
+    texture.mapping = THREE.EquirectangularReflectionMapping;
+    texture.encoding = THREE.sRGBEncoding;
 
         scene.environment = texture;
-        scene.environmentIntensity = 1.2;
+        scene.environmentIntensity = 1.4;
     }
 );
 
 const textureLoader = new THREE.TextureLoader();
 const sparkTexture = textureLoader.load(
-    'https://threejs.org/examples/textures/sprites/spark1.png'
+  "https://threejs.org/examples/textures/sprites/spark1.png",
 );
 sparkTexture.colorSpace = THREE.SRGBColorSpace;
 
-const carbonTexture = textureLoader.load('https://threejs.org/examples/textures/carbon/Carbon.png');
-const carbonNormal = textureLoader.load('https://threejs.org/examples/textures/water/Water_1_M_Normal.jpg');
+const carbonTexture = textureLoader.load(
+  "https://threejs.org/examples/textures/carbon/Carbon.png",
+);
+const carbonNormal = textureLoader.load(
+  "https://threejs.org/examples/textures/water/Water_1_M_Normal.jpg",
+);
 
-const metalTexture = textureLoader.load('https://threejs.org/examples/textures/metal.jpg');
+const metalTexture = textureLoader.load(
+  "https://threejs.org/examples/textures/metal.jpg",
+);
 
 carbonTexture.colorSpace = THREE.SRGBColorSpace;
 metalTexture.colorSpace = THREE.SRGBColorSpace;
 
-const rubberTexture = textureLoader.load('https://threejs.org/examples/textures/terrain/grasslight-big.jpg');
+const rubberTexture = textureLoader.load(
+  "https://threejs.org/examples/textures/terrain/grasslight-big.jpg",
+);
 
 metalTexture.colorSpace = THREE.SRGBColorSpace;
 rubberTexture.colorSpace = THREE.SRGBColorSpace;
@@ -263,271 +271,59 @@ scene.add(logoPlane);
 const loader = new GLTFLoader();
 
 const MODEL_PATH = location.pathname.includes("index")
-    ? "bicicleta/models/bicicleta.glb"
-    : "../bicicleta/models/bicicleta.glb";
+  ? "bicicleta/models/bicicleta.glb"
+  : "../bicicleta/models/bicicleta.glb";
 
 loader.load(
-
     MODEL_PATH,
 
-    (gltf) => {
+  (gltf) => {
+    console.log("✅ GLB cargado");
+    console.log(gltf.scene);
 
-        console.log("✅ GLB cargado");
-        console.log(gltf.scene);
+    const bicicleta = gltf.scene;
 
-        const bicicleta = gltf.scene;
+    bicicletaModel = bicicleta;
 
-        bicicletaModel = bicicleta;
+    bicicleta.position.set(0, -0.6, 0);
 
-        bicicleta.position.set(0, -0.6, 0);
+    bicicleta.scale.set(0.9, 0.9, 0.9);
 
-        bicicleta.scale.set(0.9, 0.9, 0.9);
+    bicicleta.rotation.y = Math.PI / 2;
 
-        bicicleta.rotation.y = Math.PI / 2;
+    scene.add(bicicleta);
 
-        scene.add(bicicleta);
+    const box = new THREE.Box3().setFromObject(bicicleta);
+    const center = box.getCenter(new THREE.Vector3());
 
-        const box = new THREE.Box3().setFromObject(bicicleta);
-        const center = box.getCenter(new THREE.Vector3());
+    controls.target.copy(center);
+    camera.lookAt(center);
 
-        controls.target.copy(center);
-        camera.lookAt(center);
+    console.log(bicicleta);
 
-        console.log(bicicleta);
-
-        bicicleta.traverse((child) => {
+        bicicleta.traverse(child => {
 
             if (child.isMesh) {
-
-                if (child.material) {
-
-                    const materials = Array.isArray(child.material)
-                        ? child.material
-                        : [child.material];
-
-                    materials.forEach((mat) => {
-
-                        mat.needsUpdate = true;
-
-                        if (mat.map) {
-                            mat.map.colorSpace = THREE.SRGBColorSpace;
-                        }
-
-                        mat.envMapIntensity = 0.6;
-
-                        mat.roughness = Math.min(
-                            mat.roughness ?? 0.8,
-                            0.9
-                        );
-
-                        mat.metalness = Math.min(
-                            mat.metalness ?? 0.2,
-                            0.35
-                        );
-
-                        // =========================================
-                        // MATERIALES MTB PREMIUM
-                        // =========================================
-
-                        const nombre = child.name.toLowerCase();
-
-                        // ===============================
-                        // MARCO CARBONO NEGRO MATE
-                        // ===============================
-
-                        if (nombre.includes("marco")) {
-
-                            mat.color = new THREE.Color("#1f2937");
-
-                            mat.roughness = 0.22;
-                            mat.metalness = 0.85;
-
-                            mat.envMapIntensity = 2.2;
-
-                            mat.clearcoat = 1;
-                            mat.clearcoatRoughness = 0.12;
-                        }
-
-                        // ===============================
-                        // LLANTAS MTB
-                        // ===============================
-
-                        if (
-                            nombre.includes("llanta") ||
-                            nombre.includes("wheel") ||
-                            nombre.includes("tire")
-                        ) {
-
-                            mat.color = new THREE.Color("#0f0f0f");
-
-                            mat.roughness = 1;
-                            mat.metalness = 0.02;
-
-                            mat.bumpScale = 0.02;
-                        }
-
-                        // ===============================
-                        // RINES METÁLICOS
-                        // ===============================
-
-                        if (
-                            nombre.includes("rin") ||
-                            nombre.includes("rim")
-                        ) {
-
-                            mat.color = new THREE.Color("#9ca3af");
-
-                            mat.roughness = 0.25;
-                            mat.metalness = 1;
-
-                            mat.envMapIntensity = 1.8;
-                        }
-
-                        // ===============================
-                        // CADENA
-                        // ===============================
-
-                        if (
-                            nombre.includes("cadena") ||
-                            nombre.includes("chain")
-                        ) {
-
-                            mat.color = new THREE.Color("#b6bcc6");
-
-                            mat.roughness = 0.28;
-                            mat.metalness = 1;
-
-                            mat.envMapIntensity = 2;
-                        }
-
-                        // ===============================
-                        // PLATO Y ENGRANAJES
-                        // ===============================
-
-                        if (
-                            nombre.includes("plato") ||
-                            nombre.includes("gear")
-                        ) {
-
-                            mat.color = new THREE.Color("#d1d5db");
-
-                            mat.roughness = 0.18;
-                            mat.metalness = 1;
-
-                            mat.envMapIntensity = 2.5;
-                        }
-
-                        // ===============================
-                        // SILLÍN
-                        // ===============================
-
-                        if (
-                            nombre.includes("sillin") ||
-                            nombre.includes("seat")
-                        ) {
-
-                            mat.color = new THREE.Color("#111827");
-
-                            mat.roughness = 0.95;
-                            mat.metalness = 0;
-                        }
-
-                        // ===============================
-                        // MANUBRIO
-                        // ===============================
-
-                        if (
-                            nombre.includes("manubrio") ||
-                            nombre.includes("handle")
-                        ) {
-
-                            mat.color = new THREE.Color("#4b5563");
-
-                            mat.roughness = 0.22;
-                            mat.metalness = 0.95;
-
-                            mat.envMapIntensity = 2;
-                        }
-
-                        // ===============================
-                        // HORQUILLA / SUSPENSIÓN
-                        // ===============================
-
-                        if (
-                            nombre.includes("fork") ||
-                            nombre.includes("suspension") ||
-                            nombre.includes("amortiguador")
-                        ) {
-
-                            mat.color = new THREE.Color("#cbd5e1");
-
-                            mat.roughness = 0.15;
-                            mat.metalness = 1;
-
-                            mat.envMapIntensity = 2.8;
-                        }
-
-                        // ===============================
-                        // PEDALES
-                        // ===============================
-
-                        if (
-                            nombre.includes("pedal")
-                        ) {
-
-                            mat.color = new THREE.Color("#374151");
-
-                            mat.roughness = 0.45;
-                            mat.metalness = 0.8;
-                        }
-
-                    });
-
-                }
 
                 child.castShadow = true;
                 child.receiveShadow = true;
 
-                objetos.push(child);
+        objetos.push(child);
 
                 piezas[child.name] = child;
-
-                // ===== DATOS PARA EXPLOSIÓN =====
-
-                const dir = child.position
-                    .clone()
-                    .normalize();
-
-                explosionData.set(child, {
-                    originalPosition: child.position.clone(),
-                    direction: dir.length() === 0
-                        ? new THREE.Vector3(
-                            Math.random() - 0.5,
-                            Math.random() - 0.5,
-                            Math.random() - 0.5
-                        ).normalize()
-                        : dir,
-                    delay: Math.random() * 0.3
-                });
             }
         });
-
     },
 
-    (xhr) => {
-
-        console.log(
-            (xhr.loaded / xhr.total * 100) + '% cargado'
-        );
-
-    },
+  (xhr) => {
+    console.log((xhr.loaded / xhr.total) * 100 + "% cargado");
+  },
 
     (error) => {
 
         console.error("❌ ERROR GLB:", error);
 
     }
-
 );
 
 const composer = new EffectComposer(renderer);
@@ -535,17 +331,17 @@ composer.addPass(new RenderPass(scene, camera));
 
 const bloomPass = new UnrealBloomPass(
   new THREE.Vector2(window.innerWidth, window.innerHeight),
-  0.015,
-  0.05,
-  0.95
+  0.06,
+  0.15,
+  0.9
 );
 
 composer.addPass(bloomPass);
 
 const outlinePass = new OutlinePass(
-    new THREE.Vector2(window.innerWidth, window.innerHeight),
-    scene,
-    camera
+  new THREE.Vector2(window.innerWidth, window.innerHeight),
+  scene,
+  camera,
 );
 
 composer.addPass(outlinePass);
@@ -562,250 +358,235 @@ const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
 function updateOutline() {
-    const selected = [];
+  const selected = [];
 
-    if (hoveredObject) selected.push(hoveredObject);
-    if (selectedObject) selected.push(selectedObject);
+  if (hoveredObject) selected.push(hoveredObject);
+  if (selectedObject) selected.push(selectedObject);
 
-    outlinePass.selectedObjects = selected;
+  outlinePass.selectedObjects = selected;
 }
 
 function explodeModel() {
+  exploded = !exploded;
 
-    exploded = !exploded;
+  explosionData.forEach((data, obj) => {
+    const distance = exploded ? 2 : 0;
 
-    explosionData.forEach((data, obj) => {
+    obj.userData.targetPosition = data.originalPosition
+      .clone()
+      .add(data.direction.clone().multiplyScalar(distance));
 
-        const distance = exploded ? 2 : 0;
-
-        obj.userData.targetPosition = data.originalPosition.clone().add(
-            data.direction.clone().multiplyScalar(distance)
-        );
-
-        obj.userData.delay = data.delay;
-        obj.userData.startPosition = obj.position.clone();
-        obj.userData.startTime = performance.now();  
-    });
+    obj.userData.delay = data.delay;
+    obj.userData.startPosition = obj.position.clone();
+    obj.userData.startTime = performance.now();
+  });
 }
 
 function createExplosionParticles(position) {
+  const count = 120;
 
-    const count = 120;
+  const geometry = new THREE.BufferGeometry();
+  const positions = new Float32Array(count * 3);
+  const velocities = [];
 
-    const geometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(count * 3);
-    const velocities = [];
+  for (let i = 0; i < count; i++) {
+    positions[i * 3] = position.x;
+    positions[i * 3 + 1] = position.y;
+    positions[i * 3 + 2] = position.z;
 
-    for (let i = 0; i < count; i++) {
-
-        positions[i * 3] = position.x;
-        positions[i * 3 + 1] = position.y;
-        positions[i * 3 + 2] = position.z;
-
-        velocities.push({
-            x: (Math.random() - 0.5) * 0.4,
-            y: (Math.random()) * 0.8,
-            z: (Math.random() - 0.5) * 0.4
-        });
-    }
-
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-
-    const material = new THREE.PointsMaterial({
-        map: sparkTexture,          
-        size: 0.15,
-        color: 0x00ff99,
-        transparent: true,
-        alphaTest: 0.5,
-        blending: THREE.AdditiveBlending, 
-        depthWrite: false
+    velocities.push({
+      x: (Math.random() - 0.5) * 0.4,
+      y: Math.random() * 0.8,
+      z: (Math.random() - 0.5) * 0.4,
     });
+  }
 
-    particleSystem = new THREE.Points(geometry, material);
-    particleSystem.userData.velocities = velocities;
+  geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
 
-    scene.add(particleSystem);
+  const material = new THREE.PointsMaterial({
+    map: sparkTexture,
+    size: 0.15,
+    color: 0x00ff99,
+    transparent: true,
+    alphaTest: 0.5,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+  });
+
+  particleSystem = new THREE.Points(geometry, material);
+  particleSystem.userData.velocities = velocities;
+
+  scene.add(particleSystem);
 }
 
 function easeInOutCubic(t) {
-    return t < 0.5
-        ? 4 * t * t * t
-        : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 }
 
 function moveCameraTo(targetObj) {
+  const box = new THREE.Box3().setFromObject(targetObj);
+  const center = box.getCenter(new THREE.Vector3());
 
-    const box = new THREE.Box3().setFromObject(targetObj);
-    const center = box.getCenter(new THREE.Vector3());
+  cameraStart.copy(camera.position);
 
-    cameraStart.copy(camera.position);
+  cameraEnd.copy(center).add(new THREE.Vector3(2, 2, 3));
+  cameraTarget.copy(center);
 
-    cameraEnd.copy(center).add(new THREE.Vector3(2, 2, 3));
-    cameraTarget.copy(center);
+  cameraAnimating = true;
+  cameraStartTime = performance.now();
 
-    cameraAnimating = true;
-    cameraStartTime = performance.now();
-
-    controls.enabled = false;
+  controls.enabled = false;
 }
 
 window.addEventListener("mousemove", (e) => {
+  autoRotate = false;
 
-    autoRotate = false;
+  mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 
-    mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+  raycaster.setFromCamera(mouse, camera);
+  const hit = raycaster.intersectObjects(objetos, false);
 
-    raycaster.setFromCamera(mouse, camera);
-    const hit = raycaster.intersectObjects(objetos, false);
+  if (hit.length > 0) {
+    hoveredObject = hit[0].object;
 
-    if (hit.length > 0) {
-        hoveredObject = hit[0].object;
+    tooltip.style.display = "block";
+    tooltip.style.left = e.clientX + "px";
+    tooltip.style.top = e.clientY + "px";
+    tooltip.innerText = hoveredObject.name;
+  } else {
+    hoveredObject = null;
+    tooltip.style.display = "none";
 
-        tooltip.style.display = "block";
-        tooltip.style.left = e.clientX + "px";
-        tooltip.style.top = e.clientY + "px";
-        tooltip.innerText = hoveredObject.name;
+    autoRotate = true;
+  }
 
-    } else {
-        hoveredObject = null;
-        tooltip.style.display = "none";
-
-        autoRotate = true;
-    }
-
-    updateOutline();
+  updateOutline();
 });
 
 window.addEventListener("click", () => {
+  raycaster.setFromCamera(mouse, camera);
+  const hit = raycaster.intersectObjects(objetos, false);
 
-    raycaster.setFromCamera(mouse, camera);
-    const hit = raycaster.intersectObjects(objetos, false);
+  if (hit.length > 0) {
+    selectedObject = hit[0].object;
+    explodeModel();
+    moveCameraTo(selectedObject);
 
-    if (hit.length > 0) {
-        selectedObject = hit[0].object;
-        explodeModel();
-        moveCameraTo(selectedObject);
+    if (selectedObject.material) {
+      const mats = Array.isArray(selectedObject.material)
+        ? selectedObject.material
+        : [selectedObject.material];
 
-        if (selectedObject.material) {
+      mats.forEach((m) => {
+        m.emissive = new THREE.Color(0x00ff88);
 
-            const mats = Array.isArray(selectedObject.material)
-                ? selectedObject.material
-                : [selectedObject.material];
-
-            mats.forEach(m => {
-
-                m.emissive = new THREE.Color(0x00ff88);
-
-                m.emissiveIntensity = 3;
-
-            });
-        }
-
-        const pos = new THREE.Vector3();
-        selectedObject.getWorldPosition(pos);
-        createExplosionParticles(pos);
-
-        const titulo = document.getElementById("titulo");
-        const descripcion = document.getElementById("descripcion");
-
-        if (titulo && descripcion && selectedObject) {
-            titulo.innerText = selectedObject.name;
-            descripcion.innerText = "Ver productos";
-        }
-
-        const categoria = mapaCategorias[selectedObject.name] || "otros";
-
-        setTimeout(() => {
-            window.location.href =
-                `vistas/catalogo/catalogo.html?cat=${categoria}`;
-        }, 1200);
+        m.emissiveIntensity = 3;
+      });
     }
 
-    updateOutline();
+    const pos = new THREE.Vector3();
+    selectedObject.getWorldPosition(pos);
+    createExplosionParticles(pos);
+
+    const titulo = document.getElementById("titulo");
+    const descripcion = document.getElementById("descripcion");
+
+    if (titulo && descripcion && selectedObject) {
+      titulo.innerText = selectedObject.name;
+      descripcion.innerText = "Ver productos";
+    }
+
+    const categoria = mapaCategorias[selectedObject.name];
+    let urlParams ="";
+    if (categoria !== undefined) {
+      urlParams = `?cat=${categoria}`;
+    }
+    setTimeout(() => {
+        window.location.href = `vistas/catalogo/catalogo.html${urlParams}`;
+      }, 1200);
+  }
+
+  updateOutline();
 });
 
 window.addEventListener("resize", () => {
-    if (composer) updateRendererSize();
+  if (composer) updateRendererSize();
 });
 
 function animate() {
-    requestAnimationFrame(animate);
+  requestAnimationFrame(animate);
 
-    if (bicicletaModel && autoRotate) {
-        bicicletaModel.rotation.y += 0.0015;
-    }
+  if (bicicletaModel && autoRotate) {
+    bicicletaModel.rotation.y += 0.0015;
+  }
 
-    objetos.forEach(obj => {
+  objetos.forEach((obj) => {
+    if (obj.userData.targetPosition) {
+      if (!obj.userData.startTime) {
+        obj.userData.startTime = performance.now();
+      }
 
-        if (obj.userData.targetPosition) {
+      const elapsed = (performance.now() - obj.userData.startTime) / 1000;
 
-            if (!obj.userData.startTime) {
-                obj.userData.startTime = performance.now();
-            }
+      if (elapsed > (obj.userData.delay || 0)) {
+        const duration = 1.2;
+        const start = obj.userData.startTime || performance.now();
 
-            const elapsed = (performance.now() - obj.userData.startTime) / 1000;
-
-            if (elapsed > (obj.userData.delay || 0)) {
-                const duration = 1.2;
-                const start = obj.userData.startTime || performance.now();
-
-                const t = Math.min((performance.now() - start) / (duration * 1000), 1);
-                const eased = easeInOutCubic(t);
-
-                obj.position.lerpVectors(
-                    obj.userData.startPosition,
-                    obj.userData.targetPosition,
-                    eased
-                );
-            }
-        }
-    });
-
-    if (cameraAnimating) {
-
-        const elapsed = (performance.now() - cameraStartTime) / (cameraDuration * 1000);
-        const t = Math.min(elapsed, 1);
+        const t = Math.min((performance.now() - start) / (duration * 1000), 1);
         const eased = easeInOutCubic(t);
 
-        camera.position.lerpVectors(cameraStart, cameraEnd, eased);
-        controls.target.lerp(cameraTarget, eased);
+        obj.position.lerpVectors(
+          obj.userData.startPosition,
+          obj.userData.targetPosition,
+          eased,
+        );
+      }
+    }
+  });
 
-        if (t === 1) {
-            cameraAnimating = false;
-            controls.enabled = true;
-        }
+  if (cameraAnimating) {
+    const elapsed =
+      (performance.now() - cameraStartTime) / (cameraDuration * 1000);
+    const t = Math.min(elapsed, 1);
+    const eased = easeInOutCubic(t);
+
+    camera.position.lerpVectors(cameraStart, cameraEnd, eased);
+    controls.target.lerp(cameraTarget, eased);
+
+    if (t === 1) {
+      cameraAnimating = false;
+      controls.enabled = true;
+    }
+  }
+
+  controls.update();
+
+  if (particleSystem) {
+    const positions = particleSystem.geometry.attributes.position.array;
+    const velocities = particleSystem.userData.velocities;
+
+    for (let i = 0; i < velocities.length; i++) {
+      velocities[i].y -= 0.015;
+
+      positions[i * 3] += velocities[i].x;
+      positions[i * 3 + 1] += velocities[i].y;
+      positions[i * 3 + 2] += velocities[i].z;
     }
 
-    controls.update();
+    particleSystem.material.opacity *= 0.96;
 
-    if (particleSystem) {
+    particleSystem.material.size *= 0.98;
 
-        const positions = particleSystem.geometry.attributes.position.array;
-        const velocities = particleSystem.userData.velocities;
-
-        for (let i = 0; i < velocities.length; i++) {
-
-            velocities[i].y -= 0.015; 
-
-            positions[i * 3] += velocities[i].x;
-            positions[i * 3 + 1] += velocities[i].y;
-            positions[i * 3 + 2] += velocities[i].z;
-        }
-
-        particleSystem.material.opacity *= 0.96;
-
-        particleSystem.material.size *= 0.98;
-
-        if (particleSystem.material.opacity < 0.05) {
-            scene.remove(particleSystem);
-            particleSystem = null;
-        }
-
-        particleSystem.geometry.attributes.position.needsUpdate = true;
+    if (particleSystem.material.opacity < 0.05) {
+      scene.remove(particleSystem);
+      particleSystem = null;
     }
 
-    composer.render();
+    particleSystem.geometry.attributes.position.needsUpdate = true;
+  }
+
+  composer.render();
 }
 
 animate();
