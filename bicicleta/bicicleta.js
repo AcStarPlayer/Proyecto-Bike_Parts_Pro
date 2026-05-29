@@ -730,7 +730,7 @@ window.addEventListener("resize", () => {
 });
 
 window.addEventListener("pageshow", (e) => {
-    if (e.persisted && exploded) explodeModel();
+    if (e.persisted) location.reload();
 });
 
 function animate() {
