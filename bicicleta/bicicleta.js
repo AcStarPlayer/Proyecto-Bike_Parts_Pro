@@ -31,6 +31,7 @@ if (!canvas) {
 }
 
 const tooltip = document.getElementById("tooltip");
+const bikeHint = document.getElementById("bikeHint");
 
 let bicicletaModel;
 
@@ -95,13 +96,15 @@ floor.material.envMapIntensity = 1.2;
 
 scene.add(floor);
 
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+const container = canvas.parentElement;
+
+const initialW = container.clientWidth || window.innerWidth;
+const initialH = container.clientHeight || window.innerHeight;
+const camera = new THREE.PerspectiveCamera(45, initialW / initialH, 0.1, 100);
 camera.position.set(0, 1.1, 3.2);
 
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setClearColor(0x000000, 0);
-
-const container = canvas.parentElement;
 
 renderer.setSize(
     container.clientWidth,
@@ -649,6 +652,7 @@ function moveCameraTo(targetObj) {
 }
 
 canvas.addEventListener("mousemove", (e) => {
+    if (bikeHint) bikeHint.classList.add("oculto");
     autoRotate = false;
 
     const rect = canvas.getBoundingClientRect();
@@ -681,6 +685,7 @@ canvas.addEventListener("mouseleave", () => {
 });
 
 canvas.addEventListener("click", (e) => {
+    if (bikeHint) bikeHint.classList.add("oculto");
     const rect = canvas.getBoundingClientRect();
     mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
     mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
