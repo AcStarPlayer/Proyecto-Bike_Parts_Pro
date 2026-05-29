@@ -65,18 +65,25 @@ if (window.__BICICLETA_3D_INIT__) {
 window.__BICICLETA_3D_INIT__ = true;
 
 const scene = new THREE.Scene();
-scene.background = null;
+scene.background = new THREE.Color("#bfc9d1");
 
-scene.fog = new THREE.Fog(0xd2bea2, 10, 40);
+scene.fog = new THREE.Fog(
+    0xcfd8df,
+    10,
+    45
+);
 
 const floor = new THREE.Mesh(
-  new THREE.PlaneGeometry(50, 50),
-  new THREE.MeshStandardMaterial({
-    color: 0x8d7458,
-    roughness: 1,
-    metalness: 0,
-    envMapIntensity: 1,
-  }),
+    new THREE.PlaneGeometry(50, 50),
+    new THREE.MeshStandardMaterial({
+
+        color: 0x5f6d5a,
+
+        roughness: 0.96,
+        metalness: 0.02,
+
+        envMapIntensity: 0.4
+    })
 );
 
 floor.rotation.x = -Math.PI / 2;
@@ -88,7 +95,7 @@ floor.material.metalness = 0;
 
 floor.material.envMapIntensity = 1.2;
 
-//scene.add(floor);
+scene.add(floor);
 
 const camera = new THREE.PerspectiveCamera(
   45,
@@ -132,7 +139,9 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.0;
+renderer.toneMappingExposure = 1;
+
+renderer.toneMappingExposure = 0.92;
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
@@ -147,25 +156,29 @@ controls.maxDistance = 6;
 
 controls.target.set(0, 0.45, 0);
 
-const hemi = new THREE.HemisphereLight(0xd8ffe8, 0x29543f, 2.8);
+const hemi = new THREE.HemisphereLight(
+    0xffffff,
+    0x4b5d52,
+    1.2
+);
 
 scene.add(hemi);
 
-const keyLight = new THREE.DirectionalLight(0xd8ffea, 4);
+const keyLight = new THREE.DirectionalLight(0xffffff, 1.8);
 
 keyLight.position.set(5, 8, 5);
-keyLight.castShadow = true;
+keyLight.castShadow = false;
 
 keyLight.shadow.mapSize.width = 2048;
 keyLight.shadow.mapSize.height = 2048;
 
 scene.add(keyLight);
 
-const fill = new THREE.DirectionalLight(0xffe2b8, 2);
+const fill = new THREE.DirectionalLight(0xffffff, 0.8);
 fill.position.set(-5, 3, 2);
 scene.add(fill);
 
-const sunLight = new THREE.DirectionalLight(0xfff2d6, 6);
+const sunLight = new THREE.DirectionalLight(0xffffff, 2.2);
 
 sunLight.position.set(10, 15, 8);
 
@@ -176,8 +189,20 @@ sunLight.shadow.mapSize.height = 2048;
 
 scene.add(sunLight);
 
-const axesHelper = new THREE.AxesHelper(5);
-scene.add(axesHelper);
+// ======================================
+// SOMBRAS SUAVES PREMIUM
+// ======================================
+
+renderer.shadowMap.enabled = true;
+
+keyLight.shadow.bias = -0.0001;
+keyLight.shadow.radius = 4;
+
+sunLight.shadow.bias = -0.0001;
+sunLight.shadow.radius = 6;
+
+//const axesHelper = new THREE.AxesHelper(5);
+//scene.add(axesHelper);
 
 const rgbeLoader = new RGBELoader();
 
@@ -189,9 +214,9 @@ rgbeLoader.load(
     texture.mapping = THREE.EquirectangularReflectionMapping;
     texture.encoding = THREE.sRGBEncoding;
 
-    scene.environment = texture;
-    scene.environmentIntensity = 1.4;
-  },
+        scene.environment = texture;
+        scene.environmentIntensity = 1.2;
+    }
 );
 
 const textureLoader = new THREE.TextureLoader();
@@ -221,6 +246,31 @@ const rubberTexture = textureLoader.load(
 metalTexture.colorSpace = THREE.SRGBColorSpace;
 rubberTexture.colorSpace = THREE.SRGBColorSpace;
 
+const logoTexture = textureLoader.load(
+    "img/logo.svg"
+);
+
+const logoMaterial = new THREE.MeshBasicMaterial({
+
+    map: logoTexture,
+
+    transparent: true,
+
+    opacity: 0.22
+    
+});
+
+const logoPlane = new THREE.Mesh(
+
+    new THREE.PlaneGeometry(2.5, 2.5),
+
+    logoMaterial
+);
+
+logoPlane.position.set(0, 1.4, -8);
+
+scene.add(logoPlane);
+
 const loader = new GLTFLoader();
 
 const MODEL_PATH = location.pathname.includes("index")
@@ -228,7 +278,8 @@ const MODEL_PATH = location.pathname.includes("index")
   : "../bicicleta/models/bicicleta.glb";
 
 loader.load(
-  MODEL_PATH,
+
+    MODEL_PATH,
 
   (gltf) => {
     console.log("✅ GLB cargado");
@@ -254,25 +305,235 @@ loader.load(
 
     console.log(bicicleta);
 
-    bicicleta.traverse((child) => {
-      if (child.isMesh) {
-        child.castShadow = true;
-        child.receiveShadow = true;
+        bicicleta.traverse((child) => {
+
+            if (child.isMesh) {
+
+                if (child.material) {
+
+                    const materials = Array.isArray(child.material)
+                        ? child.material
+                        : [child.material];
+
+                    materials.forEach((mat) => {
+
+                        mat.needsUpdate = true;
+
+                        if (mat.map) {
+                            mat.map.colorSpace = THREE.SRGBColorSpace;
+                        }
+
+                        mat.envMapIntensity = 0.6;
+
+                        mat.roughness = Math.min(
+                            mat.roughness ?? 0.8,
+                            0.9
+                        );
+
+                        mat.metalness = Math.min(
+                            mat.metalness ?? 0.2,
+                            0.35
+                        );
+
+                        // =========================================
+                        // MATERIALES MTB PREMIUM
+                        // =========================================
+
+                        const nombre = child.name.toLowerCase();
+
+                        // ===============================
+                        // MARCO CARBONO NEGRO MATE
+                        // ===============================
+
+                        if (nombre.includes("marco")) {
+
+                            mat.color = new THREE.Color("#1f2937");
+
+                            mat.roughness = 0.22;
+                            mat.metalness = 0.85;
+
+                            mat.envMapIntensity = 2.2;
+
+                            mat.clearcoat = 1;
+                            mat.clearcoatRoughness = 0.12;
+                        }
+
+                        // ===============================
+                        // LLANTAS MTB
+                        // ===============================
+
+                        if (
+                            nombre.includes("llanta") ||
+                            nombre.includes("wheel") ||
+                            nombre.includes("tire")
+                        ) {
+
+                            mat.color = new THREE.Color("#0f0f0f");
+
+                            mat.roughness = 1;
+                            mat.metalness = 0.02;
+
+                            mat.bumpScale = 0.02;
+                        }
+
+                        // ===============================
+                        // RINES METÁLICOS
+                        // ===============================
+
+                        if (
+                            nombre.includes("rin") ||
+                            nombre.includes("rim")
+                        ) {
+
+                            mat.color = new THREE.Color("#9ca3af");
+
+                            mat.roughness = 0.25;
+                            mat.metalness = 1;
+
+                            mat.envMapIntensity = 1.8;
+                        }
+
+                        // ===============================
+                        // CADENA
+                        // ===============================
+
+                        if (
+                            nombre.includes("cadena") ||
+                            nombre.includes("chain")
+                        ) {
+
+                            mat.color = new THREE.Color("#b6bcc6");
+
+                            mat.roughness = 0.28;
+                            mat.metalness = 1;
+
+                            mat.envMapIntensity = 2;
+                        }
+
+                        // ===============================
+                        // PLATO Y ENGRANAJES
+                        // ===============================
+
+                        if (
+                            nombre.includes("plato") ||
+                            nombre.includes("gear")
+                        ) {
+
+                            mat.color = new THREE.Color("#d1d5db");
+
+                            mat.roughness = 0.18;
+                            mat.metalness = 1;
+
+                            mat.envMapIntensity = 2.5;
+                        }
+
+                        // ===============================
+                        // SILLÍN
+                        // ===============================
+
+                        if (
+                            nombre.includes("sillin") ||
+                            nombre.includes("seat")
+                        ) {
+
+                            mat.color = new THREE.Color("#111827");
+
+                            mat.roughness = 0.95;
+                            mat.metalness = 0;
+                        }
+
+                        // ===============================
+                        // MANUBRIO
+                        // ===============================
+
+                        if (
+                            nombre.includes("manubrio") ||
+                            nombre.includes("handle")
+                        ) {
+
+                            mat.color = new THREE.Color("#4b5563");
+
+                            mat.roughness = 0.22;
+                            mat.metalness = 0.95;
+
+                            mat.envMapIntensity = 2;
+                        }
+
+                        // ===============================
+                        // HORQUILLA / SUSPENSIÓN
+                        // ===============================
+
+                        if (
+                            nombre.includes("fork") ||
+                            nombre.includes("suspension") ||
+                            nombre.includes("amortiguador")
+                        ) {
+
+                            mat.color = new THREE.Color("#cbd5e1");
+
+                            mat.roughness = 0.15;
+                            mat.metalness = 1;
+
+                            mat.envMapIntensity = 2.8;
+                        }
+
+                        // ===============================
+                        // PEDALES
+                        // ===============================
+
+                        if (
+                            nombre.includes("pedal")
+                        ) {
+
+                            mat.color = new THREE.Color("#374151");
+
+                            mat.roughness = 0.45;
+                            mat.metalness = 0.8;
+                        }
+
+                    });
+
+                }
+
+                child.castShadow = true;
+                child.receiveShadow = true;
 
         objetos.push(child);
 
-        piezas[child.name] = child;
-      }
-    });
-  },
+                piezas[child.name] = child;
+
+                // ===== DATOS PARA EXPLOSIÓN =====
+
+                const dir = child.position
+                    .clone()
+                    .normalize();
+
+                explosionData.set(child, {
+                    originalPosition: child.position.clone(),
+                    direction: dir.length() === 0
+                        ? new THREE.Vector3(
+                            Math.random() - 0.5,
+                            Math.random() - 0.5,
+                            Math.random() - 0.5
+                        ).normalize()
+                        : dir,
+                    delay: Math.random() * 0.3
+                });
+            }
+        });
+
+    },
 
   (xhr) => {
     console.log((xhr.loaded / xhr.total) * 100 + "% cargado");
   },
 
-  (error) => {
-    console.error("❌ ERROR GLB:", error);
-  },
+    (error) => {
+
+        console.error("❌ ERROR GLB:", error);
+
+    }
+
 );
 
 const composer = new EffectComposer(renderer);
@@ -280,9 +541,9 @@ composer.addPass(new RenderPass(scene, camera));
 
 const bloomPass = new UnrealBloomPass(
   new THREE.Vector2(window.innerWidth, window.innerHeight),
-  0.06,
-  0.15,
-  0.9,
+  0.015,
+  0.05,
+  0.95
 );
 
 composer.addPass(bloomPass);
