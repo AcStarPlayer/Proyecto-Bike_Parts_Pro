@@ -48,7 +48,7 @@ let cameraEnd = new THREE.Vector3();
 
 let cameraAnimating = false;
 let cameraStartTime = 0;
-let cameraDuration = 1.2;
+let cameraDuration = 0.5;
 
 let particleSystem;
 let particlePositions;
@@ -111,21 +111,22 @@ renderer.setSize(
 renderer.domElement.style.width = "100%";
 renderer.domElement.style.height = "100%";
 
-function updateRendererSize() {
+let needsResize = false;
 
+function updateRendererSize() {
     const width = container.clientWidth;
     const height = container.clientHeight;
 
     if (width === 0 || height === 0) return;
 
-    renderer.setSize(width, height);
+    const size = renderer.getSize(new THREE.Vector2());
+    if (size.x === width && size.y === height) return;
 
+    renderer.setSize(width, height);
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
 
-    if (composer) {
-        composer.setSize(width, height);
-    }
+    if (composer) composer.setSize(width, height);
 }
 
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -647,35 +648,42 @@ function moveCameraTo(targetObj) {
     controls.enabled = false;
 }
 
-window.addEventListener("mousemove", (e) => {
-
+canvas.addEventListener("mousemove", (e) => {
     autoRotate = false;
 
-    mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
 
     raycaster.setFromCamera(mouse, camera);
     const hit = raycaster.intersectObjects(objetos, false);
 
     if (hit.length > 0) {
         hoveredObject = hit[0].object;
-
         tooltip.style.display = "block";
-        tooltip.style.left = e.clientX + "px";
-        tooltip.style.top = e.clientY + "px";
+        tooltip.style.left = (e.clientX - rect.left) + "px";
+        tooltip.style.top = (e.clientY - rect.top) + "px";
         tooltip.innerText = hoveredObject.name;
-
     } else {
         hoveredObject = null;
         tooltip.style.display = "none";
-
         autoRotate = true;
     }
 
     updateOutline();
 });
 
-window.addEventListener("click", () => {
+canvas.addEventListener("mouseleave", () => {
+    hoveredObject = null;
+    tooltip.style.display = "none";
+    autoRotate = true;
+    updateOutline();
+});
+
+canvas.addEventListener("click", (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
 
     raycaster.setFromCamera(mouse, camera);
     const hit = raycaster.intersectObjects(objetos, false);
@@ -686,17 +694,12 @@ window.addEventListener("click", () => {
         moveCameraTo(selectedObject);
 
         if (selectedObject.material) {
-
             const mats = Array.isArray(selectedObject.material)
                 ? selectedObject.material
                 : [selectedObject.material];
-
             mats.forEach(m => {
-
                 m.emissive = new THREE.Color(0x00ff88);
-
                 m.emissiveIntensity = 3;
-
             });
         }
 
@@ -706,28 +709,22 @@ window.addEventListener("click", () => {
 
         const titulo = document.getElementById("titulo");
         const descripcion = document.getElementById("descripcion");
-
-        if (titulo && descripcion && selectedObject) {
+        if (titulo && descripcion) {
             titulo.innerText = selectedObject.name;
             descripcion.innerText = "Ver productos";
         }
 
         const categoria = mapaCategorias[selectedObject.name];
-        let urlParams ="";
-        if (categoria !== undefined) {
-        urlParams = `?cat=${categoria}`;
-        }
+        const urlParams = categoria !== undefined ? `?cat=${categoria}` : "";
         setTimeout(() => {
             window.location.href = `vistas/catalogo/catalogo.html${urlParams}`;
-        }, 1200);
+        }, 800);
     }
 
     updateOutline();
 });
 
-window.addEventListener("resize", () => {
-    if (composer) updateRendererSize();
-});
+new ResizeObserver(() => { needsResize = true; }).observe(container);
 
 window.addEventListener("pageshow", (e) => {
     if (e.persisted) location.reload();
@@ -736,34 +733,33 @@ window.addEventListener("pageshow", (e) => {
 function animate() {
     requestAnimationFrame(animate);
 
+    if (needsResize) {
+        updateRendererSize();
+        needsResize = false;
+    }
+
     if (bicicletaModel && autoRotate) {
         bicicletaModel.rotation.y += 0.0015;
     }
 
     objetos.forEach(obj => {
+        if (!obj.userData.targetPosition) return;
 
-        if (obj.userData.targetPosition) {
+        const elapsed = (performance.now() - obj.userData.startTime) / 1000;
+        const delay = obj.userData.delay || 0;
+        if (elapsed <= delay) return;
 
-            if (!obj.userData.startTime) {
-                obj.userData.startTime = performance.now();
-            }
+        const duration = 0.8;
+        const t = Math.min((elapsed - delay) / duration, 1);
+        const eased = easeInOutCubic(t);
 
-            const elapsed = (performance.now() - obj.userData.startTime) / 1000;
+        obj.position.lerpVectors(
+            obj.userData.startPosition,
+            obj.userData.targetPosition,
+            eased
+        );
 
-            if (elapsed > (obj.userData.delay || 0)) {
-                const duration = 1.2;
-                const start = obj.userData.startTime || performance.now();
-
-                const t = Math.min((performance.now() - start) / (duration * 1000), 1);
-                const eased = easeInOutCubic(t);
-
-                obj.position.lerpVectors(
-                    obj.userData.startPosition,
-                    obj.userData.targetPosition,
-                    eased
-                );
-            }
-        }
+        if (t >= 1) obj.userData.targetPosition = null;
     });
 
     if (cameraAnimating) {
@@ -804,6 +800,7 @@ function animate() {
         if (particleSystem.material.opacity < 0.05) {
             scene.remove(particleSystem);
             particleSystem = null;
+            return;
         }
 
         particleSystem.geometry.attributes.position.needsUpdate = true;

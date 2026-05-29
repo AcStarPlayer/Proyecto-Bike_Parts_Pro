@@ -88,7 +88,6 @@
 
 .bike-3d-viewer{
     width: 100%;
-    min-height: 620px;
 }
 
 .bike-card{
@@ -98,10 +97,6 @@
 #canvas3d{
     width: 100% !important;
     height: 100% !important;
-}
-
-#canvas3d{
-    min-height: 620px;
 }
 
 .bike-card{

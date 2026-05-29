@@ -100,23 +100,21 @@
 }
 
 .menu-toggle {
-  padding: 1rem;
   display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  gap: 5px;
+  gap: 0.35rem;
   z-index: 10;
   background: transparent;
-  border: var(--color-border) 0.1px solid;
-  line-height: 0;
+  border: var(--color-border) 0.01px solid;
 }
 
 .bar {
   display: block;
   width: 30px;
-  height: 4px;
+  height: 2px;
   background-color: var(--color-white);
   border-radius: 2px;
   transition: all 0.3s ease;
@@ -490,10 +488,5 @@ a.ingreso:hover {
   .ingreso svg {
     width: 1.45rem;
     height: 1.45rem;
-  }
-
-  .bar {
-    width: 26px;
-    height: 3px;
   }
 }
