@@ -6,6 +6,6 @@ import { inicializarBotonesCarrito } from "./vistas/carrito/carrito-events.js";
 // NAV Y FOOTER
 navBar("Sube de nivel", "./");
 
-document.getElementById("footer").innerHTML = footer("../../");
+document.getElementById("footer").innerHTML = footer("./");
 
 inicializarBotonesCarrito();
