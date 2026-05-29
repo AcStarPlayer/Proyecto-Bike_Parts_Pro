@@ -130,7 +130,7 @@ function construirHtmlNavbar(description, viewsHtml, bloqueSesion, basePath = ""
   return `
     <div class="logo-area">
       <a href="${basePath}index.html" class="logo-link" aria-label="Ir al inicio">
-        <img src="/../img/logo.svg" alt="Logo BikePartsPro" class="nav-logo">
+        <img src="../../img/logo.svg" alt="Logo BikePartsPro" class="nav-logo">
         <span class="separator"></span>
         <div class="text-container">
           <h5 class="nav-title nav-style-text m-0">
