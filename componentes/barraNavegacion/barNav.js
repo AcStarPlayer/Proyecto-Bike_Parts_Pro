@@ -18,16 +18,6 @@ function construirVistasPrivadas(sesionActiva, basePath = "") {
   if (
     sesionActiva &&
     sesionActiva.autenticado &&
-    sesionActiva.rol === "cliente" &&
-    sesionActiva.clienteFiel
-  ) {
-    vistasPrivadas["Descuentos especiales"] =
-      `${basePath}vistas/promociones/descuentos-especiales.html`;
-  }
-
-  if (
-    sesionActiva &&
-    sesionActiva.autenticado &&
     (sesionActiva.rol === "admin" || sesionActiva.adminAuxiliar)
   ) {
     vistasPrivadas["Panel Admin"] =
