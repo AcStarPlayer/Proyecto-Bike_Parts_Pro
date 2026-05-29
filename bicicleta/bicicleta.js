@@ -729,6 +729,10 @@ window.addEventListener("resize", () => {
     if (composer) updateRendererSize();
 });
 
+window.addEventListener("pageshow", (e) => {
+    if (e.persisted && exploded) explodeModel();
+});
+
 function animate() {
     requestAnimationFrame(animate);
 
