@@ -43,17 +43,18 @@ function buscarProductoEnCarritoPorSku(sku) {
 }
 
 export function agregarProductoAlCarritoCompras(producto) {
+  const cantidad = Number(producto.cantidad) || 1;
   const productoExistente = buscarProductoEnCarritoPorSku(producto.sku);
 
   if (productoExistente) {
-    productoExistente.cantidad += 1;
+    productoExistente.cantidad += cantidad;
   } else {
     carritoCompras.push({
       sku: producto.sku,
       nombre: producto.nombre || producto.titulo || "Producto",
       marca: producto.marca || "",
       precio: Number(producto.precio) || 0,
-      cantidad: 1,
+      cantidad,
     });
   }
 

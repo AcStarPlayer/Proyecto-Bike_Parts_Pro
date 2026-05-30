@@ -300,35 +300,6 @@
 }
 
 /* ── BOTÓN AGREGAR AL CARRITO (tarjetas) ── */
-.boton-agregar-carrito-producto {
-  width: 100%;
-  min-height: 42px;
-  border: none;
-  border-radius: 10px;
-  background: var(--color-primary);
-  color: var(--color-white);
-  font-size: 0.9rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.boton-agregar-carrito-producto:hover {
-  background: var(--color-primary-dark);
-  transform: translateY(-1px);
-}
-
-.boton-agregar-carrito-producto.agregado,
-.boton-agregar-carrito-producto.agregado:hover,
-.boton-agregar-carrito-producto:disabled {
-  background: var(--color-accent);
-  color: var(--color-white);
-  transform: none;
-  box-shadow: none;
-  transition: none;
-  cursor: default;
-  pointer-events: none;
-}
 
 .controles-cantidad {
   display: flex;

@@ -47,7 +47,7 @@ export default function tarjetasConImagen(
           ${descripcion}
         </p>`: ""}
 
-        <div class="mt-auto d-flex justify-content-center">
+        <div class="mt-auto d-flex justify-content-center ${tag ? "flex-column gap-2": ""}">
           ${links}
         </div>
 

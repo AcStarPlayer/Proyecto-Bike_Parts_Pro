@@ -7,8 +7,10 @@ import {
   cambiarPagina,
 } from "../../componentes/paginacion/paginacion.js";
 import { productosPredeterminados, filtrarProductos } from "../../apis/productos.js";
+import { agregarProductoAlCarritoCompras } from "../carrito/carrito.js";
 import { inicializarBotonesCarrito } from "../carrito/carrito-events.js";
 import { categorias } from "../../apis/categorias.js";
+import { mostrarFichaTecnica } from "../producto/app.js";
 
 navBar("Sube de nivel", "../../");
 
@@ -42,25 +44,33 @@ function catalogo(categoria = null, nombreProducto = null) {
   let html = "";
 
   paginaProductos.forEach((producto) => {
-    let acciones = botones(
+    let acciones = `
+    ${botones(
+      `<i class="bi bi-search"></i> Ficha Técnica`,
+      "ficha-tecnica",
+      "button",
+      `data-id="${producto.id}"`
+    )}
+    ${botones(
       `<i class="bi bi-cart-plus" style="font-size: 18px;"></i> Agregar al carrito`,
       "primary boton-agregar-carrito-producto",
       "button",
       `data-sku="${producto.sku}"`,
-    );
+      `data-id="${producto.id}"`,
+    )}`;
 
     html += `
     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
       ${tarjetasConImagen(
-        producto.titulo,
-        producto.descripcion,
+        producto.nombre,
+        producto.modeloProducto.descripcion,
         `${producto.precio.toLocaleString("es-CO", {
           style: "currency",
           currency: "COP",
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
         })}`,
-        producto.imagen,
+        producto.imagenes[0]["url"],
         acciones,
         "xxs",
         "start",
@@ -116,6 +126,42 @@ document.addEventListener("click", (e) => {
     paginaActual = 1;
     renderizar(categoriaActual);
     renderizarCategorias();
+    return;
+  }
+  const btnFicha = e.target.closest(".btn-ficha-tecnica");
+  if (btnFicha) {
+    const producto_id = btnFicha.getAttribute("data-id");
+    document.getElementById("modalFichaTecnica")?.remove();
+    document.body.insertAdjacentHTML("beforeend", mostrarFichaTecnica(producto_id));
+    bootstrap.Modal.getOrCreateInstance(document.getElementById("modalFichaTecnica")).show();
+    return;
+  }
+
+  const btnCantidad = e.target.closest(".btn-modal-cantidad");
+  if (btnCantidad) {
+    const display = btnCantidad.closest(".input-group").querySelector(".cantidad-modal-valor");
+    const stock = parseInt(btnCantidad.dataset.stock ?? btnCantidad.closest(".input-group").querySelector("[data-stock]").dataset.stock);
+    let cantidad = parseInt(display.textContent);
+    if (btnCantidad.dataset.accion === "sumar") cantidad = Math.min(cantidad + 1, stock);
+    else cantidad = Math.max(cantidad - 1, 1);
+    display.textContent = cantidad;
+    return;
+  }
+
+  const btnAgregarModal = e.target.closest(".boton-agregar-carrito-modal");
+  if (btnAgregarModal) {
+    const modal = document.getElementById("modalFichaTecnica");
+    const cantidad = parseInt(modal.querySelector(".cantidad-modal-valor").textContent);
+    const id = parseInt(btnAgregarModal.dataset.id);
+    const producto = productos.find(p => p.id === id);
+    if (!producto) return;
+    agregarProductoAlCarritoCompras({
+      nombre: producto.nombre,
+      sku: producto.modeloProducto?.sku,
+      precio: producto.precio,
+      cantidad,
+    });
+    bootstrap.Modal.getOrCreateInstance(modal).hide();
     return;
   }
 

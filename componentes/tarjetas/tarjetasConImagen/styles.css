@@ -24,7 +24,6 @@
 .tarjetaConImagen-subtitulo {
   font-size: 0.95rem;
   margin-bottom: 1rem;
-  height: 3rem;
   overflow: hidden;
   display: -webkit-box;
   line-clamp: 2;
