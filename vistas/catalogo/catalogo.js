@@ -14,6 +14,35 @@ import { mostrarFichaTecnica } from "../producto/app.js";
 
 navBar("Sube de nivel", "../../");
 
+let navbarCatalogo = document.getElementById("navbar-catalogo");
+
+navbarCatalogo.innerHTML = `
+  <div class="container-fluid py-2 bg-white" style="border-bottom: 1px solid var(--color-border);">
+
+    <div class="d-flex align-items-center gap-5">
+
+      <h3 class="m-0 fw-bold ms-3">
+        Catálogo
+      </h3>
+
+      <div class="input-group" style="max-width: 620px;">
+        <span class="input-group-text bg-white">
+          <i class="bi bi-search"></i>
+        </span>
+        <input
+          id="busqueda"
+          type="text"
+          class="form-control"
+          placeholder="Busca tu repuesto..."
+          autocomplete="off"
+        >
+      </div>
+
+    </div>
+
+  </div>
+`;
+
 const productosGuardados = JSON.parse(
   localStorage.getItem("productos") || "null",
 );
@@ -60,7 +89,7 @@ function catalogo(categoria = null, nombreProducto = null) {
     )}`;
 
     html += `
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3">
       ${tarjetasConImagen(
         producto.nombre,
         producto.modeloProducto.descripcion,
@@ -98,28 +127,28 @@ function renderizar(categoria = null, nombreProducto = null) {
 
 function renderizarCategorias() {
   const filtrosDiv = document.getElementById("filtros");
-  let html = "";
 
-  for (const categoria of categorias) {
-    const activa = categoriaActual === categoria.key || (categoria.key === "todos" && categoriaActual === null);
-    html += `
-  <div class="card border-0 text-center categoria-mini shadow-sm mx-2 ${activa ? "categoria-activa" : ""}"
-       data-key="${categoria.key}" role="button">
-    <div class="card-body d-flex justify-content-center align-items-center flex-column h-100 p-2">
-      <i class="${categoria.icon} categoria-icon fs-4"></i>
-      <div class="small mt-1 categoria-text lh-1 text-wrap">
-        ${categoria.name}
-      </div>
-    </div>
-  </div>
+  filtrosDiv.innerHTML = categorias.map(categoria => {
+    const activa =
+      categoriaActual === categoria.key ||
+      (categoria.key === "todos" && categoriaActual === null);
+
+    return `
+      <button
+        type="button"
+        class="list-group-item list-group-item-action d-flex align-items-center gap-2
+          ${activa ? "active" : ""}"
+        data-key="${categoria.key}"
+      >
+        <i class="${categoria.icon}"></i>
+        <span>${categoria.name.toUpperCase()}</span>
+      </button>
     `;
-  }
-
-  filtrosDiv.innerHTML = html;
+  }).join("");
 }
 
 document.addEventListener("click", (e) => {
-  const card = e.target.closest(".categoria-mini");
+  const card = e.target.closest("#filtros [data-key]");
   if (card) {
     const key = card.dataset.key;
     categoriaActual = key === "todos" ? null : key;

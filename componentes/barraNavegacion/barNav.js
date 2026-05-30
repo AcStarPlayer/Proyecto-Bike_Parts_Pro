@@ -150,16 +150,6 @@ function construirHtmlNavbar(description, viewsHtml, bloqueSesionDesktop, bloque
       </a>
     </div>
 
-    <div class="search-container">
-      <input
-        id="busqueda"
-        type="text"
-        placeholder="Busca tu repuesto aquí"
-        autocomplete="off"
-      >
-      <div id="desplegado"></div>
-      <button type="button" id="boton-buscar">Buscar</button>
-    </div>
     <div class="d-flex flex-row">
     <div class="nav-session-wrapper" id="mobile-nav">
       ${bloqueSesionMovil}

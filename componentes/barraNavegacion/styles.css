@@ -120,43 +120,6 @@
   transition: all 0.3s ease;
 }
 
-.search-container {
-  display: none;
-  align-items: center;
-  background-color: var(--color-white);
-  border-radius: 15px;
-  padding: 4px 4px 4px 15px;
-  border: 1px solid var(--color-border);
-  flex-grow: 1;
-  max-width: 500px;
-  margin: 0 20px;
-  position: relative;
-}
-
-.search-container input {
-  border: none;
-  background: transparent;
-  outline: none;
-  width: 100%;
-  font-size: 0.9rem;
-  color: var(--color-primary-dark);
-}
-
-.search-container button {
-  background-color: var(--color-accent);
-  color: var(--color-white);
-  border: none;
-  padding: 8px 20px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: 700;
-  transition: all 0.3s ease;
-}
-
-.search-container button:hover {
-  filter: brightness(1.1);
-  transform: scale(1.02);
-}
 
 .ingreso {
   display: inline-flex;
@@ -255,45 +218,6 @@ a.ingreso:hover {
   flex-shrink: 0;
 }
 
-.lista-busqueda-rapida {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.lista-busqueda-rapida p,
-.lista-busqueda-rapida li {
-  padding: 10px 15px;
-  margin: 0;
-  border-bottom: 1px solid #eee;
-  transition: background 0.2s;
-  color: var(--color-primary-dark);
-}
-
-.lista-busqueda-rapida p:hover,
-.lista-busqueda-rapida li:hover {
-  background-color: #eee;
-  color: var(--color-accent);
-}
-
-.lista-busqueda-rapida p:last-child,
-.lista-busqueda-rapida li:last-child {
-  border-bottom: none;
-}
-
-#desplegado {
-  position: absolute;
-  top: 100%;
-  left: 10px;
-  width: 95%;
-  background-color: #eee;
-  z-index: 10000 !important;
-  border: 1px solid var(--color-border);
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  max-height: 250px;
-  overflow-y: auto;
-}
 
 @media (max-width: 1100px) {
   .nav-content {
@@ -364,26 +288,6 @@ a.ingreso:hover {
     white-space: nowrap;
   }
 
-  .search-container {
-    flex-grow: 1;
-    max-width: none;
-    margin: 0;
-    min-width: 0;
-  }
-
-  .search-container button {
-    font-size: 0;
-    padding: 10px;
-    border-radius: 50%;
-    min-width: 40px;
-    min-height: 40px;
-  }
-
-  .search-container button::before {
-    content: "🔍";
-    font-size: 1.2rem;
-    background-color: transparent;
-  }
 
   .botones-nav {
     display: none;
@@ -452,32 +356,12 @@ a.ingreso:hover {
     display: none;
   }
 
-  .search-container {
-    padding: 4px 4px 4px 10px;
-  }
-
-  .search-container input {
-    font-size: 0.82rem;
-  }
-
-  #desplegado {
-    left: 0;
-    width: 100%;
-  }
 }
 
 @media (max-width: 480px) {
 
   .logo-area {
     max-width: 42%;
-  }
-
-  .search-container {
-    max-width: none;
-  }
-
-  .search-container input::placeholder {
-    font-size: 0.76rem;
   }
 
   .ingreso {
