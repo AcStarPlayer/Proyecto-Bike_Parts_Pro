@@ -16,7 +16,9 @@
   --login-color-info-bg: #cff4fc;
   --login-color-info-text: #055160;
 }
-
+.form-label {
+  font-size: 1.1rem;
+}
 .login-page-bikeparts {
   min-height: 100vh;
   background: linear-gradient(
@@ -73,7 +75,7 @@
   display: inline-block;
   background-color: var(--login-color-accent);
   color: var(--login-color-white);
-  font-size: 0.8rem;
+  font-size: 1.2rem;
   font-weight: 700;
   padding: 0.35rem 0.7rem;
   border-radius: 999px;
@@ -81,7 +83,7 @@
 
 .login-subinfo-bikeparts {
   color: var(--login-color-gray);
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   line-height: 1.6;
 }
 
@@ -91,7 +93,7 @@
   gap: 1rem;
   flex-wrap: wrap;
   margin-top: 1rem;
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
 
 .login-extra-links-center {
