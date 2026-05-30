@@ -44,6 +44,7 @@
 
 .auth-view {
   width: 100%;
+  display: flex;
 }
 
 .login-card-bikeparts {
