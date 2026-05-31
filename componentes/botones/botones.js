@@ -1,7 +1,7 @@
 
 export function botones(title, extraClass = "", type = "button", atributos = "") {
   return `
-    <button type="${type}" class="btn btn-${extraClass} w-100 btn-action" ${atributos}>
+    <button type="${type}" class="btn btn-${extraClass} w-100 btn-action fw-bold" ${atributos}>
       ${title}
     </button>
   `;
