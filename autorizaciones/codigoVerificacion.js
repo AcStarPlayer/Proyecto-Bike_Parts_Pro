@@ -1,44 +1,36 @@
-// MOCK TEMPORAL DE OTP
-// Reemplazar por llamadas al backend cuando exista el servicio real.
-// Mantener esta API para no tocar login.js en el futuro.
+import { API_BASE_URL } from "../config/api.js";
 
-const TIEMPO_CODIGO_MS = 120000;
-const codigosSimulados = new Map();
+export const TIEMPO_CODIGO_MS = 120000;
 
-function generarCodigoVerificacion() {
-  return Math.floor(100000 + Math.random() * 900000).toString();
+export async function enviarCodigoReal(email, nombre, password) {
+  const res = await fetch(`${API_BASE_URL}/auth/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ nombre, email, password }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Error al registrar el usuario");
+  return data;
 }
 
-function enviarCodigoSimulado(email) {
-  const codigo = generarCodigoVerificacion();
-  codigosSimulados.set(email, codigo);
-  console.log(`MOCK OTP -> Código simulado para ${email}: ${codigo}`);
-  return codigo;
+export async function reenviarCodigoReal(email) {
+  const res = await fetch(`${API_BASE_URL}/auth/reenviar-codigo`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Error al reenviar el código");
+  return data;
 }
 
-function validarCodigoSimulado(email, codigoIngresado) {
-  const codigoValido = codigosSimulados.get(email);
-  return codigoIngresado === codigoValido;
+export async function validarCodigoReal(email, codigo) {
+  const res = await fetch(`${API_BASE_URL}/auth/verificar-registro`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, codigo }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Código incorrecto o expirado");
+  return data;
 }
-
-function eliminarCodigoSimulado(email) {
-  codigosSimulados.delete(email);
-}
-
-function limpiarCodigosSimulados() {
-  codigosSimulados.clear();
-}
-
-function obtenerCodigoSimulado(email) {
-  return codigosSimulados.get(email) || null;
-}
-
-export {
-  TIEMPO_CODIGO_MS,
-  generarCodigoVerificacion,
-  enviarCodigoSimulado,
-  validarCodigoSimulado,
-  eliminarCodigoSimulado,
-  limpiarCodigosSimulados,
-  obtenerCodigoSimulado,
-};

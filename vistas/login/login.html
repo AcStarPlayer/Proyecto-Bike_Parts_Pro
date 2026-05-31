@@ -61,7 +61,6 @@
 
               <div class="login-extra-links">
                 <a href="#" id="link-signin">¿No tienes cuenta? Regístrate</a>
-                <a href="#" id="link-recuperar">¿Olvidaste tu contraseña?</a>
               </div>
             </form>
           </div>
@@ -80,36 +79,28 @@
               <form id="form-datos-registro" class="d-flex flex-column gap-3">
                 <div>
                   <label for="nombre-registro" class="form-label">Nombre completo</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="nombre-registro"
-                    placeholder="Tu nombre completo"
-                    required
-                  />
+                  <input type="text" class="form-control" id="nombre-registro" placeholder="Tu nombre completo" required />
                 </div>
 
                 <div>
                   <label for="telefono-registro" class="form-label">Número de teléfono</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="telefono-registro"
-                    placeholder="3001234567"
-                    required
-                  />
+                  <input type="text" class="form-control" id="telefono-registro" placeholder="3001234567" required />
                   <small class="form-text-help">Mínimo 10 dígitos.</small>
                 </div>
 
                 <div>
                   <label for="email-registro" class="form-label">Correo electrónico</label>
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="email-registro"
-                    placeholder="correo@ejemplo.com"
-                    required
-                  />
+                  <input type="email" class="form-control" id="email-registro" placeholder="correo@ejemplo.com" required />
+                </div>
+
+                <div>
+                  <label for="password-registro" class="form-label">Contraseña</label>
+                  <input type="password" class="form-control" id="password-registro" placeholder="Mínimo 6 caracteres" required />
+                </div>
+
+                <div>
+                  <label for="confirm-password-registro" class="form-label">Confirmar contraseña</label>
+                  <input type="password" class="form-control" id="confirm-password-registro" placeholder="Repite tu contraseña" required />
                 </div>
 
                 <div id="mensaje-registro-paso1" class="d-none"></div>
@@ -136,36 +127,7 @@
 
                 <div>
                   <label for="codigo-verificacion" class="form-label">Código de 6 dígitos</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="codigo-verificacion"
-                    maxlength="6"
-                    placeholder="123456"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label for="password-registro" class="form-label">Contraseña</label>
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="password-registro"
-                    placeholder="Mínimo 6 caracteres"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label for="confirm-password-registro" class="form-label">Confirmar contraseña</label>
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="confirm-password-registro"
-                    placeholder="Repite tu contraseña"
-                    required
-                  />
+                  <input type="text" class="form-control" id="codigo-verificacion" maxlength="6" placeholder="123456" required />
                 </div>
 
                 <div id="mensaje-registro-paso2" class="d-none"></div>
@@ -179,7 +141,7 @@
                 </button>
 
                 <div class="login-extra-links">
-                  <a href="#" id="volver-datos-registro">Cambiar correo</a>
+                  <a href="#" id="volver-datos-registro">Cambiar datos</a>
                   <a href="#" id="volver-login-desde-registro">Ir al login</a>
                 </div>
               </form>

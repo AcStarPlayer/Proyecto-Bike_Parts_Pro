@@ -1,7 +1,10 @@
 import {
   obtenerSesionActiva,
-  limpiarSesion,
+  limpiarSesionCompleta,
+  obtenerToken,
+  guardarToken,
 } from "../../autorizaciones/autorizaciones.js";
+import { API_BASE_URL } from "../../config/api.js";
 
 function normalizarNombre(nombre) {
   const primeraPalabra = nombre.match(/^\s*(\S+)/)[1];
@@ -19,46 +22,29 @@ function construirVistasPublicas(basePath = "") {
 
 function construirVistasPrivadas(sesionActiva, basePath = "") {
   const vistasPrivadas = {};
-
-  if (
-    sesionActiva &&
-    sesionActiva.autenticado &&
-    (sesionActiva.rol === "admin" || sesionActiva.adminAuxiliar)
-  ) {
-    vistasPrivadas["Panel Admin"] =
-      `${basePath}vistas/admin/productos/producto.html`;
+  if (sesionActiva?.autenticado && (sesionActiva.rol === "admin" || sesionActiva.adminAuxiliar)) {
+    vistasPrivadas["Panel Admin"] = `${basePath}vistas/admin/productos/producto.html`;
   }
-
   return vistasPrivadas;
 }
 
 function construirLinksVistas(vistas) {
   let viewsHtml = "";
-
   for (const view in vistas) {
     viewsHtml += `
       <li class="p-1">
-        <a
-          class="nav-style-text w-100 d-flex justify-content-center align-items-center d-block h-100 p-3"
-          href="${vistas[view]}"
-        >
+        <a class="nav-style-text w-100 d-flex justify-content-center align-items-center d-block h-100 p-3" href="${vistas[view]}">
           ${view}
         </a>
       </li>
     `;
   }
-
   return viewsHtml;
 }
 
 function construirBotonIngreso(basePath = "") {
   return `
-    <a
-      href="${basePath}vistas/login/login.html"
-      class="ingreso"
-      aria-label="Ir a iniciar sesión"
-      title="Iniciar sesión"
-    >
+    <a href="${basePath}vistas/login/login.html" class="ingreso" aria-label="Ir a iniciar sesión" title="Iniciar sesión">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16" aria-hidden="true">
         <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
         <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
@@ -82,12 +68,8 @@ const SVG_CERRAR_SESION = `
 `;
 
 function construirBloqueSesion(sesionActiva, basePath = "") {
-  if (!sesionActiva || !sesionActiva.autenticado) {
-    return construirBotonIngreso(basePath);
-  }
-
+  if (!sesionActiva?.autenticado) return construirBotonIngreso(basePath);
   const nombre = normalizarNombre(sesionActiva.nombre);
-
   return `
     <div class="sesion-nav">
       <div class="sesion-nav-header">
@@ -104,12 +86,8 @@ function construirBloqueSesion(sesionActiva, basePath = "") {
 }
 
 function construirBloqueSesionMovil(sesionActiva, basePath = "") {
-  if (!sesionActiva || !sesionActiva.autenticado) {
-    return construirBotonIngreso(basePath);
-  }
-
+  if (!sesionActiva?.autenticado) return construirBotonIngreso(basePath);
   const nombre = normalizarNombre(sesionActiva.nombre);
-
   return `
     <div class="sesion-nav">
       <div class="sesion-nav-header">
@@ -123,8 +101,7 @@ function construirBloqueSesionMovil(sesionActiva, basePath = "") {
 }
 
 function construirItemCerrarSesionMenu(sesionActiva) {
-  if (!sesionActiva || !sesionActiva.autenticado) return "";
-
+  if (!sesionActiva?.autenticado) return "";
   return `
     <li class="p-1 item-cerrar-sesion-menu">
       <button type="button" class="boton-cerrar-sesion btn-menu-cerrar-sesion nav-style-text w-100 d-flex justify-content-center align-items-center h-100 p-3 gap-2">
@@ -142,48 +119,26 @@ function construirHtmlNavbar(description, viewsHtml, bloqueSesionDesktop, bloque
         <img src="${basePath}img/logo.svg" alt="Logo BikePartsPro" class="nav-logo">
         <span class="separator"></span>
         <div class="text-container">
-          <h3 class="nav-title nav-style-text m-0">
-            BikeParts<span class="badge-pro">PRO</span>
-          </h3>
+          <h3 class="nav-title nav-style-text m-0">BikeParts<span class="badge-pro">PRO</span></h3>
           <p class="nav-text m-0">${description}</p>
         </div>
       </a>
     </div>
-
     <div class="d-flex flex-row">
-    <div class="nav-session-wrapper" id="mobile-nav">
-      ${bloqueSesionMovil}
+      <div class="nav-session-wrapper" id="mobile-nav">${bloqueSesionMovil}</div>
+      <button class="menu-toggle p-2 rounded-1" id="hamburguesa" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-list">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      </button>
     </div>
-    <button
-      class="menu-toggle p-2 rounded-1"
-      id="hamburguesa"
-      type="button"
-      aria-label="Abrir menú"
-      aria-expanded="false"
-      aria-controls="nav-list"
-    >
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </button>
-    </div>
-    <ul class="botones-nav p-0" id="nav-list">
-      ${viewsHtml}
-    </ul>
-    <div class="nav-session-wrapper" id="desktop-nav">
-      ${bloqueSesionDesktop}
-    </div>
+    <ul class="botones-nav p-0" id="nav-list">${viewsHtml}</ul>
+    <div class="nav-session-wrapper" id="desktop-nav">${bloqueSesionDesktop}</div>
   `;
 }
 
 function inicializarMenuMovil(container) {
   const botonMenu = container.querySelector("#hamburguesa");
   const listaLink = container.querySelector("#nav-list");
-
-  if (!botonMenu || !listaLink) {
-    return;
-  }
-
+  if (!botonMenu || !listaLink) return;
   botonMenu.addEventListener("click", () => {
     const estaActivo = listaLink.classList.toggle("active");
     botonMenu.setAttribute("aria-expanded", String(estaActivo));
@@ -191,82 +146,36 @@ function inicializarMenuMovil(container) {
 }
 
 function inicializarBuscador(container, basePath = "") {
-  const partes = [
-    "sillin",
-    "silla",
-    "timon",
-    "Freno regular",
-    "Freno de disco",
-    "llanta",
-    "rueda",
-    "casco",
-    "corazas",
-    "marco",
-    "cuadro",
-  ];
-
+  const partes = ["sillin", "silla", "timon", "Freno regular", "Freno de disco", "llanta", "rueda", "casco", "corazas", "marco", "cuadro"];
   const busqueda = container.querySelector("#busqueda");
   const desplegado = container.querySelector("#desplegado");
   const botonBuscar = container.querySelector("#boton-buscar");
+  if (!busqueda || !desplegado || !botonBuscar) return;
 
-  if (!busqueda || !desplegado || !botonBuscar) {
-    return;
-  }
+  function limpiarSugerencias() { desplegado.innerHTML = ""; }
 
-  function limpiarSugerencias() {
-    desplegado.innerHTML = "";
-  }
-
-  function renderSugerencias(termino) {
+  busqueda.addEventListener("input", () => {
     limpiarSugerencias();
-
-    if (!termino) {
-      return;
-    }
-
-    const coincidencias = partes.filter((parte) =>
-      parte.toLowerCase().includes(termino.toLowerCase())
-    );
-
-    if (!coincidencias.length) {
-      return;
-    }
-
-    const listaResultados = document.createElement("ul");
-    listaResultados.className = "lista-busqueda-rapida";
-
-    coincidencias.forEach((parte) => {
+    const termino = busqueda.value.trim();
+    if (!termino) return;
+    const coincidencias = partes.filter(p => p.toLowerCase().includes(termino.toLowerCase()));
+    if (!coincidencias.length) return;
+    const lista = document.createElement("ul");
+    lista.className = "lista-busqueda-rapida";
+    coincidencias.forEach(parte => {
       const item = document.createElement("li");
       item.textContent = parte;
       item.style.cursor = "pointer";
-
-      item.addEventListener("click", () => {
-        busqueda.value = parte;
-        limpiarSugerencias();
-      });
-
-      listaResultados.appendChild(item);
+      item.addEventListener("click", () => { busqueda.value = parte; limpiarSugerencias(); });
+      lista.appendChild(item);
     });
-
-    desplegado.appendChild(listaResultados);
-  }
-
-  busqueda.addEventListener("input", () => {
-    const termino = busqueda.value.trim();
-    renderSugerencias(termino);
+    desplegado.appendChild(lista);
   });
 
   botonBuscar.addEventListener("click", () => {
     const termino = busqueda.value.trim().toLowerCase();
-
-    if (!termino) {
-      return;
-    }
-
-    const coincidencia = partes.find((parte) =>
-      parte.toLowerCase().includes(termino)
-    );
-
+    if (!termino) return;
+    const coincidencia = partes.find(p => p.toLowerCase().includes(termino));
     if (coincidencia) {
       busqueda.value = coincidencia;
       limpiarSugerencias();
@@ -275,23 +184,50 @@ function inicializarBuscador(container, basePath = "") {
   });
 
   document.addEventListener("click", (event) => {
-    if (!container.contains(event.target)) {
-      limpiarSugerencias();
-    }
+    if (!container.contains(event.target)) limpiarSugerencias();
   });
 }
 
 function inicializarCierreSesion(container, basePath = "") {
   container.addEventListener("click", (event) => {
-    const botonCerrarSesion = event.target.closest(".boton-cerrar-sesion");
+    if (!event.target.closest(".boton-cerrar-sesion")) return;
+    limpiarSesionCompleta();
+    window.location.href = `${basePath}vistas/login/login.html`;
+  });
+}
 
-    if (!botonCerrarSesion) {
+async function verificarYRefrescarToken(basePath = "") {
+  const token = obtenerToken();
+  if (!token) return;
+
+  try {
+    const partes = token.split(".");
+    if (partes.length !== 3) return;
+    const payload = JSON.parse(atob(partes[1]));
+    const ahora = Math.floor(Date.now() / 1000);
+
+    if (payload.exp <= ahora) {
+      limpiarSesionCompleta();
+      window.location.href = `${basePath}vistas/login/login.html`;
       return;
     }
 
-    limpiarSesion();
-    window.location.href = `${basePath}vistas/login/login.html`;
-  });
+    if (payload.exp - ahora < 300) {
+      const res = await fetch(`${API_BASE_URL}/auth/refresh`, {
+        method: "POST",
+        headers: { "Authorization": `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        guardarToken(data.token);
+      } else {
+        limpiarSesionCompleta();
+        window.location.href = `${basePath}vistas/login/login.html`;
+      }
+    }
+  } catch {
+    // no bloquear la navegación si falla el decode o el refresh
+  }
 }
 
 export function navBar(description, basePath = "") {
@@ -302,25 +238,22 @@ export function navBar(description, basePath = "") {
   const sesionActiva = obtenerSesionActiva();
   const vistasPublicas = construirVistasPublicas(basePath);
   const vistasPrivadas = construirVistasPrivadas(sesionActiva, basePath);
-
   const itemCerrarSesion = construirItemCerrarSesionMenu(sesionActiva);
-  const viewsHtml =
-    construirLinksVistas(vistasPublicas) +
-    construirLinksVistas(vistasPrivadas) +
-    itemCerrarSesion;
+  const viewsHtml = construirLinksVistas(vistasPublicas) + construirLinksVistas(vistasPrivadas) + itemCerrarSesion;
 
   const bloqueSesionDesktop = construirBloqueSesion(sesionActiva, basePath);
   const bloqueSesionMovil = construirBloqueSesionMovil(sesionActiva, basePath);
 
-  container.innerHTML = construirHtmlNavbar(
-    description,
-    viewsHtml,
-    bloqueSesionDesktop,
-    bloqueSesionMovil,
-    basePath
-  );
+  container.innerHTML = construirHtmlNavbar(description, viewsHtml, bloqueSesionDesktop, bloqueSesionMovil, basePath);
 
   inicializarMenuMovil(container);
   inicializarBuscador(container, basePath);
   inicializarCierreSesion(container, basePath);
+
+  verificarYRefrescarToken(basePath);
+
+  window.addEventListener("sesion-expirada", () => {
+    limpiarSesionCompleta();
+    window.location.href = `${basePath}vistas/login/login.html`;
+  });
 }

@@ -1,4 +1,22 @@
 const CLAVE_SESION = "sesionBikePartsPro";
+const CLAVE_TOKEN = "tokenBikePartsPro";
+
+function guardarToken(token) {
+  localStorage.setItem(CLAVE_TOKEN, token);
+}
+
+function obtenerToken() {
+  return localStorage.getItem(CLAVE_TOKEN) || null;
+}
+
+function limpiarToken() {
+  localStorage.removeItem(CLAVE_TOKEN);
+}
+
+function limpiarSesionCompleta() {
+  localStorage.removeItem(CLAVE_SESION);
+  localStorage.removeItem(CLAVE_TOKEN);
+}
 
 function guardarSesion(sesion) {
   localStorage.setItem(CLAVE_SESION, JSON.stringify(sesion));
@@ -21,6 +39,7 @@ function obtenerSesionActiva() {
 
 function limpiarSesion() {
   localStorage.removeItem(CLAVE_SESION);
+  localStorage.removeItem(CLAVE_TOKEN);
 }
 
 function construirSesionDesdeUsuario(usuario) {
@@ -88,6 +107,7 @@ export {
   guardarSesion,
   obtenerSesionActiva,
   limpiarSesion,
+  limpiarSesionCompleta,
   construirSesionDesdeUsuario,
   redirigirSegunSesion,
   isAuthenticated,
@@ -97,4 +117,7 @@ export {
   isClienteFiel,
   isClientePremium,
   isAdmin,
+  guardarToken,
+  obtenerToken,
+  limpiarToken,
 };

@@ -2,7 +2,7 @@
 
 export default function cargador() {
   return `
-    <svg class="bike" viewBox="0 0 48 30" width="55px" height="60px">
+    <svg class="bike" viewBox="0 -12 48 42" width="55px" height="60px">
         <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1">
             <polyline 
                 class="bike__mountain"
@@ -44,4 +44,14 @@ export default function cargador() {
     `;
 }
 
-document.querySelector("body").innerHTML = cargador();
+export function mostrarCargador(contenedor = document.body, mensaje = "Preparando tu catálogo de repuestos...") {
+  if (document.getElementById("cargador-overlay")) return;
+  const overlay = document.createElement("div");
+  overlay.id = "cargador-overlay";
+  overlay.innerHTML = `<div>${cargador()}<p class="cargador-mensaje">${mensaje}</p></div>`;
+  contenedor.appendChild(overlay);
+}
+
+export function ocultarCargador() {
+  document.getElementById("cargador-overlay")?.remove();
+}
