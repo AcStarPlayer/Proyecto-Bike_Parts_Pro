@@ -6,7 +6,10 @@ let carritoCompras = obtenerCarritoComprasGuardado();
 function obtenerCarritoComprasGuardado() {
   try {
     const carritoGuardado = localStorage.getItem(CLAVE_CARRITO_COMPRAS);
-    return carritoGuardado ? JSON.parse(carritoGuardado) : [];
+    if (!carritoGuardado) return [];
+    const carrito = JSON.parse(carritoGuardado);
+    if (carrito.length > 0 && carrito[0].id == null) return [];
+    return carrito;
   } catch (error) {
     return [];
   }
@@ -38,18 +41,19 @@ function obtenerValorTotalCarrito() {
   );
 }
 
-function buscarProductoEnCarritoPorSku(sku) {
-  return carritoCompras.find((item) => String(item.sku) === String(sku));
+function buscarProductoEnCarritoById(id) {
+  return carritoCompras.find((item) => String(item.id) === String(id));
 }
 
 export function agregarProductoAlCarritoCompras(producto) {
   const cantidad = Number(producto.cantidad) || 1;
-  const productoExistente = buscarProductoEnCarritoPorSku(producto.sku);
+  const productoExistente = buscarProductoEnCarritoById(producto.id);
 
   if (productoExistente) {
     productoExistente.cantidad += cantidad;
   } else {
     carritoCompras.push({
+      id: producto.id,
       sku: producto.sku,
       nombre: producto.nombre || producto.titulo || "Producto",
       marca: producto.marca || "",
@@ -62,9 +66,9 @@ export function agregarProductoAlCarritoCompras(producto) {
   renderizarCarritoCompras();
 }
 
-function eliminarProductoDelCarritoCompras(sku) {
+function eliminarProductoDelCarritoCompras(id) {
   carritoCompras = carritoCompras.filter(
-    (item) => String(item.sku) !== String(sku),
+    (item) => String(item.id) !== String(id),
   );
 
   guardarCarritoCompras();
@@ -85,8 +89,8 @@ function actualizarGloboCantidadCarrito() {
   }
 }
 
-function cambiarCantidadProducto(sku, operacion) {
-  const producto = buscarProductoEnCarritoPorSku(sku);
+function cambiarCantidadProducto(id, operacion) {
+  const producto = buscarProductoEnCarritoById(id);
   if (!producto) return;
 
   if (operacion === "sumar") {
@@ -94,7 +98,7 @@ function cambiarCantidadProducto(sku, operacion) {
   } else if (operacion === "restar") {
     producto.cantidad -= 1;
     if (producto.cantidad < 1) {
-      eliminarProductoDelCarritoCompras(sku);
+      eliminarProductoDelCarritoCompras(id);
       return;
     }
   }
@@ -116,9 +120,9 @@ function construirHtmlItemsCarrito() {
           <p class="nombre-item-carrito">${item.nombre}</p>
 
           <div class="controles-cantidad">
-            <button class="btn-cantidad-menos" data-sku-disminuir="${item.sku}">-</button>
+            <button class="btn-cantidad-menos" data-id-disminuir="${item.id}">-</button>
             <span class="indicador-cantidad-item-carrito">${item.cantidad}</span>
-            <button class="btn-cantidad-mas" data-sku-aumentar="${item.sku}">+</button>
+            <button class="btn-cantidad-mas" data-id-aumentar="${item.id}">+</button>
           </div>
         </div>
 
@@ -133,7 +137,7 @@ function construirHtmlItemsCarrito() {
             ${formatearMonedaPesosColombianos(valorTotalLinea)}
           </p>
           <div class="acciones-item-carrito">
-            <button type="button" class="boton-eliminar-item-carrito" data-sku-eliminar="${item.sku}">
+            <button type="button" class="boton-eliminar-item-carrito" data-id-eliminar="${item.id}">
               Eliminar
             </button>
           </div>
@@ -180,24 +184,23 @@ function renderizarListaCarritoCompras() {
   mensajeCarritoVacio.style.display = carritoEstaVacio ? "block" : "none";
   botonVaciarCarrito.style.display = carritoEstaVacio ? "none" : "inline-flex";
 
-  listaProductosCarrito.querySelectorAll("[data-sku-aumentar]").forEach((btn) => {
+  listaProductosCarrito.querySelectorAll("[data-id-aumentar]").forEach((btn) => {
     btn.addEventListener("click", () => {
-      cambiarCantidadProducto(btn.getAttribute("data-sku-aumentar"), "sumar");
+      cambiarCantidadProducto(btn.getAttribute("data-id-aumentar"), "sumar");
     });
   });
 
-  listaProductosCarrito.querySelectorAll("[data-sku-disminuir]").forEach((btn) => {
+  listaProductosCarrito.querySelectorAll("[data-id-disminuir]").forEach((btn) => {
     btn.addEventListener("click", () => {
-      cambiarCantidadProducto(btn.getAttribute("data-sku-disminuir"), "restar");
+      cambiarCantidadProducto(btn.getAttribute("data-id-disminuir"), "restar");
     });
   });
 
   listaProductosCarrito
-    .querySelectorAll("[data-sku-eliminar]")
+    .querySelectorAll("[data-id-eliminar]")
     .forEach((botonEliminar) => {
       botonEliminar.addEventListener("click", () => {
-        const sku = botonEliminar.getAttribute("data-sku-eliminar");
-        eliminarProductoDelCarritoCompras(sku);
+        eliminarProductoDelCarritoCompras(botonEliminar.getAttribute("data-id-eliminar"));
       });
     });
 }

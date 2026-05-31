@@ -30,9 +30,6 @@ mostrarCargador();
 const productos = await getProductos();
 ocultarCargador();
 
-const productosIndexados = {};
-productos.forEach(p => { productosIndexados[p.id] = p; });
-
 let paginaActual = 1;
 let categoriaActual = null;
 let palabraActual = "";
@@ -40,6 +37,25 @@ const params = new URLSearchParams(window.location.search);
 categoriaActual = params.get("cat") || null;
 const productosPorPagina = 10;
 let listaActual = filtrarProductos(productos, { categoria: categoriaActual, nombre: palabraActual });
+
+let productoEnModal = null;
+let timerToast = null;
+
+function mostrarToast(mensaje = "Producto agregado al carrito") {
+  let toast = document.getElementById("toast-carrito-agregado");
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "toast-carrito-agregado";
+    toast.className = "toast-carrito-agregado";
+    toast.setAttribute("role", "status");
+    toast.setAttribute("aria-live", "polite");
+    document.body.appendChild(toast);
+  }
+  toast.textContent = mensaje;
+  toast.classList.add("visible");
+  clearTimeout(timerToast);
+  timerToast = setTimeout(() => toast.classList.remove("visible"), 1800);
+}
 
 let timerBusqueda = null;
 document.getElementById("busqueda").addEventListener("input", (e) => {
@@ -54,12 +70,12 @@ function renderizar() {
   const inicio = (paginaActual - 1) * productosPorPagina;
   const pagina = listaActual.slice(inicio, inicio + productosPorPagina);
 
-  document.getElementById("catalogo").innerHTML = pagina.map(producto => {
+  document.getElementById("catalogo").innerHTML = pagina.map((producto, index) => {
     const imagenUrl = producto.imagenes?.[0]?.url || "";
     const descripcion = producto.modeloProducto?.descripcion || producto.descripcion || "";
     const acciones = `
-      ${botones(`<i class="bi bi-search"></i> Ficha Técnica`, "ficha-tecnica", "button", `data-id="${producto.id}"`)}
-      ${botones(`<i class="bi bi-cart-plus" style="font-size: 18px;"></i> Agregar al carrito`, "primary boton-agregar-carrito-producto", "button", `data-sku="${producto.sku}"`, `data-id="${producto.id}"`)}
+      ${botones(`<i class="bi bi-search"></i> Ficha Técnica`, "ficha-tecnica", "button", `data-card="${index}"`)}
+      ${botones(`<i class="bi bi-cart-plus" style="font-size: 18px;"></i> Agregar al carrito`, "primary boton-agregar-carrito-producto", "button", `data-card="${index}"`)}
     `;
     return `
       <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3">
@@ -76,6 +92,43 @@ function renderizar() {
       </div>
     `;
   }).join("");
+
+  const catalogoEl = document.getElementById("catalogo");
+
+  pagina.forEach((producto, index) => {
+    const btnFicha = catalogoEl.querySelector(`.btn-ficha-tecnica[data-card="${index}"]`);
+    if (btnFicha) {
+      btnFicha.addEventListener("click", () => {
+        productoEnModal = producto;
+        document.getElementById("modalFichaTecnica")?.remove();
+        document.body.insertAdjacentHTML("beforeend", mostrarFichaTecnicaConProducto(producto));
+        bootstrap.Modal.getOrCreateInstance(document.getElementById("modalFichaTecnica")).show();
+      });
+    }
+
+    const btnCarrito = catalogoEl.querySelector(`.boton-agregar-carrito-producto[data-card="${index}"]`);
+    if (btnCarrito) {
+      btnCarrito.addEventListener("click", () => {
+        if (btnCarrito.disabled) return;
+        agregarProductoAlCarritoCompras({
+          id: producto.id,
+          nombre: producto.nombre,
+          sku: producto.sku,
+          precio: producto.precio,
+          marca: producto.marca || "",
+        });
+        btnCarrito.dataset.htmlOriginal = btnCarrito.innerHTML;
+        btnCarrito.innerHTML = "Agregado";
+        btnCarrito.disabled = true;
+        mostrarToast("Producto agregado al carrito");
+        setTimeout(() => {
+          if (!document.body.contains(btnCarrito)) return;
+          btnCarrito.innerHTML = btnCarrito.dataset.htmlOriginal;
+          btnCarrito.disabled = false;
+        }, 1800);
+      });
+    }
+  });
 
   document.querySelector("#paginacion").innerHTML = paginacion(
     Math.ceil(listaActual.length / productosPorPagina),
@@ -120,17 +173,6 @@ document.addEventListener("click", (e) => {
     return;
   }
 
-  const btnFicha = e.target.closest(".btn-ficha-tecnica");
-  if (btnFicha) {
-    const producto_id = parseInt(btnFicha.getAttribute("data-id"));
-    const producto = productosIndexados[producto_id];
-    if (!producto) return;
-    document.getElementById("modalFichaTecnica")?.remove();
-    document.body.insertAdjacentHTML("beforeend", mostrarFichaTecnicaConProducto(producto));
-    bootstrap.Modal.getOrCreateInstance(document.getElementById("modalFichaTecnica")).show();
-    return;
-  }
-
   const btnCantidad = e.target.closest(".btn-modal-cantidad");
   if (btnCantidad) {
     const display = btnCantidad.closest(".input-group").querySelector(".cantidad-modal-valor");
@@ -144,12 +186,16 @@ document.addEventListener("click", (e) => {
 
   const btnAgregarModal = e.target.closest(".boton-agregar-carrito-modal");
   if (btnAgregarModal) {
+    if (!productoEnModal) return;
     const modal = document.getElementById("modalFichaTecnica");
     const cantidad = parseInt(modal.querySelector(".cantidad-modal-valor").textContent);
-    const id = parseInt(btnAgregarModal.dataset.id);
-    const producto = productosIndexados[id];
-    if (!producto) return;
-    agregarProductoAlCarritoCompras({ nombre: producto.nombre, sku: producto.sku, precio: producto.precio, cantidad });
+    agregarProductoAlCarritoCompras({
+      id: productoEnModal.id,
+      nombre: productoEnModal.nombre,
+      sku: productoEnModal.sku,
+      precio: productoEnModal.precio,
+      cantidad,
+    });
     bootstrap.Modal.getOrCreateInstance(modal).hide();
     return;
   }

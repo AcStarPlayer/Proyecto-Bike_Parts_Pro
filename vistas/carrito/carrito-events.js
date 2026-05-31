@@ -1,12 +1,8 @@
-import { productosPredeterminados } from "../../apis/productos.js";
 import {
-  agregarProductoAlCarritoCompras,
   renderizarCarritoCompras,
   vaciarCarritoCompras,
   finalizarCompraCarrito,
 } from "./carrito.js";
-
-let timerToastCarrito = null;
 
 function inyectarPanelCarrito() {
   if (document.getElementById("panel-lateral-carrito-compras")) return;
@@ -71,95 +67,8 @@ function inyectarPanelCarrito() {
   });
 }
 
-function getCatalogoProductos() {
-  const productosGuardados = JSON.parse(localStorage.getItem("productos") || "null");
-  return Array.isArray(productosGuardados) && productosGuardados.length
-    ? productosGuardados
-    : productosPredeterminados;
-}
-
-function mostrarToastCarrito(mensaje = "Producto agregado al carrito") {
-  let toast = document.getElementById("toast-carrito-agregado");
-
-  if (!toast) {
-    toast = document.createElement("div");
-    toast.id = "toast-carrito-agregado";
-    toast.className = "toast-carrito-agregado";
-    toast.setAttribute("role", "status");
-    toast.setAttribute("aria-live", "polite");
-    document.body.appendChild(toast);
-  }
-
-  toast.textContent = mensaje;
-  toast.classList.add("visible");
-
-  clearTimeout(timerToastCarrito);
-  timerToastCarrito = setTimeout(() => {
-    toast.classList.remove("visible");
-  }, 1800);
-}
-
-function setAgregarButtonIdle(btn) {
-  if (!btn) return;
-  btn.classList.remove("agregado");
-  btn.removeAttribute("aria-disabled");
-  btn.disabled = false;
-  btn.innerHTML = btn.dataset.htmlOriginal || "Agregar al carrito";
-  delete btn.dataset.uiState;
-}
-
-function setAgregarButtonAdded(btn) {
-  if (!btn) return;
-  if (!btn.dataset.htmlOriginal) {
-    btn.dataset.htmlOriginal = btn.innerHTML || "Agregar al carrito";
-  }
-
-  btn.dataset.uiState = "added";
-  btn.classList.add("agregado");
-  btn.innerHTML = "Agregado";
-  btn.disabled = true;
-  btn.setAttribute("aria-disabled", "true");
-}
-
-function manejarClickAgregar(btn) {
-  if (btn.dataset.uiState === "added") return;
-
-  const skuProducto = btn.getAttribute("data-sku");
-  const catalogo = getCatalogoProductos();
-  const producto = catalogo.find((item) => String(item.sku) === String(skuProducto));
-
-  if (!producto) return;
-
-  agregarProductoAlCarritoCompras({
-    nombre: producto.nombre || producto.titulo || "Producto",
-    sku: producto.sku,
-    precio: Number(producto.precio || 0),
-    marca: producto.marca || "",
-  });
-
-  setAgregarButtonAdded(btn);
-  mostrarToastCarrito("Producto agregado al carrito");
-
-  setTimeout(() => {
-    if (!document.body.contains(btn)) return;
-    setAgregarButtonIdle(btn);
-  }, 1800);
-}
-
 export function inicializarBotonesCarrito() {
   inyectarPanelCarrito();
   renderizarCarritoCompras();
 
-  document.addEventListener("click", (event) => {
-    const btnAgregar = event.target.closest(".boton-agregar-carrito-producto");
-    if (btnAgregar) {
-      manejarClickAgregar(btnAgregar);
-      return;
-    }
-
-    const btnVaciar = event.target.closest("#boton-vaciar-carrito");
-    if (btnVaciar) {
-      vaciarCarritoCompras();
-    }
-  });
 }
