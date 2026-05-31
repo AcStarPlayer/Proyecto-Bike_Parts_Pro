@@ -75,7 +75,7 @@ function renderizar() {
     const descripcion = producto.modeloProducto?.descripcion || producto.descripcion || "";
     const acciones = `
       ${botones(`<i class="bi bi-search"></i> Ficha Técnica`, "ficha-tecnica", "button", `data-card="${index}"`)}
-      ${botones(`<i class="bi bi-cart-plus" style="font-size: 18px;"></i> Agregar al carrito`, "primary boton-agregar-carrito-producto", "button", `data-card="${index}"`)}
+      ${botones(`<i class="bi bi-cart-plus" style="font-size: 18px;"></i> Agregar`, "primary boton-agregar-carrito-producto", "button", `data-card="${index}"`)}
     `;
     return `
       <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3">
