@@ -1,5 +1,8 @@
+import { verificarAccesoAdmin } from "../../../autorizaciones/autorizaciones.js";
 import { navBar } from "../../../componentes/barraNavegacion/barNav.js";
 import crearFormulario from "../../../componentes/formulario/formulario.js";
+
+verificarAccesoAdmin("../../../");
 import { footer } from "../../../componentes/pieDePagina/footer.js";
 import alertas from "../../../componentes/alertas/alertas.js";
 import { postProducto } from "../../../apis/productosApi.js";

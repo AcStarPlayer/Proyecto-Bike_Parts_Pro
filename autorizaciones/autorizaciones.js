@@ -13,6 +13,31 @@ function limpiarToken() {
   localStorage.removeItem(CLAVE_TOKEN);
 }
 
+function obtenerRolDelToken() {
+  const token = obtenerToken();
+  if (!token) return null;
+  try {
+    const base64 = token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/");
+    const payload = JSON.parse(atob(base64));
+    const rol = payload.rol || payload.role || null;
+    return typeof rol === "string" ? rol.toUpperCase() : null;
+  } catch {
+    return null;
+  }
+}
+
+function verificarAccesoAdmin(basePath = "../../../") {
+  const token = obtenerToken();
+  if (!token) {
+    window.location.href = `${basePath}vistas/login/login.html`;
+    return;
+  }
+  const rol = obtenerRolDelToken();
+  if (rol !== "ADMIN") {
+    window.location.href = `${basePath}vistas/login/login.html`;
+  }
+}
+
 function limpiarSesionCompleta() {
   localStorage.removeItem(CLAVE_SESION);
   localStorage.removeItem(CLAVE_TOKEN);
@@ -120,4 +145,6 @@ export {
   guardarToken,
   obtenerToken,
   limpiarToken,
+  obtenerRolDelToken,
+  verificarAccesoAdmin,
 };
