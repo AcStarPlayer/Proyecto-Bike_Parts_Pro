@@ -231,7 +231,8 @@ document.getElementById("form-checkout").addEventListener("submit", async (e) =>
       return;
     }
 
-    await resCheckout.json().catch(() => {});
+    const orden = await resCheckout.json().catch(() => ({}));
+    const ordenId = orden.id ?? null;
 
     let envioRegistrado = false;
 
@@ -242,6 +243,7 @@ document.getElementById("form-checkout").addEventListener("submit", async (e) =>
       codigoPostal,
       ciudadId,
       clienteId,
+      ordenId,
     }).catch(() => null);
 
     if (resEnvio?.ok) {
