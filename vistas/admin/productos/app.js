@@ -75,16 +75,34 @@ function htmlMarcaSelect() {
   `;
 }
 
+function htmlImagenesField() {
+  return `
+    <div class="fs-field" id="campo-imagenes">
+      <label class="fs-label">Imágenes (URLs)</label>
+      <div id="lista-imagenes">
+        <div class="imagen-fila d-flex gap-2 mb-2">
+          <input type="url" class="fs-input form-control input-imagen" placeholder="https://ejemplo.com/imagen.jpg" />
+          <button type="button" class="btn btn-outline-danger btn-sm btn-quitar-imagen" title="Quitar" style="display:none;">
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
+      </div>
+      <button type="button" id="btn-agregar-imagen" class="btn btn-outline-secondary btn-sm mt-1">
+        <i class="bi bi-plus-circle"></i> Agregar imagen
+      </button>
+      <small class="d-block text-muted mt-1">Campo opcional. Agrega las URLs de las imágenes del producto.</small>
+    </div>
+  `;
+}
+
 document.getElementById("contenedor-form").innerHTML = crearFormulario(
   null,
   campos,
   "Registrar producto",
-  htmlMarcaSelect(),
+  htmlMarcaSelect() + htmlImagenesField(),
 );
 
 document.getElementById("footer").innerHTML = footer("../../../");
-
-// ── INSERTAR MARCA DESPUÉS DE "NOMBRE" ───────────────────────
 
 function insertarMarcaEnOrden() {
   const campNombre = document.getElementById("nombre")?.closest(".fs-field");
@@ -112,7 +130,37 @@ async function cargarMarcas() {
 insertarMarcaEnOrden();
 cargarMarcas();
 
-// ── VALIDACIÓN ────────────────────────────────────────────────
+function actualizarBotonesQuitar() {
+  const filas = document.querySelectorAll(".imagen-fila");
+  filas.forEach((fila) => {
+    const btn = fila.querySelector(".btn-quitar-imagen");
+    if (btn) btn.style.display = filas.length > 1 ? "" : "none";
+  });
+}
+
+document.getElementById("btn-agregar-imagen").addEventListener("click", () => {
+  const fila = document.createElement("div");
+  fila.className = "imagen-fila d-flex gap-2 mb-2";
+  fila.innerHTML = `
+    <input type="url" class="fs-input form-control input-imagen" placeholder="https://ejemplo.com/imagen.jpg" />
+    <button type="button" class="btn btn-outline-danger btn-sm btn-quitar-imagen" title="Quitar">
+      <i class="bi bi-trash"></i>
+    </button>
+  `;
+  fila.querySelector(".btn-quitar-imagen").addEventListener("click", () => {
+    fila.remove();
+    actualizarBotonesQuitar();
+  });
+  document.getElementById("lista-imagenes").appendChild(fila);
+  actualizarBotonesQuitar();
+});
+
+document.getElementById("lista-imagenes").addEventListener("click", (e) => {
+  if (e.target.closest(".btn-quitar-imagen")) {
+    e.target.closest(".imagen-fila").remove();
+    actualizarBotonesQuitar();
+  }
+});
 
 function limpiarErrores() {
   document.querySelectorAll(".error-campo").forEach((el) => el.remove());
@@ -154,8 +202,6 @@ function validar() {
   return ok;
 }
 
-// ── SUBMIT: DOS PASOS ─────────────────────────────────────────
-
 document.getElementById("formulario").addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -169,7 +215,6 @@ document.getElementById("formulario").addEventListener("submit", async (e) => {
   const textoOriginal = btnSubmit?.innerHTML;
 
   try {
-    // ── Paso 1: crear modelo del producto ──────────────────
     if (btnSubmit) {
       btnSubmit.disabled = true;
       btnSubmit.textContent = "Creando modelo...";
@@ -194,17 +239,21 @@ document.getElementById("formulario").addEventListener("submit", async (e) => {
     }
 
     const modelo = await resModelo.json();
-
-    // ── Paso 2: crear el producto ──────────────────────────
     if (btnSubmit) btnSubmit.textContent = "Creando producto...";
 
     const categoriaLabel = document.getElementById("categoria").value;
+
+    const imagenes = Array.from(document.querySelectorAll(".input-imagen"))
+      .map((el) => el.value.trim())
+      .filter((url) => url !== "");
+
     const productoPayload = {
-      nombre:         document.getElementById("nombre").value.trim(),
-      precio:         Number(document.getElementById("precio").value),
-      stock:          Number(document.getElementById("stock").value),
-      categoria:      CATEGORIAS_API[categoriaLabel] || categoriaLabel.toUpperCase(),
-      modeloProducto: { id: modelo.id },
+      nombre:           document.getElementById("nombre").value.trim(),
+      precio:           Number(document.getElementById("precio").value),
+      stock:            Number(document.getElementById("stock").value),
+      categoria:        CATEGORIAS_API[categoriaLabel] || categoriaLabel.toUpperCase(),
+      modeloProductoId: modelo.id,
+      ...(imagenes.length > 0 && { imagenes }),
     };
 
     const resProducto = await postProducto(productoPayload);
