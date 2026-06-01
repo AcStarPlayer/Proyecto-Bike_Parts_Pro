@@ -236,6 +236,10 @@ function inicializarLogin() {
         fechaInicioSesion: new Date().toISOString(),
       };
 
+      if (data.clienteId) {
+        sesion.clienteId = data.clienteId;
+      }
+
       guardarSesion(sesion);
       redirigirSegunSesion(sesion, "../../");
     } catch {
