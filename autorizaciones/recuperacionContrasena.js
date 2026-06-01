@@ -23,7 +23,6 @@ function crearRegistroRecuperacion(email) {
 
   recuperacionesSimuladas.set(email, registro);
 
-  console.log(`MOCK RECUPERACIÓN -> Token para ${email}: ${token}`);
   return registro;
 }
 

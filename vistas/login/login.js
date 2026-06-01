@@ -352,7 +352,7 @@ function inicializarRecuperacionSolicitud() {
     emailRecuperacionPendiente = email;
     if (emailRecuperacionConfirmado) emailRecuperacionConfirmado.textContent = email;
     mostrarPasoRecuperacionCambio();
-    mostrarMensaje(mensajeRecuperacionCambio, "info", "Código generado (disponible en consola para desarrollo).");
+    mostrarMensaje(mensajeRecuperacionCambio, "info", "Ingresa el código que recibiste en tu correo.");
   });
 }
 
@@ -477,7 +477,7 @@ function inicializarNavegacion() {
     }
     const resultado = solicitarRecuperacion(emailRecuperacionPendiente);
     if (!resultado.ok) { mostrarMensaje(mensajeRecuperacionCambio, "danger", resultado.message); return; }
-    mostrarMensaje(mensajeRecuperacionCambio, "success", "Nuevo código generado (ver consola).");
+    mostrarMensaje(mensajeRecuperacionCambio, "success", "Nuevo código enviado a tu correo.");
   });
 
   window.addEventListener("hashchange", () => {
