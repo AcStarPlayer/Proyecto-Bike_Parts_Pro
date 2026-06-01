@@ -1,6 +1,5 @@
 import select from "../../componentes/select/select.js";
 import { getDepartamentos, getCiudades } from "../../apis/ubicacionesApi.js";
-import { getClienteIdPorEmail } from "../../apis/clientesApi.js";
 import { postCheckout, postEnvio } from "../../apis/ordenesApi.js";
 import { getSession } from "../../autorizaciones/autorizaciones.js";
 import { vaciarCarritoCompras } from "../carrito/carrito.js";
@@ -269,10 +268,7 @@ async function inicializar() {
   manejarOpcionesPago();
 
   try {
-    const sesion = getSession();
-    if (sesion?.email) {
-      clienteId = await getClienteIdPorEmail(sesion.email);
-    }
+    clienteId = getSession()?.clienteId ?? null;
     await inicializarSelectsUbicacion();
   } catch (err) {
     console.warn("Error al inicializar la página de checkout:", err.message);
