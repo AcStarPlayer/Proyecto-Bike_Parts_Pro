@@ -19,6 +19,20 @@ function guardarCarritoCompras() {
   localStorage.setItem(CLAVE_CARRITO_COMPRAS, JSON.stringify(carritoCompras));
 }
 
+function cerrarPanelCarritoSiVacio() {
+  if (carritoCompras.length > 0) return;
+  const panel = document.getElementById("panel-lateral-carrito-compras");
+  if (!panel) return;
+  const offcanvas = window.bootstrap?.Offcanvas?.getInstance(panel);
+  if (offcanvas) offcanvas.hide();
+}
+
+function actualizarEstadoCarrito() {
+  guardarCarritoCompras();
+  renderizarCarritoCompras();
+  if (carritoCompras.length === 0) cerrarPanelCarritoSiVacio();
+}
+
 function formatearMonedaPesosColombianos(valor) {
   return new Intl.NumberFormat("es-CO", {
     style: "currency",
@@ -62,8 +76,7 @@ export function agregarProductoAlCarritoCompras(producto) {
     });
   }
 
-  guardarCarritoCompras();
-  renderizarCarritoCompras();
+  actualizarEstadoCarrito();
 }
 
 function eliminarProductoDelCarritoCompras(id) {
@@ -71,8 +84,7 @@ function eliminarProductoDelCarritoCompras(id) {
     (item) => String(item.id) !== String(id),
   );
 
-  guardarCarritoCompras();
-  renderizarCarritoCompras();
+  actualizarEstadoCarrito();
 }
 
 function actualizarGloboCantidadCarrito() {
@@ -103,8 +115,7 @@ function cambiarCantidadProducto(id, operacion) {
     }
   }
 
-  guardarCarritoCompras();
-  renderizarCarritoCompras();
+  actualizarEstadoCarrito();
 }
 
 function construirHtmlItemsCarrito() {
@@ -271,8 +282,7 @@ export function finalizarCompraCarrito() {
 
 export function vaciarCarritoCompras() {
   carritoCompras = [];
-  guardarCarritoCompras();
-  renderizarCarritoCompras();
+  actualizarEstadoCarrito();
 }
 
 export function renderizarCarritoCompras() {
