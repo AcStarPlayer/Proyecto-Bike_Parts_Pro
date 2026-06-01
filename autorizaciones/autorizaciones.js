@@ -33,7 +33,7 @@ function verificarAccesoAdmin(basePath = "../../../") {
     return;
   }
   const rol = obtenerRolDelToken();
-  if (rol !== "ADMIN") {
+  if (rol !== "ROLE_ADMIN") {
     window.location.href = `${basePath}vistas/login/login.html`;
   }
 }
@@ -86,7 +86,7 @@ function redirigirSegunSesion(sesion, basePath = "../../") {
     return;
   }
 
-  if (sesion.adminAuxiliar || sesion.rol === "admin") {
+  if (sesion.adminAuxiliar || sesion.rol === "ROLE_ADMIN") {
     window.location.href = `${basePath}vistas/admin/productos/producto.html`;
     return;
   }
@@ -125,7 +125,7 @@ function isClientePremium() {
 
 function isAdmin() {
   const sesion = obtenerSesionActiva();
-  return Boolean(sesion && sesion.autenticado && (sesion.rol === "admin" || sesion.adminAuxiliar));
+  return Boolean(sesion && sesion.autenticado && (sesion.rol === "ROLE_ADMIN" || sesion.adminAuxiliar));
 }
 
 export {
