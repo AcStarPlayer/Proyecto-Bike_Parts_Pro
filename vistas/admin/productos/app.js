@@ -2,9 +2,18 @@ import { navBar } from "../../../componentes/barraNavegacion/barNav.js";
 import crearFormulario, { validarFormulario } from "../../../componentes/formulario/formulario.js";
 import { footer } from "../../../componentes/pieDePagina/footer.js";
 import alertas from "../../../componentes/alertas/alertas.js";
- 
+import { postProducto } from "../../../apis/productosApi.js";
+
 navBar("Panel Admin", "../../../");
- 
+
+const CATEGORIAS_API = {
+  "Transmisión":        "TRANSMISION",
+  "Frenos":             "FRENOS",
+  "Dirección y Control": "DIRECCION",
+  "Ruedas":             "RUEDAS",
+  "Estructura":         "ESTRUCTURA",
+};
+
 const campos = [
   {
     titulo: "SKU",
@@ -52,7 +61,7 @@ const campos = [
     titulo: "Categoria",
     tipo: "select",
     required: true,
-    options: ["Transmisión", "Dirección y Control", "Frenos"],
+    options: Object.keys(CATEGORIAS_API),
     mensajePersonalizado: "Debes seleccionar una categoría",
   },
 ];
@@ -208,45 +217,26 @@ function agregarFilaImagen() {
   });
 }
  
-function construirProducto(imagenes) {
+function construirPayloadProducto(imagenes) {
   const sku = document.getElementById("sku").value.trim();
   const nombre = document.getElementById("nombre").value.trim();
   const marca = document.getElementById("marca").value.trim();
   const precio = Number(document.getElementById("precio").value);
   const descripcion = document.getElementById("descripcion").value.trim();
   const stock = Number(document.getElementById("stock").value);
-  const categoria = document.getElementById("categoria").value;
- 
+  const categoriaLabel = document.getElementById("categoria").value;
+  const categoria = CATEGORIAS_API[categoriaLabel] || categoriaLabel.toUpperCase();
+
   return {
-    id: Date.now(),
-    fechaCreacion: new Date().toISOString(),
-    origen: "formulario-admin",
-    activo: true,
     sku,
     nombre,
-    titulo: nombre,
     marca,
     precio,
     stock,
     categoria,
-    sistema: categoria,
     descripcion,
-    descripcionCorta: descripcion,
-    imagen: imagenes[0] || "",
-    imagenPrincipal: imagenes[0] || "",
-    imagenes,
+    imagenes: imagenes.map((url, i) => ({ url, principal: i === 0 })),
   };
-}
- 
-function guardarProducto(producto) {
-  const productos = JSON.parse(localStorage.getItem("productos") || "[]");
- 
-  if (!Array.isArray(productos)) {
-    throw new Error("El almacenamiento local de productos está corrupto.");
-  }
- 
-  productos.push(producto);
-  localStorage.setItem("productos", JSON.stringify(productos));
 }
  
 function resetFormulario() {
@@ -352,15 +342,24 @@ document.getElementById("formulario").addEventListener("submit", async (e) => {
       return;
     }
     const imagenes = await obtenerImagenes();
-    const producto = construirProducto(imagenes);
-    guardarProducto(producto);
+    const payload = construirPayloadProducto(imagenes);
+
+    const res = await postProducto(payload);
+
+    if (!res) {
+      alertaEl.innerHTML = alertas("Sesión expirada. Vuelve a iniciar sesión.", "danger");
+      return;
+    }
+
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      throw new Error(data.mensaje || data.message || `Error ${res.status} al registrar el producto.`);
+    }
+
     resetFormulario();
- 
-    alertaEl.innerHTML = alertas("Producto registrado correctamente.", "success");
- 
-    setTimeout(() => {
-      alertaEl.innerHTML = "";
-    }, 3000);
+    alertaEl.innerHTML = alertas("Producto registrado correctamente en el catálogo.", "success");
+    setTimeout(() => { alertaEl.innerHTML = ""; }, 3000);
+
   } catch (error) {
     alertaEl.innerHTML = alertas(error.message || "No fue posible registrar el producto.", "danger");
   }

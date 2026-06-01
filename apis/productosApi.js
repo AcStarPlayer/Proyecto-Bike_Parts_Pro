@@ -1,6 +1,13 @@
 import { apiRequest } from "./apiClient.js";
 import { productosPredeterminados } from "./productos.js";
 
+export async function postProducto(payload) {
+  return apiRequest("/productos", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
 function normalizarProducto(p) {
   return {
     ...p,
