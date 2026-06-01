@@ -255,8 +255,8 @@ export const productosPredeterminados = [
 
 export function filtrarProductos(productos, { categoria = null, nombre = null } = {}) {
   return productos.filter((p) => {
-    const matchCategoria = !categoria || p.categoria === categoria;
-    const matchNombre = !nombre || p.titulo.toLowerCase().includes(nombre.toLowerCase());
+    const matchCategoria = !categoria || p.categoria?.toLowerCase() === categoria.toLowerCase();
+    const matchNombre = !nombre || p.nombre?.toLowerCase().includes(nombre.toLowerCase());
     return matchCategoria && matchNombre;
   });
 }

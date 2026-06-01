@@ -13,6 +13,7 @@ function normalizarProducto(p) {
     ...p,
     sku: p.modeloProducto?.sku || p.sku || "",
     marca: p.modeloProducto?.marca?.nombre || p.marca || "",
+    categoria: p.categoria?.toLowerCase() ?? p.categoria,
   };
 }
 
