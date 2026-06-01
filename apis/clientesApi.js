@@ -3,7 +3,10 @@ import { apiRequest } from "./apiClient.js";
 export async function getClientes() {
   try {
     const res = await apiRequest("/clientes");
-    if (res && res.ok) return res.json();
+    if (res && res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data)) return data;
+    }
   } catch (err) {
     console.warn("Error al cargar clientes:", err.message);
   }

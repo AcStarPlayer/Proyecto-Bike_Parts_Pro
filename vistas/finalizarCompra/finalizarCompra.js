@@ -268,12 +268,15 @@ async function inicializar() {
   renderResumen();
   manejarOpcionesPago();
 
-  const sesion = getSession();
-  if (sesion?.email) {
-    clienteId = await getClienteIdPorEmail(sesion.email);
+  try {
+    const sesion = getSession();
+    if (sesion?.email) {
+      clienteId = await getClienteIdPorEmail(sesion.email);
+    }
+    await inicializarSelectsUbicacion();
+  } catch (err) {
+    console.warn("Error al inicializar la página de checkout:", err.message);
   }
-
-  await inicializarSelectsUbicacion();
 }
 
 inicializar();
