@@ -189,6 +189,9 @@ function validar() {
     if (!el) return;
     const val = el.value?.trim();
     if (c.required && !val) { marcarError(id, c.mensajePersonalizado); ok = false; }
+    if (id === "sku" && val && val.length !== 6) {
+      marcarError(id, "El SKU debe tener exactamente 6 caracteres"); ok = false;
+    }
     if (id === "descripcion" && val && val.length < 10) {
       marcarError(id, c.mensajePersonalizado); ok = false;
     }
