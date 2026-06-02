@@ -13,13 +13,24 @@ import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js';
 const piezas = {};
 
 const mapaCategorias = {
-    "llantaTrasera": "ruedas",
-    "llantaDelantera": "ruedas",
+    "llanta_1": "ruedas",
+    "llanta": "ruedas",
+    "llanta001": "ruedas",
+    "llanta001_1": "ruedas",
     "cadena": "transmision",
     "plato": "transmision",
     "marco": "estructura",
     "sillin": "estructura",
-    "manubrio": "direccion"
+    "marco": "estructura",
+    "manubrio": "direccion",
+    "potencia": "direccion",
+    "frenoDerecho": "frenos",
+    "freno_izquierdo": "frenos",
+    "cadena": "transmision",
+    "bielaDerecha": "transmision",
+    "bielaIzquierda": "transmision",
+    "frenoDiscoDelantero": "frenos",
+    "frenoDiscoTrasero": "frenos"
 };
 
 const canvas = document.getElementById("canvas3d");
@@ -274,9 +285,6 @@ loader.load(
 
     (gltf) => {
 
-        console.log("✅ GLB cargado");
-        console.log(gltf.scene);
-
         const bicicleta = gltf.scene;
 
         bicicletaModel = bicicleta;
@@ -294,8 +302,6 @@ loader.load(
 
         controls.target.copy(center);
         camera.lookAt(center);
-
-        console.log(bicicleta);
 
         bicicleta.traverse((child) => {
 
@@ -722,7 +728,7 @@ canvas.addEventListener("click", (e) => {
         const categoria = mapaCategorias[selectedObject.name];
         const urlParams = categoria !== undefined ? `?cat=${categoria}` : "";
         setTimeout(() => {
-            window.location.href = `vistas/catalogo/catalogo.html${urlParams}`;
+            window.location.href = `../vistas/catalogo/catalogo.html${urlParams}`;
         }, 800);
     }
 
