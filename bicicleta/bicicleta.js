@@ -728,7 +728,7 @@ canvas.addEventListener("click", (e) => {
         const categoria = mapaCategorias[selectedObject.name];
         const urlParams = categoria !== undefined ? `?cat=${categoria}` : "";
         setTimeout(() => {
-            window.location.href = `../vistas/catalogo/catalogo.html${urlParams}`;
+            window.location.href = `vistas/catalogo/catalogo.html${urlParams}`;
         }, 800);
     }
 
