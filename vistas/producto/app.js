@@ -12,7 +12,7 @@ function renderFichaTecnica(producto) {
         <div class="modal-content">
 
           <div class="modal-header">
-            <h3 class="modal-title">${producto.nombre.toUpperCase()}</h3>
+            <h3 class="modal-title">${producto.nombre.charAt(0).toUpperCase() + producto.nombre.slice(1)}</h3>
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
 
