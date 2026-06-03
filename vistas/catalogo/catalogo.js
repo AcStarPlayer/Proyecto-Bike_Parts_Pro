@@ -80,7 +80,7 @@ function renderizar() {
     return `
       <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3">
         ${tarjetasConImagen(
-          producto.nombre,
+          producto.nombre.toUpperCase(),
           descripcion,
           producto.precio.toLocaleString("es-CO", { style: "currency", currency: "COP", minimumFractionDigits: 2, maximumFractionDigits: 2 }),
           imagenUrl,
